@@ -1,0 +1,5 @@
+# HW2.5 GPU RUN LOG
+
+This file is populated by the notebook after execution on the assigned RTX 4090.
+
+Before submission, add the reservation record and actual GPU hours from the compute-reservation system. Do not invent these values.
