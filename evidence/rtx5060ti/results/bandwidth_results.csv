@@ -1,0 +1,2 @@
+gpu_uuid,gpu_name,operation,elements,bytes_moved,elapsed_ms,effective_bandwidth_gb_s,status
+GPU-af815c34-e868-2ca8-0057-81c8ac28573e,NVIDIA GeForce RTX 5060 Ti,FP32 elementwise add,268435456,3221225472,9.322484588623047,345.53293613712293,SUCCESS

@@ -1,32 +1,18 @@
-# HW2.5 — RTX 4090 GPU Performance Measurements
+# HW2.5 — GPU performance measurements
 
-This repository contains one Jupyter Notebook that performs the HW2.5 GPU experiments and saves the required results, logs, figures, and written files.
+`HW2_5_GPU_Assignment.ipynb` is the submission notebook. It is configured to refuse execution on hardware other than the required RTX 4090 or RTX 5090, and it writes UUID-labelled measurements, figures, logs, and reports.
 
-## How to run
+The directory `evidence/rtx5060ti/` contains the supplied executed 5060 Ti artifacts for provenance and review. They are deliberately kept separate from the submission outputs because an RTX 5060 Ti does not satisfy the lab's RTX 4090/5090 requirement.
 
-Run the notebook on the assigned NVIDIA GeForce RTX 4090 workstation. The current preparation computer does not need a GPU, but the benchmark cells must be executed on the RTX 4090.
+## Run on the assigned workstation
 
 ```bash
 python -m pip install -r requirements.txt
-jupyter notebook
+jupyter notebook HW2_5_GPU_Assignment.ipynb
 ```
 
-Open `HW2_5_GPU_Assignment.ipynb` and run every cell from top to bottom. The 20-minute sustained-load cell must be allowed to finish completely.
+Run every cell on the reserved RTX 4090 or RTX 5090 workstation. The sustained-load cell must run for the full 20 minutes. Before submission, add the real reservation record and GPU-hour total to `RESERVATION_GPU_HOURS.md`, inspect the thermal evidence, and review the generated `METRICS.md` and `RUN_LOG.txt`.
 
-## What the notebook produces
-
-- Hardware capture in `system/`
-- Benchmark tables in `results/`
-- Thermal and throughput logs in `logs/`
-- Figures in `figures/`
-- Final measurements in `METRICS.md`
-- Execution details in `RUN_LOG.txt`
-- AI disclosure in `AI_USE.md`
-
-The notebook checks that CUDA is available and that the detected GPU is an RTX 4090. It does not use placeholder or example hardware measurements.
-
-## Before submission
-
-Review the generated `METRICS.md` and `RUN_LOG.txt`. Add the reservation record and actual GPU hours, inspect the thermal evidence before deciding whether throttling occurred, save the executed notebook, and verify that all generated files are present.
+See `SUBMISSION_AUDIT.md` for the requirement-by-requirement status and the exact evidence still needed.
 
 The required Git tag is `hw2-5`.
