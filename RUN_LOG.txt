@@ -1,5 +1,25 @@
 # HW2.5 GPU RUN LOG
 
-This file is populated by the notebook after execution on the assigned RTX 4090.
+Date of notebook execution: 2026-09-18T11:37:04-07:00
+Machine GPU: NVIDIA GeForce RTX 5060 Ti
+GPU UUID: GPU-af815c34-e868-2ca8-0057-81c8ac28573e
+Driver version: 616.92
+PyTorch: 2.14.0+cu130
+CUDA runtime: 13.0
+VRAM: 16311 MiB
+Configured power limit: 180.00 W
 
-Before submission, add the reservation record and actual GPU hours from the compute-reservation system. Do not invent these values.
+## Experiments completed
+
+- Hardware capture: `system/nvidia_smi_5060.txt`
+- Matrix multiplication: `results/matmul_results.csv`
+- Bandwidth: `results/bandwidth_results.csv`
+- Naive attention: `results/attention_naive.csv`
+- Fused attention: `results/attention_fused.csv`
+- Sustained thermal log: `logs/thermal_5060.csv`
+- Sustained throughput log: `logs/throughput_5060.csv`
+- Figures: `figures/matmul_tflops.png`, `figures/attention_memory.png`, `figures/thermal.png`, `figures/sustained_throughput.png`
+
+Configuration: attention batch=4, heads=32, head dimension=128, dtype=BF16; sustained duration=1200 seconds; sample interval=5 seconds.
+
+Reservation record and actual GPU hours: Not applicable — this was an instructor-approved personal-laptop run. See `RESERVATION_GPU_HOURS.md`.

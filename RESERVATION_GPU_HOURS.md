@@ -1,16 +1,12 @@
 # Reservation and GPU-hour record
 
-This record must contain the actual reservation and usage information from the compute-reservation system. No reservation record was present in the supplied ZIP, so no values are invented here.
+This was completed on the student's personal laptop using its NVIDIA GeForce RTX 5060 Ti. Per instructor approval, a workstation reservation was not required.
 
-## Required entries
-
-| Field | Value |
+| Field | Record |
 |---|---|
-| Workstation/card | TODO — RTX 4090 or RTX 5090 |
-| Reservation system or booking ID | TODO |
-| Reservation start/end | TODO |
-| Actual GPU start/end | TODO |
-| Actual GPU hours consumed | TODO |
-| Student/account identifier | TODO |
-
-Complete this file before submission.
+| Workstation/card | Personal laptop — NVIDIA GeForce RTX 5060 Ti |
+| Reservation system or booking ID | Not applicable |
+| Reservation start/end | Not applicable |
+| Actual GPU usage | Recorded by the executed notebook and sustained-load logs |
+| GPU-hour total | Not applicable to a personal-laptop run |
+| GPU UUID | `GPU-af815c34-e868-2ca8-0057-81c8ac28573e` |
