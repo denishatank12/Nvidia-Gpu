@@ -17,4 +17,4 @@ The instructor approved completing this lab on the student's personal laptop GPU
 | AI disclosure | Complete | `AI_USE.md`. |
 | Tagged repository | Complete | Git tag `hw2-5`. |
 
-The `evidence/rtx5060ti/` directory preserves the original supplied bundle for provenance; the required deliverables are also available at the repository root.
+The `evidence/rtx5060ti/` directory preserves the original supplied bundle for provenance; the required deliverables are also available directly in this `gpu-i/` folder.

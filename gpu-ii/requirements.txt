@@ -1,0 +1,15 @@
+torch>=2.4
+transformers>=4.48
+accelerate>=1.0
+bitsandbytes>=0.45
+vllm>=0.8
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+matplotlib>=3.9
+seaborn>=0.13
+nbformat>=5.10
+ipykernel>=6.29
+jupyter>=1.1
+nbconvert>=7.16
+kagglehub>=0.3

@@ -1,0 +1,7 @@
+.venv/
+cache/
+checkpoints/
+Twitter_Data.csv
+*.pyc
+__pycache__/
+.ipynb_checkpoints/

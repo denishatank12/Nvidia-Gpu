@@ -1,0 +1,11 @@
+{
+  "note": "This template is populated automatically by finalize_hw4a.py after the RTX 4090 HW4.a run.",
+  "training_wall_seconds": null,
+  "peak_gpu_memory_gb": null,
+  "serving": {
+    "hf_batch_1": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
+    "vllm_batch_1": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
+    "vllm_batch_8": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
+    "vllm_batch_32": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null}
+  }
+}

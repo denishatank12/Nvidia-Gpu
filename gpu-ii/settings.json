@@ -1,0 +1,16 @@
+{
+  "data_path": "Twitter_Data.csv",
+  "text_column": "clean_text",
+  "label_column": "category",
+  "model_name": "bert-base-uncased",
+  "max_length": 128,
+  "start_row": 834,
+  "row_limit": 5000,
+  "seed": 8834,
+  "epochs": 3,
+  "learning_rate": 0.00002,
+  "weight_decay": 0.01,
+  "original_batch": 16,
+  "max_probe_batch": 4096,
+  "num_workers": 4
+}

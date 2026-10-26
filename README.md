@@ -1,13 +1,12 @@
-# HW2.5 — GPU performance measurements
+# NVIDIA GPU assignments
 
-The only notebook retained in this repository is the executed [`HW2_5_GPU_Assignment.ipynb`](HW2_5_GPU_Assignment.ipynb), which includes its captured outputs from the instructor-approved personal-laptop RTX 5060 Ti run.
+Student: Denisha Ketan Tank
 
-The required outputs are available at the repository root: hardware capture in `system/`, benchmark tables in `results/`, thermal and throughput logs in `logs/`, figures in `figures/`, and the written reports `METRICS.md`, `RUN_LOG.txt`, and `AI_USE.md`. The directory `evidence/rtx5060ti/` preserves the original supplied bundle for provenance.
+| Folder | Assignment | Status |
+|---|---|---|
+| [GPU I](gpu-i/) | HW2.5 GPU performance measurements | Contains the existing executed notebook, reports, and RTX 5060 Ti evidence |
+| [GPU II](gpu-ii/) | HW4.a BERT baseline and HW4.5 training throughput and memory engineering | Code prepared for the RTX 4090; measured results are pending execution |
 
-## Run on the assigned workstation
+Open and run each notebook from inside its assignment folder so its relative data and output paths resolve correctly.
 
-The executed notebook is at the repository root so GitHub displays its outputs. Reservation is marked not applicable in `RESERVATION_GPU_HOURS.md` because this was completed on a personal laptop under the instructor's approval.
-
-See `SUBMISSION_AUDIT.md` for the requirement-by-requirement status and the exact evidence still needed.
-
-The required Git tag is `hw2-5`.
+GPU II includes [Homework_4A.ipynb](gpu-ii/Homework_4A.ipynb) and [Homework_4_5.ipynb](gpu-ii/Homework_4_5.ipynb). Run HW4.a first, then HW4.5. Follow the [GPU II instructions](gpu-ii/README.md) for setup, the shared Twitter dataset, and the remaining submission records.
