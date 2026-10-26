@@ -14,8 +14,18 @@ The code selects zero-based rows 834 through 5833 when at least 5,834 rows exist
 
 ## Fast RTX 4090 run
 
+After setup, run the short GPU smoke test before executing either notebook:
+
 ```bash
 bash setup_rtx4090.sh
+.venv/bin/python smoke_test.py --gpu --vllm
+```
+
+The smoke test uses temporary synthetic examples and a tiny BERT checkpoint to test CUDA training, AMP, checkpointing, accumulation, and the 8-bit optimizer. It also loads the actual serving model and generates a short answer through vLLM. It never overwrites assignment measurements. It does not replace the full BERT fine-tune or serving benchmarks.
+
+Once it prints `SMOKE TEST PASSED`, execute the notebooks in order:
+
+```bash
 .venv/bin/jupyter nbconvert --to notebook --execute --inplace Homework_4A.ipynb \
   --ExecutePreprocessor.timeout=-1
 .venv/bin/jupyter nbconvert --to notebook --execute --inplace Homework_4_5.ipynb \

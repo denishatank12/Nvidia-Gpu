@@ -132,10 +132,19 @@ def prepare_data(settings: Settings, force: bool = False) -> dict[str, Any]:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_path = CACHE_DIR / "twitter_bert_cache.pt"
     manifest_path = CACHE_DIR / "dataset_manifest.json"
+    preparation_settings = {
+        key: getattr(settings, key)
+        for key in ("model_name", "max_length", "start_row", "row_limit", "seed", "text_column", "label_column")
+    }
     if cache_path.exists() and manifest_path.exists() and not force:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         expected = Path(settings.data_path).expanduser().resolve()
-        if manifest.get("source_path") == str(expected) and manifest.get("source_sha256") == file_sha256(expected):
+        if (
+            expected.exists()
+            and manifest.get("source_path") == str(expected)
+            and manifest.get("source_sha256") == file_sha256(expected)
+            and manifest.get("preparation_settings") == preparation_settings
+        ):
             print("Using frozen tokenized data and split indices from", cache_path)
             return manifest
 
@@ -201,6 +210,7 @@ def prepare_data(settings: Settings, force: bool = False) -> dict[str, Any]:
     torch.save(payload, cache_path)
     manifest = {
         "dataset_name": data_path.name,
+        "preparation_settings": preparation_settings,
         "source_path": str(data_path),
         "source_sha256": file_sha256(data_path),
         "raw_dataset_rows": len(frame),
@@ -367,7 +377,11 @@ def run_training(
             with torch.autocast("cuda", dtype=torch.float16, enabled=flags["amp"]):
                 output = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
                 raw_loss = output.loss
-                loss = raw_loss / accumulation_steps
+                # Weight each microbatch by its share of the actual update group,
+                # including a short final group at the end of an epoch.
+                group_start = ((step - 1) // accumulation_steps) * accumulation_steps * batch_size
+                group_samples = min(batch_size * accumulation_steps, len(train_loader.dataset) - group_start)
+                loss = raw_loss * (labels.size(0) / group_samples)
             scaler.scale(loss).backward()
             should_step = step % accumulation_steps == 0 or step == len(train_loader)
             if should_step:
@@ -513,6 +527,10 @@ def run_sweep(settings: Settings, settings_path: Path, technique: str) -> list[d
         result = probe_subprocess(settings_path, technique, batch_size, result_path)
         rows.append(result)
         print(result.get("status"), result.get("error", ""), flush=True)
+        if result.get("status") not in ("success", "oom"):
+            raise RuntimeError(
+                f"Probe failed for {technique}, batch {batch_size}: {result.get('error', result)}"
+            )
         if result.get("status") != "success":
             break
         batch_size *= 2
