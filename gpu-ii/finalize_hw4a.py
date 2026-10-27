@@ -6,23 +6,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from hw45_serving import describe_latency_tradeoff
+from finalize_hw45 import diagnose
 
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = ROOT / "outputs"
-
-
-def diagnose(text: str) -> str:
-    lowered = text.lower()
-    if len(text.split()) < 6:
-        return "The tweet is very short, so the model has little context."
-    if any(word in lowered for word in ("but", "although", "however", "yet")):
-        return "The tweet contains contrasting sentiment cues, and the model followed the wrong clause."
-    if any(word in lowered for word in ("not", "never", "no ")):
-        return "Negation changes the sentiment and appears to have been attached to the wrong phrase."
-    if any(mark in text for mark in ("!", "?", "😂", "😭", ":)", ":(")):
-        return "Informal punctuation or an emoji makes the intended tone harder to interpret literally."
-    return "The wording is ambiguous without its conversation context, so the wrong prediction is understandable."
 
 
 def f(value: float, digits: int = 3) -> str:
@@ -106,7 +94,7 @@ def main() -> None:
     ]
     for row in result["five_worst_class_mistakes"]:
         text = " ".join(str(row["text"]).split()).replace("|", "\\|")
-        lines.append(f"| {row['source_row']} | {row['true_class']} | {row['predicted_class']} | {text} | {diagnose(text)} |")
+        lines.append(f"| {row['source_row']} | {row['true_class']} | {row['predicted_class']} | {text} | {diagnose(text, row['source_row'])} |")
     lines += [
         "",
         "The trained classifier was saved, reloaded from disk, and used on two custom sentences. The outputs are in `outputs/hw4a_custom_inference.csv`.",
@@ -127,6 +115,12 @@ def main() -> None:
         describe_latency_tradeoff(rows),
     ]
     (ROOT / "HW4A_METRICS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    mistakes_path = OUTPUT_DIR / "hw4a_misclassified_examples.csv"
+    if mistakes_path.exists():
+        import pandas as pd
+        mistakes = pd.read_csv(mistakes_path)
+        mistakes["diagnosis"] = mistakes.apply(lambda row: diagnose(str(row['text']), row['source_row']), axis=1)
+        mistakes.to_csv(mistakes_path, index=False)
     print("Created HW4A_METRICS.md and populated hw4a_baseline.json.")
 
 

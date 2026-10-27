@@ -1,0 +1,89 @@
+{
+  "status": "success",
+  "technique": "best_combination",
+  "flags": {
+    "amp": true,
+    "checkpointing": false,
+    "optimizer8bit": true
+  },
+  "physical_batch": 256,
+  "accumulation_steps": 1,
+  "effective_batch": 256,
+  "epochs": 3,
+  "optimizer_steps": 42,
+  "samples_seen": 10500,
+  "throughput_samples_per_second": 207.3258996282169,
+  "mean_time_per_epoch_seconds": 16.882511128999948,
+  "training_wall_seconds_including_validation": 67.09665919700001,
+  "peak_memory_allocated_gb": 13.301880836486816,
+  "peak_memory_reserved_gb": 14.138671875,
+  "test_loss": 0.8520017236073811,
+  "test_accuracy": 0.6066666666666667,
+  "best_validation_epoch": 3,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "training_loss": 1.0308017575400217,
+      "validation_loss": 0.9680942802429199,
+      "validation_accuracy": 0.5426666666666666,
+      "training_seconds": 16.712599390999912,
+      "throughput_samples_per_second": 209.42283830992946
+    },
+    {
+      "epoch": 2,
+      "training_loss": 0.9284944184167044,
+      "validation_loss": 0.9172889486948649,
+      "validation_accuracy": 0.5653333333333334,
+      "training_seconds": 16.988719093999862,
+      "throughput_samples_per_second": 206.01906362888434
+    },
+    {
+      "epoch": 3,
+      "training_loss": 0.8283933099337987,
+      "validation_loss": 0.8602254624366761,
+      "validation_accuracy": 0.62,
+      "training_seconds": 16.946214902000065,
+      "throughput_samples_per_second": 206.53579694583686
+    }
+  ],
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_label": "-1.0",
+      "precision": 0.46218487394957986,
+      "recall": 0.32934131736526945,
+      "support": 167
+    },
+    {
+      "class_id": 1,
+      "class_label": "0.0",
+      "precision": 0.6666666666666666,
+      "recall": 0.725925925925926,
+      "support": 270
+    },
+    {
+      "class_id": 2,
+      "class_label": "1.0",
+      "precision": 0.6053412462908012,
+      "recall": 0.6517571884984026,
+      "support": 313
+    }
+  ],
+  "confusion_matrix": [
+    [
+      55,
+      32,
+      80
+    ],
+    [
+      21,
+      196,
+      53
+    ],
+    [
+      43,
+      66,
+      204
+    ]
+  ]
+}

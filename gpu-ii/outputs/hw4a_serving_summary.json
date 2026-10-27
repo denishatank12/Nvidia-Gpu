@@ -1,0 +1,113 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "precision": "float16",
+  "execution_mode": "eager",
+  "output_tokens_per_request": 64,
+  "latency_definition": "Closed-batch wall time from synchronous submission until every response in the batch is returned.",
+  "hf_pipeline": {
+    "metrics": {
+      "configuration": "HF pipeline, batch 1",
+      "batch_size": 1,
+      "tokens_per_second": 28.531938141257466,
+      "p50_latency_ms": 2114.1480044999525,
+      "p95_latency_ms": 2823.255806699961,
+      "requests_measured": 10,
+      "generated_tokens": 640
+    },
+    "examples": [
+      {
+        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
+        "answer": " Batching allows GPUs to process multiple data points simultaneously, reducing the time required for inference and improving overall performance. Additionally, it enables more efficient use of memory resources by grouping similar data points together, further optimizing the processing pipeline. By leveraging this technique, developers can achieve faster inference times and better resource utilization on their GPUs."
+      },
+      {
+        "prompt": "Give one practical reason to use mixed precision during neural network training.",
+        "answer": " One practical reason to use mixed precision during neural network training is that it can help improve the convergence speed of the optimization algorithm used in the training process, especially when dealing with large-scale and complex models. Mixed precision allows for faster computation by using a single precision format for operations such as addition, multiplication, and division, which"
+      },
+      {
+        "prompt": "Summarize the difference between latency and throughput for an interactive service.",
+        "answer": " Latency refers to the time it takes for a request to be processed by the server, while throughput refers to the amount of data that can be processed or transmitted in a given period of time.\n\nLatency is typically measured in milliseconds or seconds, while throughput is measured in units such as megabits per second (Mbps"
+      },
+      {
+        "prompt": "Write a short positive movie review without naming a specific movie.",
+        "answer": " The film is a powerful exploration of the human condition, with its characters and plot moving seamlessly from one scene to another like a well-crafted narrative. The cinematography captures the beauty of the natural world around them, creating an immersive experience that transports viewers into a world of wonder and awe. The performances are equally impressive,"
+      },
+      {
+        "prompt": "What causes a CUDA out-of-memory error during model training?",
+        "answer": " The error message \"CUDA out of memory\" typically indicates that the GPU is running out of available memory, which can occur due to several reasons. Here are some common causes and solutions:\n\n1. **Memory Overcommitment**:\n   - **Cause**: The system has been configured with too much memory for the current workload"
+      },
+      {
+        "prompt": "Explain gradient accumulation to a student in one sentence.",
+        "answer": " Gradient accumulation is the process of adding together the gradients of all the weights in a neural network, which helps to optimize the model's parameters and improve its performance on a given task. It involves updating each weight based on the difference between the predicted output and the actual output, taking into account both the error and the previous gradients"
+      },
+      {
+        "prompt": "Why does causal language modeling prevent attention to future tokens?",
+        "answer": " I'm working on a project where I need to generate text based on the context provided. The problem is that my model only generates text from past tokens, and it doesn't understand how to handle future tokens.\nI've tried using different types of causal language models like BERT or GPT-2, but they still"
+      },
+      {
+        "prompt": "Name two ways to reduce neural network GPU memory use.",
+        "answer": " 1. Use a larger batch size: The larger the batch size, the more data is processed at once and thus reduces the amount of memory required for each iteration.\n\n2. Reduce the number of layers in the model: If you have too many layers in your neural network, it can consume a lot of GPU memory"
+      },
+      {
+        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
+        "answer": " Batching allows GPUs to process multiple data points simultaneously, reducing the time required for inference and improving overall performance. Additionally, it enables more efficient use of memory resources by grouping similar data points together, further optimizing the processing pipeline. By leveraging this technique, developers can achieve faster inference times and better resource utilization on their GPUs."
+      },
+      {
+        "prompt": "Give one practical reason to use mixed precision during neural network training.",
+        "answer": " One practical reason to use mixed precision during neural network training is that it can help improve the convergence speed of the optimization algorithm used in the training process, especially when dealing with large-scale and complex models. Mixed precision allows for faster computation by using a single precision format for operations such as addition, multiplication, and division, which"
+      }
+    ]
+  },
+  "vllm": {
+    "metrics": [
+      {
+        "configuration": "vLLM, batch 1",
+        "batch_size": 1,
+        "tokens_per_second": 66.0790430072379,
+        "p50_latency_ms": 949.9240850000206,
+        "p95_latency_ms": 1037.747558599989,
+        "requests_measured": 10,
+        "generated_tokens": 640
+      },
+      {
+        "configuration": "vLLM, batch 8",
+        "batch_size": 8,
+        "tokens_per_second": 478.1097560260488,
+        "p50_latency_ms": 1066.1401870000873,
+        "p95_latency_ms": 1107.2221040000159,
+        "requests_measured": 40,
+        "generated_tokens": 2560
+      },
+      {
+        "configuration": "vLLM, batch 32",
+        "batch_size": 32,
+        "tokens_per_second": 1631.8051040570626,
+        "p50_latency_ms": 1249.704553000015,
+        "p95_latency_ms": 1270.2056719999746,
+        "requests_measured": 96,
+        "generated_tokens": 6144
+      }
+    ],
+    "examples": [
+      {
+        "batch_size": 1,
+        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
+        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
+      },
+      {
+        "batch_size": 8,
+        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
+        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
+      },
+      {
+        "batch_size": 32,
+        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
+        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
+      }
+    ],
+    "engine_gpu_memory_delta_mib": 11296,
+    "kv_bytes_per_token_per_request": 12288,
+    "context_results": [],
+    "longest_context_batch_8": null,
+    "model_max_length": 32768
+  }
+}

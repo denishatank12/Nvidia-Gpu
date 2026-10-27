@@ -1,0 +1,123 @@
+{
+  "status": "success",
+  "technique": "baseline",
+  "flags": {
+    "amp": false,
+    "checkpointing": false,
+    "optimizer8bit": false
+  },
+  "physical_batch": 128,
+  "accumulation_steps": 1,
+  "effective_batch": 128,
+  "epochs": 3,
+  "optimizer_steps": 84,
+  "samples_seen": 10500,
+  "throughput_samples_per_second": 49.60486996573513,
+  "mean_time_per_epoch_seconds": 70.5596146266668,
+  "training_wall_seconds_including_validation": 228.44712726299986,
+  "peak_memory_allocated_gb": 10.865760803222656,
+  "peak_memory_reserved_gb": 11.046875,
+  "test_loss": 0.7740846529006958,
+  "test_accuracy": 0.68,
+  "best_validation_epoch": 3,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "training_loss": 1.0097572840281894,
+      "validation_loss": 0.943273190498352,
+      "validation_accuracy": 0.5546666666666666,
+      "training_seconds": 71.04229408400033,
+      "throughput_samples_per_second": 49.26642706472293
+    },
+    {
+      "epoch": 2,
+      "training_loss": 0.8631806400844029,
+      "validation_loss": 0.8423684708277385,
+      "validation_accuracy": 0.6466666666666666,
+      "training_seconds": 70.51802540400013,
+      "throughput_samples_per_second": 49.63270000752833
+    },
+    {
+      "epoch": 3,
+      "training_loss": 0.6865538611412049,
+      "validation_loss": 0.7696202098528544,
+      "validation_accuracy": 0.6866666666666666,
+      "training_seconds": 70.11852439199993,
+      "throughput_samples_per_second": 49.91548282495414
+    }
+  ],
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_label": "-1.0",
+      "precision": 0.5460122699386503,
+      "recall": 0.5329341317365269,
+      "support": 167
+    },
+    {
+      "class_id": 1,
+      "class_label": "0.0",
+      "precision": 0.8203883495145631,
+      "recall": 0.6259259259259259,
+      "support": 270
+    },
+    {
+      "class_id": 2,
+      "class_label": "1.0",
+      "precision": 0.6614173228346457,
+      "recall": 0.805111821086262,
+      "support": 313
+    }
+  ],
+  "confusion_matrix": [
+    [
+      89,
+      15,
+      63
+    ],
+    [
+      35,
+      169,
+      66
+    ],
+    [
+      39,
+      22,
+      252
+    ]
+  ],
+  "worst_class_id": 0,
+  "worst_class_label": "-1.0",
+  "five_worst_class_mistakes": [
+    {
+      "source_row": 2008,
+      "text": "\u2018chowkidaar mentality hai\u2019 the insinuation that narendra modi has the crookcheap mentality regular chowkidaar respect for ordinary hardworking indians ",
+      "true_class": "-1.0",
+      "predicted_class": "1.0"
+    },
+    {
+      "source_row": 4206,
+      "text": "already have one his name narendra damodardas modi common man who came power with hard work alone india stands his side",
+      "true_class": "-1.0",
+      "predicted_class": "1.0"
+    },
+    {
+      "source_row": 4772,
+      "text": "\nleaving aside all the hate against dynastic politics think this must have step for uplifting people living brink just want congress government for this one thing\nhope modi comes with such yojna would love seeing someone getting 6kmonth ",
+      "true_class": "-1.0",
+      "predicted_class": "1.0"
+    },
+    {
+      "source_row": 1667,
+      "text": "ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india",
+      "true_class": "-1.0",
+      "predicted_class": "1.0"
+    },
+    {
+      "source_row": 5542,
+      "text": "game changer modi era finished",
+      "true_class": "-1.0",
+      "predicted_class": "1.0"
+    }
+  ]
+}

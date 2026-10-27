@@ -1,0 +1,2494 @@
+{
+  "personal_parameters": {
+    "SID4": 8834,
+    "SEED": 8834,
+    "SLICE": 834,
+    "HP_ID": 2,
+    "CLS_A": 4,
+    "CLS_B": 6
+  },
+  "settings": {
+    "data_path": "Twitter_Data.csv",
+    "text_column": "clean_text",
+    "label_column": "category",
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "start_row": 834,
+    "row_limit": 5000,
+    "seed": 8834,
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "original_batch": 16,
+    "max_probe_batch": 4096,
+    "num_workers": 0
+  },
+  "gpu": {
+    "name": "Tesla T4",
+    "uuid": "GPU-d3085845-9dcd-3867-c44d-22ef57457cde",
+    "memory_total_mib": 15360,
+    "memory_total_gb": 15.0,
+    "driver_version": "580.82.07",
+    "torch_cuda": "12.8",
+    "compute_capability": "7.5"
+  },
+  "dataset_manifest": {
+    "dataset_name": "Twitter_Data.csv",
+    "preparation_settings": {
+      "model_name": "bert-base-uncased",
+      "max_length": 128,
+      "start_row": 834,
+      "row_limit": 5000,
+      "seed": 8834,
+      "text_column": "clean_text",
+      "label_column": "category"
+    },
+    "source_path": "/content/gpu-ii/Twitter_Data.csv",
+    "source_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
+    "raw_dataset_rows": 162980,
+    "requested_row_range_zero_based": [
+      834,
+      5833
+    ],
+    "requested_row_range_python": "[834:5834)",
+    "selected_rows_before_cleaning": 5000,
+    "excluded_source_rows_with_missing_text_or_label": [],
+    "usable_rows": 5000,
+    "split_sizes": {
+      "train": 3500,
+      "validation": 750,
+      "test": 750
+    },
+    "split_ratio": "70/15/15",
+    "seed": 8834,
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "text_column": "clean_text",
+    "label_column": "category",
+    "label_to_id": {
+      "-1.0": 0,
+      "0.0": 1,
+      "1.0": 2
+    }
+  },
+  "part_c": "Part C skipped (optional)",
+  "batch_scaling": [
+    {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 1,
+      "optimizer_steps": 219,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 44.86485255238332,
+      "mean_time_per_epoch_seconds": 78.01206960200011,
+      "training_wall_seconds_including_validation": 83.60630286000003,
+      "peak_memory_allocated_gb": 2.4668984413146973,
+      "peak_memory_reserved_gb": 2.70703125,
+      "test_loss": 0.6816465441385905,
+      "test_accuracy": 0.7226666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9082491632870265,
+          "validation_loss": 0.685140488465627,
+          "validation_accuracy": 0.716,
+          "training_seconds": 78.01206960200011,
+          "throughput_samples_per_second": 44.86485255238332
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5728643216080402,
+          "recall": 0.6826347305389222,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7728937728937729,
+          "recall": 0.7814814814814814,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.7805755395683454,
+          "recall": 0.6932907348242812,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          114,
+          23,
+          30
+        ],
+        [
+          28,
+          211,
+          31
+        ],
+        [
+          57,
+          39,
+          217
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9082491632870265, \"validation_loss\": 0.685140488465627, \"validation_accuracy\": 0.716, \"training_seconds\": 78.01206960200011, \"throughput_samples_per_second\": 44.86485255238332}\n{\"status\": \"success\", \"technique\": \"baseline\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 16, \"accumulation_steps\": 1, \"effective_batch\": 16, \"epochs\": 1, \"optimizer_steps\": 219, \"samples_seen\": 3500, \"throughput_samples_per_second\": 44.86485255238332, \"mean_time_per_epoch_seconds\": 78.01206960200011, \"training_wall_seconds_including_validation\": 83.60630286000003, \"peak_memory_allocated_gb\": 2.4668984413146973, \"peak_memory_reserved_gb\": 2.70703125, \"test_loss\": 0.6816465441385905, \"test_accuracy\": 0.7226666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9082491632870265, \"validation_loss\": 0.685140488465627, \"validation_accuracy\": 0.716, \"training_seconds\": 78.01206960200011, \"throughput_samples_per_second\": 44.86485255238332}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.5728643216080402, \"recall\": 0.6826347305389222, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7728937728937729, \"recall\": 0.7814814814814814, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.7805755395683454, \"recall\": 0.6932907348242812, \"support\": 313}], \"confusion_matrix\": [[114, 23, 30], [28, 211, 31], [57, 39, 217]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 32,
+      "accumulation_steps": 1,
+      "effective_batch": 32,
+      "epochs": 1,
+      "optimizer_steps": 110,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 48.364330364904056,
+      "mean_time_per_epoch_seconds": 72.36738260600009,
+      "training_wall_seconds_including_validation": 77.87982468399991,
+      "peak_memory_allocated_gb": 3.7124123573303223,
+      "peak_memory_reserved_gb": 3.85546875,
+      "test_loss": 0.8168307749430338,
+      "test_accuracy": 0.632,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9493213225773403,
+          "validation_loss": 0.8107421862284342,
+          "validation_accuracy": 0.6666666666666666,
+          "training_seconds": 72.36738260600009,
+          "throughput_samples_per_second": 48.364330364904056
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.47398843930635837,
+          "recall": 0.49101796407185627,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6872727272727273,
+          "recall": 0.7,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6721854304635762,
+          "recall": 0.6485623003194888,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          82,
+          34,
+          51
+        ],
+        [
+          33,
+          189,
+          48
+        ],
+        [
+          58,
+          52,
+          203
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9493213225773403, \"validation_loss\": 0.8107421862284342, \"validation_accuracy\": 0.6666666666666666, \"training_seconds\": 72.36738260600009, \"throughput_samples_per_second\": 48.364330364904056}\n{\"status\": \"success\", \"technique\": \"baseline\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 32, \"accumulation_steps\": 1, \"effective_batch\": 32, \"epochs\": 1, \"optimizer_steps\": 110, \"samples_seen\": 3500, \"throughput_samples_per_second\": 48.364330364904056, \"mean_time_per_epoch_seconds\": 72.36738260600009, \"training_wall_seconds_including_validation\": 77.87982468399991, \"peak_memory_allocated_gb\": 3.7124123573303223, \"peak_memory_reserved_gb\": 3.85546875, \"test_loss\": 0.8168307749430338, \"test_accuracy\": 0.632, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9493213225773403, \"validation_loss\": 0.8107421862284342, \"validation_accuracy\": 0.6666666666666666, \"training_seconds\": 72.36738260600009, \"throughput_samples_per_second\": 48.364330364904056}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.47398843930635837, \"recall\": 0.49101796407185627, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6872727272727273, \"recall\": 0.7, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.6721854304635762, \"recall\": 0.6485623003194888, \"support\": 313}], \"confusion_matrix\": [[82, 34, 51], [33, 189, 48], [58, 52, 203]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 64,
+      "accumulation_steps": 1,
+      "effective_batch": 64,
+      "epochs": 1,
+      "optimizer_steps": 55,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 49.13747468201101,
+      "mean_time_per_epoch_seconds": 71.22873168900014,
+      "training_wall_seconds_including_validation": 76.72041336100006,
+      "peak_memory_allocated_gb": 6.06351375579834,
+      "peak_memory_reserved_gb": 6.25390625,
+      "test_loss": 0.9291833580334982,
+      "test_accuracy": 0.5626666666666666,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9927192096710205,
+          "validation_loss": 0.9213717754681905,
+          "validation_accuracy": 0.5773333333333334,
+          "training_seconds": 71.22873168900014,
+          "throughput_samples_per_second": 49.13747468201101
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6666666666666666,
+          "recall": 0.023952095808383235,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.705607476635514,
+          "recall": 0.5592592592592592,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5037735849056604,
+          "recall": 0.853035143769968,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          4,
+          18,
+          145
+        ],
+        [
+          1,
+          151,
+          118
+        ],
+        [
+          1,
+          45,
+          267
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9927192096710205, \"validation_loss\": 0.9213717754681905, \"validation_accuracy\": 0.5773333333333334, \"training_seconds\": 71.22873168900014, \"throughput_samples_per_second\": 49.13747468201101}\n{\"status\": \"success\", \"technique\": \"baseline\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 64, \"accumulation_steps\": 1, \"effective_batch\": 64, \"epochs\": 1, \"optimizer_steps\": 55, \"samples_seen\": 3500, \"throughput_samples_per_second\": 49.13747468201101, \"mean_time_per_epoch_seconds\": 71.22873168900014, \"training_wall_seconds_including_validation\": 76.72041336100006, \"peak_memory_allocated_gb\": 6.06351375579834, \"peak_memory_reserved_gb\": 6.25390625, \"test_loss\": 0.9291833580334982, \"test_accuracy\": 0.5626666666666666, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9927192096710205, \"validation_loss\": 0.9213717754681905, \"validation_accuracy\": 0.5773333333333334, \"training_seconds\": 71.22873168900014, \"throughput_samples_per_second\": 49.13747468201101}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.6666666666666666, \"recall\": 0.023952095808383235, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.705607476635514, \"recall\": 0.5592592592592592, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5037735849056604, \"recall\": 0.853035143769968, \"support\": 313}], \"confusion_matrix\": [[4, 18, 145], [1, 151, 118], [1, 45, 267]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 1,
+      "optimizer_steps": 28,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 49.23464633810516,
+      "mean_time_per_epoch_seconds": 71.0881515420001,
+      "training_wall_seconds_including_validation": 76.57222388399987,
+      "peak_memory_allocated_gb": 10.865760803222656,
+      "peak_memory_reserved_gb": 11.046875,
+      "test_loss": 0.9488755397796631,
+      "test_accuracy": 0.552,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0097572840281894,
+          "validation_loss": 0.943273190498352,
+          "validation_accuracy": 0.5546666666666666,
+          "training_seconds": 71.0881515420001,
+          "throughput_samples_per_second": 49.23464633810516
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6122448979591837,
+          "recall": 0.6666666666666666,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5131578947368421,
+          "recall": 0.7476038338658147,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          35,
+          132
+        ],
+        [
+          0,
+          180,
+          90
+        ],
+        [
+          0,
+          79,
+          234
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0097572840281894, \"validation_loss\": 0.943273190498352, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 71.0881515420001, \"throughput_samples_per_second\": 49.23464633810516}\n{\"status\": \"success\", \"technique\": \"baseline\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 128, \"accumulation_steps\": 1, \"effective_batch\": 128, \"epochs\": 1, \"optimizer_steps\": 28, \"samples_seen\": 3500, \"throughput_samples_per_second\": 49.23464633810516, \"mean_time_per_epoch_seconds\": 71.0881515420001, \"training_wall_seconds_including_validation\": 76.57222388399987, \"peak_memory_allocated_gb\": 10.865760803222656, \"peak_memory_reserved_gb\": 11.046875, \"test_loss\": 0.9488755397796631, \"test_accuracy\": 0.552, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0097572840281894, \"validation_loss\": 0.943273190498352, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 71.0881515420001, \"throughput_samples_per_second\": 49.23464633810516}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6122448979591837, \"recall\": 0.6666666666666666, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5131578947368421, \"recall\": 0.7476038338658147, \"support\": 313}], \"confusion_matrix\": [[0, 35, 132], [0, 180, 90], [0, 79, 234]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "oom",
+      "technique": "baseline",
+      "physical_batch": 256,
+      "error": "CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "stdout_tail": "{\"status\": \"oom\", \"technique\": \"baseline\", \"physical_batch\": 256, \"error\": \"CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\"}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 1,
+      "optimizer_steps": 219,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 132.69024219400254,
+      "mean_time_per_epoch_seconds": 26.377222184000175,
+      "training_wall_seconds_including_validation": 32.29592343199988,
+      "peak_memory_allocated_gb": 2.2437539100646973,
+      "peak_memory_reserved_gb": 2.373046875,
+      "test_loss": 0.685514369169871,
+      "test_accuracy": 0.7186666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9110712716920035,
+          "validation_loss": 0.7017315653165181,
+          "validation_accuracy": 0.716,
+          "training_seconds": 26.377222184000175,
+          "throughput_samples_per_second": 132.69024219400254
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.615819209039548,
+          "recall": 0.6526946107784432,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7106109324758842,
+          "recall": 0.8185185185185185,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.7977099236641222,
+          "recall": 0.6677316293929713,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          109,
+          34,
+          24
+        ],
+        [
+          20,
+          221,
+          29
+        ],
+        [
+          48,
+          56,
+          209
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9110712716920035, \"validation_loss\": 0.7017315653165181, \"validation_accuracy\": 0.716, \"training_seconds\": 26.377222184000175, \"throughput_samples_per_second\": 132.69024219400254}\n{\"status\": \"success\", \"technique\": \"mixed_precision\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 16, \"accumulation_steps\": 1, \"effective_batch\": 16, \"epochs\": 1, \"optimizer_steps\": 219, \"samples_seen\": 3500, \"throughput_samples_per_second\": 132.69024219400254, \"mean_time_per_epoch_seconds\": 26.377222184000175, \"training_wall_seconds_including_validation\": 32.29592343199988, \"peak_memory_allocated_gb\": 2.2437539100646973, \"peak_memory_reserved_gb\": 2.373046875, \"test_loss\": 0.685514369169871, \"test_accuracy\": 0.7186666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9110712716920035, \"validation_loss\": 0.7017315653165181, \"validation_accuracy\": 0.716, \"training_seconds\": 26.377222184000175, \"throughput_samples_per_second\": 132.69024219400254}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.615819209039548, \"recall\": 0.6526946107784432, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7106109324758842, \"recall\": 0.8185185185185185, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.7977099236641222, \"recall\": 0.6677316293929713, \"support\": 313}], \"confusion_matrix\": [[109, 34, 24], [20, 221, 29], [48, 56, 209]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 32,
+      "accumulation_steps": 1,
+      "effective_batch": 32,
+      "epochs": 1,
+      "optimizer_steps": 110,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 165.05796076244533,
+      "mean_time_per_epoch_seconds": 21.20467249100011,
+      "training_wall_seconds_including_validation": 26.868231467999976,
+      "peak_memory_allocated_gb": 3.0138463973999023,
+      "peak_memory_reserved_gb": 3.18359375,
+      "test_loss": 0.8215062608718872,
+      "test_accuracy": 0.6413333333333333,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9622799246651785,
+          "validation_loss": 0.8102020502090455,
+          "validation_accuracy": 0.6746666666666666,
+          "training_seconds": 21.20467249100011,
+          "throughput_samples_per_second": 165.05796076244533
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.47560975609756095,
+          "recall": 0.46706586826347307,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7142857142857143,
+          "recall": 0.7037037037037037,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.665625,
+          "recall": 0.6805111821086262,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          78,
+          31,
+          58
+        ],
+        [
+          31,
+          190,
+          49
+        ],
+        [
+          55,
+          45,
+          213
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9622799246651785, \"validation_loss\": 0.8102020502090455, \"validation_accuracy\": 0.6746666666666666, \"training_seconds\": 21.20467249100011, \"throughput_samples_per_second\": 165.05796076244533}\n{\"status\": \"success\", \"technique\": \"mixed_precision\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 32, \"accumulation_steps\": 1, \"effective_batch\": 32, \"epochs\": 1, \"optimizer_steps\": 110, \"samples_seen\": 3500, \"throughput_samples_per_second\": 165.05796076244533, \"mean_time_per_epoch_seconds\": 21.20467249100011, \"training_wall_seconds_including_validation\": 26.868231467999976, \"peak_memory_allocated_gb\": 3.0138463973999023, \"peak_memory_reserved_gb\": 3.18359375, \"test_loss\": 0.8215062608718872, \"test_accuracy\": 0.6413333333333333, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9622799246651785, \"validation_loss\": 0.8102020502090455, \"validation_accuracy\": 0.6746666666666666, \"training_seconds\": 21.20467249100011, \"throughput_samples_per_second\": 165.05796076244533}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.47560975609756095, \"recall\": 0.46706586826347307, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7142857142857143, \"recall\": 0.7037037037037037, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.665625, \"recall\": 0.6805111821086262, \"support\": 313}], \"confusion_matrix\": [[78, 31, 58], [31, 190, 49], [55, 45, 213]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 64,
+      "accumulation_steps": 1,
+      "effective_batch": 64,
+      "epochs": 1,
+      "optimizer_steps": 55,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 184.5699401860206,
+      "mean_time_per_epoch_seconds": 18.963001215000077,
+      "training_wall_seconds_including_validation": 24.837394599000163,
+      "peak_memory_allocated_gb": 4.566428184509277,
+      "peak_memory_reserved_gb": 4.658203125,
+      "test_loss": 0.9300320269266764,
+      "test_accuracy": 0.5666666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9867979215894427,
+          "validation_loss": 0.9248973016738892,
+          "validation_accuracy": 0.5866666666666667,
+          "training_seconds": 18.963001215000077,
+          "throughput_samples_per_second": 184.5699401860206
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5,
+          "recall": 0.03592814371257485,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6575875486381323,
+          "recall": 0.6259259259259259,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5197505197505198,
+          "recall": 0.7987220447284346,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          6,
+          29,
+          132
+        ],
+        [
+          2,
+          169,
+          99
+        ],
+        [
+          4,
+          59,
+          250
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9867979215894427, \"validation_loss\": 0.9248973016738892, \"validation_accuracy\": 0.5866666666666667, \"training_seconds\": 18.963001215000077, \"throughput_samples_per_second\": 184.5699401860206}\n{\"status\": \"success\", \"technique\": \"mixed_precision\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 64, \"accumulation_steps\": 1, \"effective_batch\": 64, \"epochs\": 1, \"optimizer_steps\": 55, \"samples_seen\": 3500, \"throughput_samples_per_second\": 184.5699401860206, \"mean_time_per_epoch_seconds\": 18.963001215000077, \"training_wall_seconds_including_validation\": 24.837394599000163, \"peak_memory_allocated_gb\": 4.566428184509277, \"peak_memory_reserved_gb\": 4.658203125, \"test_loss\": 0.9300320269266764, \"test_accuracy\": 0.5666666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9867979215894427, \"validation_loss\": 0.9248973016738892, \"validation_accuracy\": 0.5866666666666667, \"training_seconds\": 18.963001215000077, \"throughput_samples_per_second\": 184.5699401860206}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.5, \"recall\": 0.03592814371257485, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6575875486381323, \"recall\": 0.6259259259259259, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5197505197505198, \"recall\": 0.7987220447284346, \"support\": 313}], \"confusion_matrix\": [[6, 29, 132], [2, 169, 99], [4, 59, 250]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 1,
+      "optimizer_steps": 28,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 202.26850201151703,
+      "mean_time_per_epoch_seconds": 17.303732243000013,
+      "training_wall_seconds_including_validation": 22.946129710999912,
+      "peak_memory_allocated_gb": 7.675699234008789,
+      "peak_memory_reserved_gb": 7.8671875,
+      "test_loss": 0.9483138562838237,
+      "test_accuracy": 0.5546666666666666,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0100326451574053,
+          "validation_loss": 0.9439005538622538,
+          "validation_accuracy": 0.548,
+          "training_seconds": 17.303732243000013,
+          "throughput_samples_per_second": 202.26850201151703
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6216216216216216,
+          "recall": 0.6814814814814815,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5110132158590308,
+          "recall": 0.7412140575079872,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          31,
+          136
+        ],
+        [
+          0,
+          184,
+          86
+        ],
+        [
+          0,
+          81,
+          232
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0100326451574053, \"validation_loss\": 0.9439005538622538, \"validation_accuracy\": 0.548, \"training_seconds\": 17.303732243000013, \"throughput_samples_per_second\": 202.26850201151703}\n{\"status\": \"success\", \"technique\": \"mixed_precision\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 128, \"accumulation_steps\": 1, \"effective_batch\": 128, \"epochs\": 1, \"optimizer_steps\": 28, \"samples_seen\": 3500, \"throughput_samples_per_second\": 202.26850201151703, \"mean_time_per_epoch_seconds\": 17.303732243000013, \"training_wall_seconds_including_validation\": 22.946129710999912, \"peak_memory_allocated_gb\": 7.675699234008789, \"peak_memory_reserved_gb\": 7.8671875, \"test_loss\": 0.9483138562838237, \"test_accuracy\": 0.5546666666666666, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0100326451574053, \"validation_loss\": 0.9439005538622538, \"validation_accuracy\": 0.548, \"training_seconds\": 17.303732243000013, \"throughput_samples_per_second\": 202.26850201151703}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6216216216216216, \"recall\": 0.6814814814814815, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5110132158590308, \"recall\": 0.7412140575079872, \"support\": 313}], \"confusion_matrix\": [[0, 31, 136], [0, 184, 86], [0, 81, 232]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 256,
+      "accumulation_steps": 1,
+      "effective_batch": 256,
+      "epochs": 1,
+      "optimizer_steps": 14,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 205.26443162165017,
+      "mean_time_per_epoch_seconds": 17.0511762430001,
+      "training_wall_seconds_including_validation": 22.885049935000097,
+      "peak_memory_allocated_gb": 13.915612697601318,
+      "peak_memory_reserved_gb": 14.166015625,
+      "test_loss": 0.9802329107920329,
+      "test_accuracy": 0.5413333333333333,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.030805037498474,
+          "validation_loss": 0.9680729722976684,
+          "validation_accuracy": 0.5426666666666666,
+          "training_seconds": 17.0511762430001,
+          "throughput_samples_per_second": 205.26443162165017
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.5913621262458472,
+          "recall": 0.6592592592592592,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5077951002227171,
+          "recall": 0.7284345047923323,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          38,
+          129
+        ],
+        [
+          0,
+          178,
+          92
+        ],
+        [
+          0,
+          85,
+          228
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.030805037498474, \"validation_loss\": 0.9680729722976684, \"validation_accuracy\": 0.5426666666666666, \"training_seconds\": 17.0511762430001, \"throughput_samples_per_second\": 205.26443162165017}\n{\"status\": \"success\", \"technique\": \"mixed_precision\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": false}, \"physical_batch\": 256, \"accumulation_steps\": 1, \"effective_batch\": 256, \"epochs\": 1, \"optimizer_steps\": 14, \"samples_seen\": 3500, \"throughput_samples_per_second\": 205.26443162165017, \"mean_time_per_epoch_seconds\": 17.0511762430001, \"training_wall_seconds_including_validation\": 22.885049935000097, \"peak_memory_allocated_gb\": 13.915612697601318, \"peak_memory_reserved_gb\": 14.166015625, \"test_loss\": 0.9802329107920329, \"test_accuracy\": 0.5413333333333333, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.030805037498474, \"validation_loss\": 0.9680729722976684, \"validation_accuracy\": 0.5426666666666666, \"training_seconds\": 17.0511762430001, \"throughput_samples_per_second\": 205.26443162165017}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.5913621262458472, \"recall\": 0.6592592592592592, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5077951002227171, \"recall\": 0.7284345047923323, \"support\": 313}], \"confusion_matrix\": [[0, 38, 129], [0, 178, 92], [0, 85, 228]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "oom",
+      "technique": "mixed_precision",
+      "physical_batch": 512,
+      "error": "CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 139.81 MiB is free. Including non-PyTorch memory, this process has 14.42 GiB memory in use. Of the allocated memory 14.28 GiB is allocated by PyTorch, and 13.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "stdout_tail": "{\"status\": \"oom\", \"technique\": \"mixed_precision\", \"physical_batch\": 512, \"error\": \"CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 139.81 MiB is free. Including non-PyTorch memory, this process has 14.42 GiB memory in use. Of the allocated memory 14.28 GiB is allocated by PyTorch, and 13.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\"}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 1,
+      "optimizer_steps": 219,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 33.677077255201674,
+      "mean_time_per_epoch_seconds": 103.92825878199983,
+      "training_wall_seconds_including_validation": 109.58139713199989,
+      "peak_memory_allocated_gb": 1.6804389953613281,
+      "peak_memory_reserved_gb": 1.90625,
+      "test_loss": 0.6816465441385905,
+      "test_accuracy": 0.7226666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9082491632870265,
+          "validation_loss": 0.685140488465627,
+          "validation_accuracy": 0.716,
+          "training_seconds": 103.92825878199983,
+          "throughput_samples_per_second": 33.677077255201674
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5728643216080402,
+          "recall": 0.6826347305389222,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7728937728937729,
+          "recall": 0.7814814814814814,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.7805755395683454,
+          "recall": 0.6932907348242812,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          114,
+          23,
+          30
+        ],
+        [
+          28,
+          211,
+          31
+        ],
+        [
+          57,
+          39,
+          217
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9082491632870265, \"validation_loss\": 0.685140488465627, \"validation_accuracy\": 0.716, \"training_seconds\": 103.92825878199983, \"throughput_samples_per_second\": 33.677077255201674}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 16, \"accumulation_steps\": 1, \"effective_batch\": 16, \"epochs\": 1, \"optimizer_steps\": 219, \"samples_seen\": 3500, \"throughput_samples_per_second\": 33.677077255201674, \"mean_time_per_epoch_seconds\": 103.92825878199983, \"training_wall_seconds_including_validation\": 109.58139713199989, \"peak_memory_allocated_gb\": 1.6804389953613281, \"peak_memory_reserved_gb\": 1.90625, \"test_loss\": 0.6816465441385905, \"test_accuracy\": 0.7226666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9082491632870265, \"validation_loss\": 0.685140488465627, \"validation_accuracy\": 0.716, \"training_seconds\": 103.92825878199983, \"throughput_samples_per_second\": 33.677077255201674}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.5728643216080402, \"recall\": 0.6826347305389222, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7728937728937729, \"recall\": 0.7814814814814814, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.7805755395683454, \"recall\": 0.6932907348242812, \"support\": 313}], \"confusion_matrix\": [[114, 23, 30], [28, 211, 31], [57, 39, 217]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 32,
+      "accumulation_steps": 1,
+      "effective_batch": 32,
+      "epochs": 1,
+      "optimizer_steps": 110,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 36.16431936823594,
+      "mean_time_per_epoch_seconds": 96.78047482000011,
+      "training_wall_seconds_including_validation": 102.42442757699996,
+      "peak_memory_allocated_gb": 1.8325691223144531,
+      "peak_memory_reserved_gb": 1.955078125,
+      "test_loss": 0.8168307749430338,
+      "test_accuracy": 0.632,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9493213225773403,
+          "validation_loss": 0.8107421862284342,
+          "validation_accuracy": 0.6666666666666666,
+          "training_seconds": 96.78047482000011,
+          "throughput_samples_per_second": 36.16431936823594
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.47398843930635837,
+          "recall": 0.49101796407185627,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6872727272727273,
+          "recall": 0.7,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6721854304635762,
+          "recall": 0.6485623003194888,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          82,
+          34,
+          51
+        ],
+        [
+          33,
+          189,
+          48
+        ],
+        [
+          58,
+          52,
+          203
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9493213225773403, \"validation_loss\": 0.8107421862284342, \"validation_accuracy\": 0.6666666666666666, \"training_seconds\": 96.78047482000011, \"throughput_samples_per_second\": 36.16431936823594}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 32, \"accumulation_steps\": 1, \"effective_batch\": 32, \"epochs\": 1, \"optimizer_steps\": 110, \"samples_seen\": 3500, \"throughput_samples_per_second\": 36.16431936823594, \"mean_time_per_epoch_seconds\": 96.78047482000011, \"training_wall_seconds_including_validation\": 102.42442757699996, \"peak_memory_allocated_gb\": 1.8325691223144531, \"peak_memory_reserved_gb\": 1.955078125, \"test_loss\": 0.8168307749430338, \"test_accuracy\": 0.632, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9493213225773403, \"validation_loss\": 0.8107421862284342, \"validation_accuracy\": 0.6666666666666666, \"training_seconds\": 96.78047482000011, \"throughput_samples_per_second\": 36.16431936823594}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.47398843930635837, \"recall\": 0.49101796407185627, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6872727272727273, \"recall\": 0.7, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.6721854304635762, \"recall\": 0.6485623003194888, \"support\": 313}], \"confusion_matrix\": [[82, 34, 51], [33, 189, 48], [58, 52, 203]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 64,
+      "accumulation_steps": 1,
+      "effective_batch": 64,
+      "epochs": 1,
+      "optimizer_steps": 55,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 35.60064419176064,
+      "mean_time_per_epoch_seconds": 98.31282774400006,
+      "training_wall_seconds_including_validation": 103.96016605,
+      "peak_memory_allocated_gb": 2.0781235694885254,
+      "peak_memory_reserved_gb": 2.291015625,
+      "test_loss": 0.9291833580334982,
+      "test_accuracy": 0.5626666666666666,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9927192096710205,
+          "validation_loss": 0.9213717754681905,
+          "validation_accuracy": 0.5773333333333334,
+          "training_seconds": 98.31282774400006,
+          "throughput_samples_per_second": 35.60064419176064
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6666666666666666,
+          "recall": 0.023952095808383235,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.705607476635514,
+          "recall": 0.5592592592592592,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5037735849056604,
+          "recall": 0.853035143769968,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          4,
+          18,
+          145
+        ],
+        [
+          1,
+          151,
+          118
+        ],
+        [
+          1,
+          45,
+          267
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9927192096710205, \"validation_loss\": 0.9213717754681905, \"validation_accuracy\": 0.5773333333333334, \"training_seconds\": 98.31282774400006, \"throughput_samples_per_second\": 35.60064419176064}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 64, \"accumulation_steps\": 1, \"effective_batch\": 64, \"epochs\": 1, \"optimizer_steps\": 55, \"samples_seen\": 3500, \"throughput_samples_per_second\": 35.60064419176064, \"mean_time_per_epoch_seconds\": 98.31282774400006, \"training_wall_seconds_including_validation\": 103.96016605, \"peak_memory_allocated_gb\": 2.0781235694885254, \"peak_memory_reserved_gb\": 2.291015625, \"test_loss\": 0.9291833580334982, \"test_accuracy\": 0.5626666666666666, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9927192096710205, \"validation_loss\": 0.9213717754681905, \"validation_accuracy\": 0.5773333333333334, \"training_seconds\": 98.31282774400006, \"throughput_samples_per_second\": 35.60064419176064}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.6666666666666666, \"recall\": 0.023952095808383235, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.705607476635514, \"recall\": 0.5592592592592592, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5037735849056604, \"recall\": 0.853035143769968, \"support\": 313}], \"confusion_matrix\": [[4, 18, 145], [1, 151, 118], [1, 45, 267]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 1,
+      "optimizer_steps": 28,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 36.07658369094107,
+      "mean_time_per_epoch_seconds": 97.01583802899995,
+      "training_wall_seconds_including_validation": 102.62993401500012,
+      "peak_memory_allocated_gb": 2.842319965362549,
+      "peak_memory_reserved_gb": 3.13671875,
+      "test_loss": 0.9488755397796631,
+      "test_accuracy": 0.552,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0097572840281894,
+          "validation_loss": 0.943273190498352,
+          "validation_accuracy": 0.5546666666666666,
+          "training_seconds": 97.01583802899995,
+          "throughput_samples_per_second": 36.07658369094107
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6122448979591837,
+          "recall": 0.6666666666666666,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5131578947368421,
+          "recall": 0.7476038338658147,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          35,
+          132
+        ],
+        [
+          0,
+          180,
+          90
+        ],
+        [
+          0,
+          79,
+          234
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0097572840281894, \"validation_loss\": 0.943273190498352, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 97.01583802899995, \"throughput_samples_per_second\": 36.07658369094107}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 128, \"accumulation_steps\": 1, \"effective_batch\": 128, \"epochs\": 1, \"optimizer_steps\": 28, \"samples_seen\": 3500, \"throughput_samples_per_second\": 36.07658369094107, \"mean_time_per_epoch_seconds\": 97.01583802899995, \"training_wall_seconds_including_validation\": 102.62993401500012, \"peak_memory_allocated_gb\": 2.842319965362549, \"peak_memory_reserved_gb\": 3.13671875, \"test_loss\": 0.9488755397796631, \"test_accuracy\": 0.552, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0097572840281894, \"validation_loss\": 0.943273190498352, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 97.01583802899995, \"throughput_samples_per_second\": 36.07658369094107}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6122448979591837, \"recall\": 0.6666666666666666, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5131578947368421, \"recall\": 0.7476038338658147, \"support\": 313}], \"confusion_matrix\": [[0, 35, 132], [0, 180, 90], [0, 79, 234]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 256,
+      "accumulation_steps": 1,
+      "effective_batch": 256,
+      "epochs": 1,
+      "optimizer_steps": 14,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 36.855126659299174,
+      "mean_time_per_epoch_seconds": 94.966435263,
+      "training_wall_seconds_including_validation": 100.43894120900018,
+      "peak_memory_allocated_gb": 4.410881996154785,
+      "peak_memory_reserved_gb": 5.08203125,
+      "test_loss": 0.9752339957555135,
+      "test_accuracy": 0.5413333333333333,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.024254138810294,
+          "validation_loss": 0.9667329564094543,
+          "validation_accuracy": 0.544,
+          "training_seconds": 94.966435263,
+          "throughput_samples_per_second": 36.855126659299174
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.5953947368421053,
+          "recall": 0.6703703703703704,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5044843049327354,
+          "recall": 0.7188498402555911,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          35,
+          132
+        ],
+        [
+          0,
+          181,
+          89
+        ],
+        [
+          0,
+          88,
+          225
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.024254138810294, \"validation_loss\": 0.9667329564094543, \"validation_accuracy\": 0.544, \"training_seconds\": 94.966435263, \"throughput_samples_per_second\": 36.855126659299174}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 256, \"accumulation_steps\": 1, \"effective_batch\": 256, \"epochs\": 1, \"optimizer_steps\": 14, \"samples_seen\": 3500, \"throughput_samples_per_second\": 36.855126659299174, \"mean_time_per_epoch_seconds\": 94.966435263, \"training_wall_seconds_including_validation\": 100.43894120900018, \"peak_memory_allocated_gb\": 4.410881996154785, \"peak_memory_reserved_gb\": 5.08203125, \"test_loss\": 0.9752339957555135, \"test_accuracy\": 0.5413333333333333, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.024254138810294, \"validation_loss\": 0.9667329564094543, \"validation_accuracy\": 0.544, \"training_seconds\": 94.966435263, \"throughput_samples_per_second\": 36.855126659299174}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.5953947368421053, \"recall\": 0.6703703703703704, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5044843049327354, \"recall\": 0.7188498402555911, \"support\": 313}], \"confusion_matrix\": [[0, 35, 132], [0, 181, 89], [0, 88, 225]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 512,
+      "accumulation_steps": 1,
+      "effective_batch": 512,
+      "epochs": 1,
+      "optimizer_steps": 7,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 36.922347630789204,
+      "mean_time_per_epoch_seconds": 94.79353899699981,
+      "training_wall_seconds_including_validation": 100.30275840499985,
+      "peak_memory_allocated_gb": 7.571208953857422,
+      "peak_memory_reserved_gb": 8.388671875,
+      "test_loss": 1.0093293425242107,
+      "test_accuracy": 0.5146666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0536154315131052,
+          "validation_loss": 0.9975050880114238,
+          "validation_accuracy": 0.5373333333333333,
+          "training_seconds": 94.79353899699981,
+          "throughput_samples_per_second": 36.922347630789204
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6214953271028038,
+          "recall": 0.4925925925925926,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.47201492537313433,
+          "recall": 0.8083067092651757,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          21,
+          146
+        ],
+        [
+          0,
+          133,
+          137
+        ],
+        [
+          0,
+          60,
+          253
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0536154315131052, \"validation_loss\": 0.9975050880114238, \"validation_accuracy\": 0.5373333333333333, \"training_seconds\": 94.79353899699981, \"throughput_samples_per_second\": 36.922347630789204}\n{\"status\": \"success\", \"technique\": \"gradient_checkpointing\", \"flags\": {\"amp\": false, \"checkpointing\": true, \"optimizer8bit\": false}, \"physical_batch\": 512, \"accumulation_steps\": 1, \"effective_batch\": 512, \"epochs\": 1, \"optimizer_steps\": 7, \"samples_seen\": 3500, \"throughput_samples_per_second\": 36.922347630789204, \"mean_time_per_epoch_seconds\": 94.79353899699981, \"training_wall_seconds_including_validation\": 100.30275840499985, \"peak_memory_allocated_gb\": 7.571208953857422, \"peak_memory_reserved_gb\": 8.388671875, \"test_loss\": 1.0093293425242107, \"test_accuracy\": 0.5146666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0536154315131052, \"validation_loss\": 0.9975050880114238, \"validation_accuracy\": 0.5373333333333333, \"training_seconds\": 94.79353899699981, \"throughput_samples_per_second\": 36.922347630789204}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6214953271028038, \"recall\": 0.4925925925925926, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.47201492537313433, \"recall\": 0.8083067092651757, \"support\": 313}], \"confusion_matrix\": [[0, 21, 146], [0, 133, 137], [0, 60, 253]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "oom",
+      "technique": "gradient_checkpointing",
+      "physical_batch": 1024,
+      "error": "CUDA out of memory. Tried to allocate 1.50 GiB. GPU 0 has a total capacity of 14.56 GiB of which 375.81 MiB is free. Including non-PyTorch memory, this process has 14.19 GiB memory in use. Of the allocated memory 12.38 GiB is allocated by PyTorch, and 1.68 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "stdout_tail": "{\"status\": \"oom\", \"technique\": \"gradient_checkpointing\", \"physical_batch\": 1024, \"error\": \"CUDA out of memory. Tried to allocate 1.50 GiB. GPU 0 has a total capacity of 14.56 GiB of which 375.81 MiB is free. Including non-PyTorch memory, this process has 14.19 GiB memory in use. Of the allocated memory 12.38 GiB is allocated by PyTorch, and 1.68 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\"}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 1,
+      "optimizer_steps": 219,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 44.35794244727734,
+      "mean_time_per_epoch_seconds": 78.90356961800035,
+      "training_wall_seconds_including_validation": 84.55438455000012,
+      "peak_memory_allocated_gb": 1.8651294708251953,
+      "peak_memory_reserved_gb": 2.044921875,
+      "test_loss": 0.6805891571044922,
+      "test_accuracy": 0.7253333333333334,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9084105613572256,
+          "validation_loss": 0.6841499557495118,
+          "validation_accuracy": 0.716,
+          "training_seconds": 78.90356961800035,
+          "throughput_samples_per_second": 44.35794244727734
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5742574257425742,
+          "recall": 0.6946107784431138,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7757352941176471,
+          "recall": 0.7814814814814814,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.7862318840579711,
+          "recall": 0.6932907348242812,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          116,
+          23,
+          28
+        ],
+        [
+          28,
+          211,
+          31
+        ],
+        [
+          58,
+          38,
+          217
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9084105613572256, \"validation_loss\": 0.6841499557495118, \"validation_accuracy\": 0.716, \"training_seconds\": 78.90356961800035, \"throughput_samples_per_second\": 44.35794244727734}\n{\"status\": \"success\", \"technique\": \"optimizer_8bit\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 16, \"accumulation_steps\": 1, \"effective_batch\": 16, \"epochs\": 1, \"optimizer_steps\": 219, \"samples_seen\": 3500, \"throughput_samples_per_second\": 44.35794244727734, \"mean_time_per_epoch_seconds\": 78.90356961800035, \"training_wall_seconds_including_validation\": 84.55438455000012, \"peak_memory_allocated_gb\": 1.8651294708251953, \"peak_memory_reserved_gb\": 2.044921875, \"test_loss\": 0.6805891571044922, \"test_accuracy\": 0.7253333333333334, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9084105613572256, \"validation_loss\": 0.6841499557495118, \"validation_accuracy\": 0.716, \"training_seconds\": 78.90356961800035, \"throughput_samples_per_second\": 44.35794244727734}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.5742574257425742, \"recall\": 0.6946107784431138, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7757352941176471, \"recall\": 0.7814814814814814, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.7862318840579711, \"recall\": 0.6932907348242812, \"support\": 313}], \"confusion_matrix\": [[116, 23, 28], [28, 211, 31], [58, 38, 217]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 32,
+      "accumulation_steps": 1,
+      "effective_batch": 32,
+      "epochs": 1,
+      "optimizer_steps": 110,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 48.095481038698075,
+      "mean_time_per_epoch_seconds": 72.77190963500016,
+      "training_wall_seconds_including_validation": 78.26339560399992,
+      "peak_memory_allocated_gb": 3.0669031143188477,
+      "peak_memory_reserved_gb": 3.21484375,
+      "test_loss": 0.8171248121261596,
+      "test_accuracy": 0.6346666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9492266575949533,
+          "validation_loss": 0.8115409579277039,
+          "validation_accuracy": 0.6653333333333333,
+          "training_seconds": 72.77190963500016,
+          "throughput_samples_per_second": 48.095481038698075
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.4745762711864407,
+          "recall": 0.5029940119760479,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6906474820143885,
+          "recall": 0.7111111111111111,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6779661016949152,
+          "recall": 0.6389776357827476,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          84,
+          34,
+          49
+        ],
+        [
+          32,
+          192,
+          46
+        ],
+        [
+          61,
+          52,
+          200
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9492266575949533, \"validation_loss\": 0.8115409579277039, \"validation_accuracy\": 0.6653333333333333, \"training_seconds\": 72.77190963500016, \"throughput_samples_per_second\": 48.095481038698075}\n{\"status\": \"success\", \"technique\": \"optimizer_8bit\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 32, \"accumulation_steps\": 1, \"effective_batch\": 32, \"epochs\": 1, \"optimizer_steps\": 110, \"samples_seen\": 3500, \"throughput_samples_per_second\": 48.095481038698075, \"mean_time_per_epoch_seconds\": 72.77190963500016, \"training_wall_seconds_including_validation\": 78.26339560399992, \"peak_memory_allocated_gb\": 3.0669031143188477, \"peak_memory_reserved_gb\": 3.21484375, \"test_loss\": 0.8171248121261596, \"test_accuracy\": 0.6346666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9492266575949533, \"validation_loss\": 0.8115409579277039, \"validation_accuracy\": 0.6653333333333333, \"training_seconds\": 72.77190963500016, \"throughput_samples_per_second\": 48.095481038698075}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.4745762711864407, \"recall\": 0.5029940119760479, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6906474820143885, \"recall\": 0.7111111111111111, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.6779661016949152, \"recall\": 0.6389776357827476, \"support\": 313}], \"confusion_matrix\": [[84, 34, 49], [32, 192, 46], [61, 52, 200]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 64,
+      "accumulation_steps": 1,
+      "effective_batch": 64,
+      "epochs": 1,
+      "optimizer_steps": 55,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 48.81574429209231,
+      "mean_time_per_epoch_seconds": 71.69817956799989,
+      "training_wall_seconds_including_validation": 77.19274420900001,
+      "peak_memory_allocated_gb": 5.456246852874756,
+      "peak_memory_reserved_gb": 5.56640625,
+      "test_loss": 0.9293550402323405,
+      "test_accuracy": 0.5613333333333334,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9926072270529611,
+          "validation_loss": 0.921558884938558,
+          "validation_accuracy": 0.576,
+          "training_seconds": 71.69817956799989,
+          "throughput_samples_per_second": 48.81574429209231
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6666666666666666,
+          "recall": 0.023952095808383235,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.704225352112676,
+          "recall": 0.5555555555555556,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5028248587570622,
+          "recall": 0.853035143769968,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          4,
+          18,
+          145
+        ],
+        [
+          1,
+          150,
+          119
+        ],
+        [
+          1,
+          45,
+          267
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9926072270529611, \"validation_loss\": 0.921558884938558, \"validation_accuracy\": 0.576, \"training_seconds\": 71.69817956799989, \"throughput_samples_per_second\": 48.81574429209231}\n{\"status\": \"success\", \"technique\": \"optimizer_8bit\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 64, \"accumulation_steps\": 1, \"effective_batch\": 64, \"epochs\": 1, \"optimizer_steps\": 55, \"samples_seen\": 3500, \"throughput_samples_per_second\": 48.81574429209231, \"mean_time_per_epoch_seconds\": 71.69817956799989, \"training_wall_seconds_including_validation\": 77.19274420900001, \"peak_memory_allocated_gb\": 5.456246852874756, \"peak_memory_reserved_gb\": 5.56640625, \"test_loss\": 0.9293550402323405, \"test_accuracy\": 0.5613333333333334, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9926072270529611, \"validation_loss\": 0.921558884938558, \"validation_accuracy\": 0.576, \"training_seconds\": 71.69817956799989, \"throughput_samples_per_second\": 48.81574429209231}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.6666666666666666, \"recall\": 0.023952095808383235, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.704225352112676, \"recall\": 0.5555555555555556, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5028248587570622, \"recall\": 0.853035143769968, \"support\": 313}], \"confusion_matrix\": [[4, 18, 145], [1, 150, 119], [1, 45, 267]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 1,
+      "optimizer_steps": 28,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 48.92654045080302,
+      "mean_time_per_epoch_seconds": 71.53581609799994,
+      "training_wall_seconds_including_validation": 77.02844363399981,
+      "peak_memory_allocated_gb": 10.249743938446045,
+      "peak_memory_reserved_gb": 10.408203125,
+      "test_loss": 0.9488344407081604,
+      "test_accuracy": 0.552,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0097454060145787,
+          "validation_loss": 0.9432461199760437,
+          "validation_accuracy": 0.5546666666666666,
+          "training_seconds": 71.53581609799994,
+          "throughput_samples_per_second": 48.92654045080302
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6122448979591837,
+          "recall": 0.6666666666666666,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5131578947368421,
+          "recall": 0.7476038338658147,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          35,
+          132
+        ],
+        [
+          0,
+          180,
+          90
+        ],
+        [
+          0,
+          79,
+          234
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0097454060145787, \"validation_loss\": 0.9432461199760437, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 71.53581609799994, \"throughput_samples_per_second\": 48.92654045080302}\n{\"status\": \"success\", \"technique\": \"optimizer_8bit\", \"flags\": {\"amp\": false, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 128, \"accumulation_steps\": 1, \"effective_batch\": 128, \"epochs\": 1, \"optimizer_steps\": 28, \"samples_seen\": 3500, \"throughput_samples_per_second\": 48.92654045080302, \"mean_time_per_epoch_seconds\": 71.53581609799994, \"training_wall_seconds_including_validation\": 77.02844363399981, \"peak_memory_allocated_gb\": 10.249743938446045, \"peak_memory_reserved_gb\": 10.408203125, \"test_loss\": 0.9488344407081604, \"test_accuracy\": 0.552, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0097454060145787, \"validation_loss\": 0.9432461199760437, \"validation_accuracy\": 0.5546666666666666, \"training_seconds\": 71.53581609799994, \"throughput_samples_per_second\": 48.92654045080302}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6122448979591837, \"recall\": 0.6666666666666666, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5131578947368421, \"recall\": 0.7476038338658147, \"support\": 313}], \"confusion_matrix\": [[0, 35, 132], [0, 180, 90], [0, 79, 234]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "oom",
+      "technique": "optimizer_8bit",
+      "physical_batch": 256,
+      "error": "CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "stdout_tail": "{\"status\": \"oom\", \"technique\": \"optimizer_8bit\", \"physical_batch\": 256, \"error\": \"CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\"}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 1,
+      "optimizer_steps": 219,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 126.10630306962398,
+      "mean_time_per_epoch_seconds": 27.754362112000308,
+      "training_wall_seconds_including_validation": 33.70728533500005,
+      "peak_memory_allocated_gb": 1.6222095489501953,
+      "peak_memory_reserved_gb": 1.765625,
+      "test_loss": 0.6845657982826233,
+      "test_accuracy": 0.7186666666666667,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9113056291852678,
+          "validation_loss": 0.7019776458740234,
+          "validation_accuracy": 0.712,
+          "training_seconds": 27.754362112000308,
+          "throughput_samples_per_second": 126.10630306962398
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6179775280898876,
+          "recall": 0.6586826347305389,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7083333333333334,
+          "recall": 0.8185185185185185,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.8,
+          "recall": 0.6645367412140575,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          110,
+          33,
+          24
+        ],
+        [
+          21,
+          221,
+          28
+        ],
+        [
+          47,
+          58,
+          208
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9113056291852678, \"validation_loss\": 0.7019776458740234, \"validation_accuracy\": 0.712, \"training_seconds\": 27.754362112000308, \"throughput_samples_per_second\": 126.10630306962398}\n{\"status\": \"success\", \"technique\": \"best_combination\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 16, \"accumulation_steps\": 1, \"effective_batch\": 16, \"epochs\": 1, \"optimizer_steps\": 219, \"samples_seen\": 3500, \"throughput_samples_per_second\": 126.10630306962398, \"mean_time_per_epoch_seconds\": 27.754362112000308, \"training_wall_seconds_including_validation\": 33.70728533500005, \"peak_memory_allocated_gb\": 1.6222095489501953, \"peak_memory_reserved_gb\": 1.765625, \"test_loss\": 0.6845657982826233, \"test_accuracy\": 0.7186666666666667, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9113056291852678, \"validation_loss\": 0.7019776458740234, \"validation_accuracy\": 0.712, \"training_seconds\": 27.754362112000308, \"throughput_samples_per_second\": 126.10630306962398}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.6179775280898876, \"recall\": 0.6586826347305389, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7083333333333334, \"recall\": 0.8185185185185185, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.8, \"recall\": 0.6645367412140575, \"support\": 313}], \"confusion_matrix\": [[110, 33, 24], [21, 221, 28], [47, 58, 208]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 32,
+      "accumulation_steps": 1,
+      "effective_batch": 32,
+      "epochs": 1,
+      "optimizer_steps": 110,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 161.3048066744434,
+      "mean_time_per_epoch_seconds": 21.698051484999723,
+      "training_wall_seconds_including_validation": 27.361339769000097,
+      "peak_memory_allocated_gb": 2.3991379737854004,
+      "peak_memory_reserved_gb": 2.4765625,
+      "test_loss": 0.8226606752077739,
+      "test_accuracy": 0.64,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9624198869296483,
+          "validation_loss": 0.8116709534327189,
+          "validation_accuracy": 0.676,
+          "training_seconds": 21.698051484999723,
+          "throughput_samples_per_second": 161.3048066744434
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.4695121951219512,
+          "recall": 0.46107784431137727,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.7116104868913857,
+          "recall": 0.7037037037037037,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6677115987460815,
+          "recall": 0.6805111821086262,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          77,
+          31,
+          59
+        ],
+        [
+          33,
+          190,
+          47
+        ],
+        [
+          54,
+          46,
+          213
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9624198869296483, \"validation_loss\": 0.8116709534327189, \"validation_accuracy\": 0.676, \"training_seconds\": 21.698051484999723, \"throughput_samples_per_second\": 161.3048066744434}\n{\"status\": \"success\", \"technique\": \"best_combination\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 32, \"accumulation_steps\": 1, \"effective_batch\": 32, \"epochs\": 1, \"optimizer_steps\": 110, \"samples_seen\": 3500, \"throughput_samples_per_second\": 161.3048066744434, \"mean_time_per_epoch_seconds\": 21.698051484999723, \"training_wall_seconds_including_validation\": 27.361339769000097, \"peak_memory_allocated_gb\": 2.3991379737854004, \"peak_memory_reserved_gb\": 2.4765625, \"test_loss\": 0.8226606752077739, \"test_accuracy\": 0.64, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9624198869296483, \"validation_loss\": 0.8116709534327189, \"validation_accuracy\": 0.676, \"training_seconds\": 21.698051484999723, \"throughput_samples_per_second\": 161.3048066744434}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.4695121951219512, \"recall\": 0.46107784431137727, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.7116104868913857, \"recall\": 0.7037037037037037, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.6677115987460815, \"recall\": 0.6805111821086262, \"support\": 313}], \"confusion_matrix\": [[77, 31, 59], [33, 190, 47], [54, 46, 213]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 64,
+      "accumulation_steps": 1,
+      "effective_batch": 64,
+      "epochs": 1,
+      "optimizer_steps": 55,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 182.9278735761116,
+      "mean_time_per_epoch_seconds": 19.13322410400042,
+      "training_wall_seconds_including_validation": 24.997404418000315,
+      "peak_memory_allocated_gb": 3.9481797218322754,
+      "peak_memory_reserved_gb": 4.0234375,
+      "test_loss": 0.9312303465207418,
+      "test_accuracy": 0.5693333333333334,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9866531805310931,
+          "validation_loss": 0.9269316407839457,
+          "validation_accuracy": 0.58,
+          "training_seconds": 19.13322410400042,
+          "throughput_samples_per_second": 182.9278735761116
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6666666666666666,
+          "recall": 0.04790419161676647,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6486486486486487,
+          "recall": 0.6222222222222222,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.524008350730689,
+          "recall": 0.8019169329073482,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          8,
+          30,
+          129
+        ],
+        [
+          3,
+          168,
+          99
+        ],
+        [
+          1,
+          61,
+          251
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 0.9866531805310931, \"validation_loss\": 0.9269316407839457, \"validation_accuracy\": 0.58, \"training_seconds\": 19.13322410400042, \"throughput_samples_per_second\": 182.9278735761116}\n{\"status\": \"success\", \"technique\": \"best_combination\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 64, \"accumulation_steps\": 1, \"effective_batch\": 64, \"epochs\": 1, \"optimizer_steps\": 55, \"samples_seen\": 3500, \"throughput_samples_per_second\": 182.9278735761116, \"mean_time_per_epoch_seconds\": 19.13322410400042, \"training_wall_seconds_including_validation\": 24.997404418000315, \"peak_memory_allocated_gb\": 3.9481797218322754, \"peak_memory_reserved_gb\": 4.0234375, \"test_loss\": 0.9312303465207418, \"test_accuracy\": 0.5693333333333334, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 0.9866531805310931, \"validation_loss\": 0.9269316407839457, \"validation_accuracy\": 0.58, \"training_seconds\": 19.13322410400042, \"throughput_samples_per_second\": 182.9278735761116}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.6666666666666666, \"recall\": 0.04790419161676647, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6486486486486487, \"recall\": 0.6222222222222222, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.524008350730689, \"recall\": 0.8019169329073482, \"support\": 313}], \"confusion_matrix\": [[8, 30, 129], [3, 168, 99], [1, 61, 251]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 1,
+      "optimizer_steps": 28,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 199.46876710843745,
+      "mean_time_per_epoch_seconds": 17.546606673000042,
+      "training_wall_seconds_including_validation": 23.277343027999905,
+      "peak_memory_allocated_gb": 7.062011241912842,
+      "peak_memory_reserved_gb": 7.21484375,
+      "test_loss": 0.9483750467300415,
+      "test_accuracy": 0.5573333333333333,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.010038015978677,
+          "validation_loss": 0.9439323844909668,
+          "validation_accuracy": 0.548,
+          "training_seconds": 17.546606673000042,
+          "throughput_samples_per_second": 199.46876710843745
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6258503401360545,
+          "recall": 0.6814814814814815,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5131578947368421,
+          "recall": 0.7476038338658147,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          31,
+          136
+        ],
+        [
+          0,
+          184,
+          86
+        ],
+        [
+          0,
+          79,
+          234
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.010038015978677, \"validation_loss\": 0.9439323844909668, \"validation_accuracy\": 0.548, \"training_seconds\": 17.546606673000042, \"throughput_samples_per_second\": 199.46876710843745}\n{\"status\": \"success\", \"technique\": \"best_combination\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 128, \"accumulation_steps\": 1, \"effective_batch\": 128, \"epochs\": 1, \"optimizer_steps\": 28, \"samples_seen\": 3500, \"throughput_samples_per_second\": 199.46876710843745, \"mean_time_per_epoch_seconds\": 17.546606673000042, \"training_wall_seconds_including_validation\": 23.277343027999905, \"peak_memory_allocated_gb\": 7.062011241912842, \"peak_memory_reserved_gb\": 7.21484375, \"test_loss\": 0.9483750467300415, \"test_accuracy\": 0.5573333333333333, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.010038015978677, \"validation_loss\": 0.9439323844909668, \"validation_accuracy\": 0.548, \"training_seconds\": 17.546606673000042, \"throughput_samples_per_second\": 199.46876710843745}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.6258503401360545, \"recall\": 0.6814814814814815, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5131578947368421, \"recall\": 0.7476038338658147, \"support\": 313}], \"confusion_matrix\": [[0, 31, 136], [0, 184, 86], [0, 79, 234]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 256,
+      "accumulation_steps": 1,
+      "effective_batch": 256,
+      "epochs": 1,
+      "optimizer_steps": 14,
+      "samples_seen": 3500,
+      "throughput_samples_per_second": 204.54384969307822,
+      "mean_time_per_epoch_seconds": 17.111245365000286,
+      "training_wall_seconds_including_validation": 22.793072844000108,
+      "peak_memory_allocated_gb": 13.300415992736816,
+      "peak_memory_reserved_gb": 13.380859375,
+      "test_loss": 0.9801678625742595,
+      "test_accuracy": 0.54,
+      "best_validation_epoch": 1,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0308017575400217,
+          "validation_loss": 0.9680942802429199,
+          "validation_accuracy": 0.5426666666666666,
+          "training_seconds": 17.111245365000286,
+          "throughput_samples_per_second": 204.54384969307822
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.59,
+          "recall": 0.6555555555555556,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5066666666666667,
+          "recall": 0.7284345047923323,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          38,
+          129
+        ],
+        [
+          0,
+          177,
+          93
+        ],
+        [
+          0,
+          85,
+          228
+        ]
+      ],
+      "stdout_tail": "{\"epoch\": 1, \"training_loss\": 1.0308017575400217, \"validation_loss\": 0.9680942802429199, \"validation_accuracy\": 0.5426666666666666, \"training_seconds\": 17.111245365000286, \"throughput_samples_per_second\": 204.54384969307822}\n{\"status\": \"success\", \"technique\": \"best_combination\", \"flags\": {\"amp\": true, \"checkpointing\": false, \"optimizer8bit\": true}, \"physical_batch\": 256, \"accumulation_steps\": 1, \"effective_batch\": 256, \"epochs\": 1, \"optimizer_steps\": 14, \"samples_seen\": 3500, \"throughput_samples_per_second\": 204.54384969307822, \"mean_time_per_epoch_seconds\": 17.111245365000286, \"training_wall_seconds_including_validation\": 22.793072844000108, \"peak_memory_allocated_gb\": 13.300415992736816, \"peak_memory_reserved_gb\": 13.380859375, \"test_loss\": 0.9801678625742595, \"test_accuracy\": 0.54, \"best_validation_epoch\": 1, \"epoch_metrics\": [{\"epoch\": 1, \"training_loss\": 1.0308017575400217, \"validation_loss\": 0.9680942802429199, \"validation_accuracy\": 0.5426666666666666, \"training_seconds\": 17.111245365000286, \"throughput_samples_per_second\": 204.54384969307822}], \"per_class\": [{\"class_id\": 0, \"class_label\": \"-1.0\", \"precision\": 0.0, \"recall\": 0.0, \"support\": 167}, {\"class_id\": 1, \"class_label\": \"0.0\", \"precision\": 0.59, \"recall\": 0.6555555555555556, \"support\": 270}, {\"class_id\": 2, \"class_label\": \"1.0\", \"precision\": 0.5066666666666667, \"recall\": 0.7284345047923323, \"support\": 313}], \"confusion_matrix\": [[0, 38, 129], [0, 177, 93], [0, 85, 228]]}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    },
+    {
+      "status": "oom",
+      "technique": "best_combination",
+      "physical_batch": 512,
+      "error": "CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 139.81 MiB is free. Including non-PyTorch memory, this process has 14.42 GiB memory in use. Of the allocated memory 14.28 GiB is allocated by PyTorch, and 13.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "stdout_tail": "{\"status\": \"oom\", \"technique\": \"best_combination\", \"physical_batch\": 512, \"error\": \"CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 139.81 MiB is free. Including non-PyTorch memory, this process has 14.42 GiB memory in use. Of the allocated memory 14.28 GiB is allocated by PyTorch, and 13.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\"}\n",
+      "stderr_tail": "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']\nYou should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.\n"
+    }
+  ],
+  "maximum_batches": {
+    "baseline": 128,
+    "mixed_precision": 256,
+    "gradient_checkpointing": 512,
+    "optimizer_8bit": 128,
+    "best_combination": 256
+  },
+  "full_runs": {
+    "baseline": {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 3,
+      "optimizer_steps": 84,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 49.60486996573513,
+      "mean_time_per_epoch_seconds": 70.5596146266668,
+      "training_wall_seconds_including_validation": 228.44712726299986,
+      "peak_memory_allocated_gb": 10.865760803222656,
+      "peak_memory_reserved_gb": 11.046875,
+      "test_loss": 0.7740846529006958,
+      "test_accuracy": 0.68,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0097572840281894,
+          "validation_loss": 0.943273190498352,
+          "validation_accuracy": 0.5546666666666666,
+          "training_seconds": 71.04229408400033,
+          "throughput_samples_per_second": 49.26642706472293
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.8631806400844029,
+          "validation_loss": 0.8423684708277385,
+          "validation_accuracy": 0.6466666666666666,
+          "training_seconds": 70.51802540400013,
+          "throughput_samples_per_second": 49.63270000752833
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.6865538611412049,
+          "validation_loss": 0.7696202098528544,
+          "validation_accuracy": 0.6866666666666666,
+          "training_seconds": 70.11852439199993,
+          "throughput_samples_per_second": 49.91548282495414
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5460122699386503,
+          "recall": 0.5329341317365269,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8203883495145631,
+          "recall": 0.6259259259259259,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6614173228346457,
+          "recall": 0.805111821086262,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          89,
+          15,
+          63
+        ],
+        [
+          35,
+          169,
+          66
+        ],
+        [
+          39,
+          22,
+          252
+        ]
+      ],
+      "worst_class_id": 0,
+      "worst_class_label": "-1.0",
+      "five_worst_class_mistakes": [
+        {
+          "source_row": 2008,
+          "text": "\u2018chowkidaar mentality hai\u2019 the insinuation that narendra modi has the crookcheap mentality regular chowkidaar respect for ordinary hardworking indians ",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 4206,
+          "text": "already have one his name narendra damodardas modi common man who came power with hard work alone india stands his side",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 4772,
+          "text": "\nleaving aside all the hate against dynastic politics think this must have step for uplifting people living brink just want congress government for this one thing\nhope modi comes with such yojna would love seeing someone getting 6kmonth ",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 1667,
+          "text": "ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 5542,
+          "text": "game changer modi era finished",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        }
+      ]
+    },
+    "mixed_precision": {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 256,
+      "accumulation_steps": 1,
+      "effective_batch": 256,
+      "epochs": 3,
+      "optimizer_steps": 42,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 208.00551268014655,
+      "mean_time_per_epoch_seconds": 16.82654141866654,
+      "training_wall_seconds_including_validation": 67.08602241500012,
+      "peak_memory_allocated_gb": 13.917443752288818,
+      "peak_memory_reserved_gb": 14.173828125,
+      "test_loss": 0.8520230081876119,
+      "test_accuracy": 0.608,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.030805037498474,
+          "validation_loss": 0.9680729722976684,
+          "validation_accuracy": 0.5426666666666666,
+          "training_seconds": 16.78014446799989,
+          "throughput_samples_per_second": 208.57984903971348
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.928497141293117,
+          "validation_loss": 0.9172899001439413,
+          "validation_accuracy": 0.5653333333333334,
+          "training_seconds": 16.852223540999603,
+          "throughput_samples_per_second": 207.68772687383867
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.8282787045751299,
+          "validation_loss": 0.8601173669497172,
+          "validation_accuracy": 0.6186666666666667,
+          "training_seconds": 16.847256247000132,
+          "throughput_samples_per_second": 207.74896212688753
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.46218487394957986,
+          "recall": 0.32934131736526945,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6689419795221843,
+          "recall": 0.725925925925926,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.606508875739645,
+          "recall": 0.6549520766773163,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          55,
+          32,
+          80
+        ],
+        [
+          21,
+          196,
+          53
+        ],
+        [
+          43,
+          65,
+          205
+        ]
+      ]
+    },
+    "gradient_checkpointing": {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 512,
+      "accumulation_steps": 1,
+      "effective_batch": 512,
+      "epochs": 3,
+      "optimizer_steps": 21,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 37.073563276377904,
+      "mean_time_per_epoch_seconds": 94.40707492866643,
+      "training_wall_seconds_including_validation": 299.6631287649998,
+      "peak_memory_allocated_gb": 7.572673797607422,
+      "peak_memory_reserved_gb": 8.294921875,
+      "test_loss": 0.9274133238792419,
+      "test_accuracy": 0.5626666666666666,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0536154315131052,
+          "validation_loss": 0.9975050880114238,
+          "validation_accuracy": 0.5373333333333333,
+          "training_seconds": 94.22291024999959,
+          "throughput_samples_per_second": 37.14595516858402
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.9716988578523909,
+          "validation_loss": 0.962130433400472,
+          "validation_accuracy": 0.5573333333333333,
+          "training_seconds": 94.49856750399977,
+          "throughput_samples_per_second": 37.03759847843046
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.9162086610794067,
+          "validation_loss": 0.9226926587422689,
+          "validation_accuracy": 0.5706666666666667,
+          "training_seconds": 94.49974703199996,
+          "throughput_samples_per_second": 37.03713618211923
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6505576208178439,
+          "recall": 0.6481481481481481,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.5135135135135135,
+          "recall": 0.7891373801916933,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          28,
+          139
+        ],
+        [
+          0,
+          175,
+          95
+        ],
+        [
+          0,
+          66,
+          247
+        ]
+      ]
+    },
+    "optimizer_8bit": {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 128,
+      "accumulation_steps": 1,
+      "effective_batch": 128,
+      "epochs": 3,
+      "optimizer_steps": 84,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 49.62845501010517,
+      "mean_time_per_epoch_seconds": 70.52408500699978,
+      "training_wall_seconds_including_validation": 228.42031252200013,
+      "peak_memory_allocated_gb": 10.248157024383545,
+      "peak_memory_reserved_gb": 10.373046875,
+      "test_loss": 0.7747204012870789,
+      "test_accuracy": 0.68,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0097454060145787,
+          "validation_loss": 0.9432461199760437,
+          "validation_accuracy": 0.5546666666666666,
+          "training_seconds": 70.48037439499967,
+          "throughput_samples_per_second": 49.659214072624344
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.8631915977341789,
+          "validation_loss": 0.8422274128595988,
+          "validation_accuracy": 0.6466666666666666,
+          "training_seconds": 70.50709015199982,
+          "throughput_samples_per_second": 49.64039775935539
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.6864394769668579,
+          "validation_loss": 0.7702798137664795,
+          "validation_accuracy": 0.6866666666666666,
+          "training_seconds": 70.58479047399987,
+          "throughput_samples_per_second": 49.58575319833578
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.5460122699386503,
+          "recall": 0.5329341317365269,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8203883495145631,
+          "recall": 0.6259259259259259,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6614173228346457,
+          "recall": 0.805111821086262,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          89,
+          15,
+          63
+        ],
+        [
+          35,
+          169,
+          66
+        ],
+        [
+          39,
+          22,
+          252
+        ]
+      ]
+    },
+    "best_combination": {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 256,
+      "accumulation_steps": 1,
+      "effective_batch": 256,
+      "epochs": 3,
+      "optimizer_steps": 42,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 207.3258996282169,
+      "mean_time_per_epoch_seconds": 16.882511128999948,
+      "training_wall_seconds_including_validation": 67.09665919700001,
+      "peak_memory_allocated_gb": 13.301880836486816,
+      "peak_memory_reserved_gb": 14.138671875,
+      "test_loss": 0.8520017236073811,
+      "test_accuracy": 0.6066666666666667,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0308017575400217,
+          "validation_loss": 0.9680942802429199,
+          "validation_accuracy": 0.5426666666666666,
+          "training_seconds": 16.712599390999912,
+          "throughput_samples_per_second": 209.42283830992946
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.9284944184167044,
+          "validation_loss": 0.9172889486948649,
+          "validation_accuracy": 0.5653333333333334,
+          "training_seconds": 16.988719093999862,
+          "throughput_samples_per_second": 206.01906362888434
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.8283933099337987,
+          "validation_loss": 0.8602254624366761,
+          "validation_accuracy": 0.62,
+          "training_seconds": 16.946214902000065,
+          "throughput_samples_per_second": 206.53579694583686
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.46218487394957986,
+          "recall": 0.32934131736526945,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.6666666666666666,
+          "recall": 0.725925925925926,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6053412462908012,
+          "recall": 0.6517571884984026,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          55,
+          32,
+          80
+        ],
+        [
+          21,
+          196,
+          53
+        ],
+        [
+          43,
+          66,
+          204
+        ]
+      ]
+    },
+    "gradient_accumulation": {
+      "status": "success",
+      "technique": "gradient_accumulation",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "accumulation_steps": 8,
+      "effective_batch": 128,
+      "epochs": 3,
+      "optimizer_steps": 84,
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 48.28184954795191,
+      "mean_time_per_epoch_seconds": 72.49109889966667,
+      "training_wall_seconds_including_validation": 234.41336173199988,
+      "peak_memory_allocated_gb": 2.886539936065674,
+      "peak_memory_reserved_gb": 3.28515625,
+      "test_loss": 0.7984976903597514,
+      "test_accuracy": 0.664,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 1.0079912191118512,
+          "validation_loss": 0.9425179917017619,
+          "validation_accuracy": 0.556,
+          "training_seconds": 72.58983522699964,
+          "throughput_samples_per_second": 48.21611716096281
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.8624127771513803,
+          "validation_loss": 0.8404579819043477,
+          "validation_accuracy": 0.62,
+          "training_seconds": 72.4911419670002,
+          "throughput_samples_per_second": 48.281761123218175
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.6805051567895072,
+          "validation_loss": 0.7732831548055012,
+          "validation_accuracy": 0.6693333333333333,
+          "training_seconds": 72.39231950500016,
+          "throughput_samples_per_second": 48.347670359674744
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.55,
+          "recall": 0.46107784431137727,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8229166666666666,
+          "recall": 0.5851851851851851,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.6291866028708134,
+          "recall": 0.8402555910543131,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          77,
+          15,
+          75
+        ],
+        [
+          32,
+          158,
+          80
+        ],
+        [
+          31,
+          19,
+          263
+        ]
+      ]
+    }
+  }
+}

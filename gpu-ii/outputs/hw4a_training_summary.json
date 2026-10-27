@@ -1,0 +1,210 @@
+{
+  "personal_parameters": {
+    "SID4": 8834,
+    "SEED": 8834,
+    "SLICE": 834,
+    "HP_ID": 2,
+    "CLS_A": 4,
+    "CLS_B": 6
+  },
+  "settings": {
+    "data_path": "Twitter_Data.csv",
+    "text_column": "clean_text",
+    "label_column": "category",
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "start_row": 834,
+    "row_limit": 5000,
+    "seed": 8834,
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "original_batch": 16,
+    "max_probe_batch": 4096,
+    "num_workers": 0
+  },
+  "gpu": {
+    "name": "Tesla T4",
+    "uuid": "GPU-d3085845-9dcd-3867-c44d-22ef57457cde",
+    "memory_total_mib": 15360,
+    "memory_total_gb": 15.0,
+    "driver_version": "580.82.07",
+    "torch_cuda": "12.8",
+    "compute_capability": "7.5"
+  },
+  "dataset_manifest": {
+    "dataset_name": "Twitter_Data.csv",
+    "preparation_settings": {
+      "model_name": "bert-base-uncased",
+      "max_length": 128,
+      "start_row": 834,
+      "row_limit": 5000,
+      "seed": 8834,
+      "text_column": "clean_text",
+      "label_column": "category"
+    },
+    "source_path": "/content/gpu-ii/Twitter_Data.csv",
+    "source_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
+    "raw_dataset_rows": 162980,
+    "requested_row_range_zero_based": [
+      834,
+      5833
+    ],
+    "requested_row_range_python": "[834:5834)",
+    "selected_rows_before_cleaning": 5000,
+    "excluded_source_rows_with_missing_text_or_label": [],
+    "usable_rows": 5000,
+    "split_sizes": {
+      "train": 3500,
+      "validation": 750,
+      "test": 750
+    },
+    "split_ratio": "70/15/15",
+    "seed": 8834,
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "text_column": "clean_text",
+    "label_column": "category",
+    "label_to_id": {
+      "-1.0": 0,
+      "0.0": 1,
+      "1.0": 2
+    }
+  },
+  "training": {
+    "status": "success",
+    "technique": "baseline",
+    "flags": {
+      "amp": false,
+      "checkpointing": false,
+      "optimizer8bit": false
+    },
+    "physical_batch": 16,
+    "accumulation_steps": 1,
+    "effective_batch": 16,
+    "epochs": 3,
+    "optimizer_steps": 657,
+    "samples_seen": 10500,
+    "throughput_samples_per_second": 46.11563124201981,
+    "mean_time_per_epoch_seconds": 75.9443733076667,
+    "training_wall_seconds_including_validation": 244.92726297699994,
+    "peak_memory_allocated_gb": 2.4668984413146973,
+    "peak_memory_reserved_gb": 2.89453125,
+    "test_loss": 0.47083095359802246,
+    "test_accuracy": 0.836,
+    "best_validation_epoch": 3,
+    "epoch_metrics": [
+      {
+        "epoch": 1,
+        "training_loss": 0.9082491632870265,
+        "validation_loss": 0.685140488465627,
+        "validation_accuracy": 0.716,
+        "training_seconds": 73.26271833300001,
+        "throughput_samples_per_second": 47.77327513417532
+      },
+      {
+        "epoch": 2,
+        "training_loss": 0.5243684139251709,
+        "validation_loss": 0.5201754274368287,
+        "validation_accuracy": 0.808,
+        "training_seconds": 77.30118977500001,
+        "throughput_samples_per_second": 45.277440233292964
+      },
+      {
+        "epoch": 3,
+        "training_loss": 0.2898897445627621,
+        "validation_loss": 0.5093885161876679,
+        "validation_accuracy": 0.824,
+        "training_seconds": 77.26921181500006,
+        "throughput_samples_per_second": 45.296178358591135
+      }
+    ],
+    "per_class": [
+      {
+        "class_id": 0,
+        "class_label": "-1.0",
+        "precision": 0.7150837988826816,
+        "recall": 0.7664670658682635,
+        "support": 167
+      },
+      {
+        "class_id": 1,
+        "class_label": "0.0",
+        "precision": 0.8293515358361775,
+        "recall": 0.9,
+        "support": 270
+      },
+      {
+        "class_id": 2,
+        "class_label": "1.0",
+        "precision": 0.920863309352518,
+        "recall": 0.8178913738019169,
+        "support": 313
+      }
+    ],
+    "confusion_matrix": [
+      [
+        128,
+        24,
+        15
+      ],
+      [
+        20,
+        243,
+        7
+      ],
+      [
+        31,
+        26,
+        256
+      ]
+    ],
+    "worst_class_id": 0,
+    "worst_class_label": "-1.0",
+    "five_worst_class_mistakes": [
+      {
+        "source_row": 1667,
+        "text": "ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india",
+        "true_class": "-1.0",
+        "predicted_class": "1.0"
+      },
+      {
+        "source_row": 3127,
+        "text": "from rahul gandhis fake promise today\nfrom where will bring money this much money india than according him modi government failure and chowkidar chor\nthan more than this money was india before five years\nthan why not thought this ",
+        "true_class": "-1.0",
+        "predicted_class": "1.0"
+      },
+      {
+        "source_row": 4326,
+        "text": "talk about looting hypocrite modi took white money converted black gave trolls everone knows who else",
+        "true_class": "-1.0",
+        "predicted_class": "0.0"
+      },
+      {
+        "source_row": 5127,
+        "text": "took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time",
+        "true_class": "-1.0",
+        "predicted_class": "0.0"
+      },
+      {
+        "source_row": 4162,
+        "text": "bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi",
+        "true_class": "-1.0",
+        "predicted_class": "1.0"
+      }
+    ]
+  },
+  "saved_model": "/content/gpu-ii/checkpoints/hw4a_bert_classifier",
+  "reloaded_custom_inference": [
+    {
+      "text": "The movie was thoughtful, funny, and much better than I expected.",
+      "predicted_class": "1.0",
+      "confidence": 0.9576493501663208
+    },
+    {
+      "text": "The story dragged for hours and the ending was disappointing.",
+      "predicted_class": "-1.0",
+      "confidence": 0.9301429986953735
+    }
+  ]
+}

@@ -33,37 +33,44 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def diagnose(text: str) -> str:
-    lowered = text.lower()
-    if len(text.split()) < 6:
-        return "The tweet is very short, so it gives the classifier little context."
-    if any(token in lowered for token in ("but", "although", "however", "yet")):
-        return "The tweet mixes contrasting cues, and the model appears to follow the wrong clause."
-    if any(token in lowered for token in ("not", "never", "no ")):
-        return "Negation changes the polarity and was probably attached to the wrong phrase."
-    if any(token in text for token in ("!", "?", "😂", "😭", ":)", ":(")):
-        return "Informal punctuation or an emoji makes the intended tone harder to read literally."
-    return "The wording is ambiguous without conversational context, so the predicted class is plausible but wrong."
+REVIEWED_DIAGNOSES = {
+    1667: "The text explicitly praises Modi and his leadership, so the positive prediction fits the visible wording; the negative dataset label may be noisy, although the missing original context prevents certainty.",
+    3127: "The tweet mixes criticism of a fake promise with a rhetorical comparison between political leaders; the positive prediction misses the critical tone, but the text alone does not establish which phrase drove it.",
+    4326: "Words such as looting, hypocrite, and trolls convey criticism; the neutral prediction misses these negative cues in the informal wording.",
+    5127: "The writer mocks the other person with appearing monkey and wasted that time; treating this as neutral loses the criticism expressed through the rhetorical question.",
+    4162: "The tweet attacks Congress but ends by supporting Modi, so it contains different sentiments toward different targets; the positive output may follow the ending rather than the overall negative label.",
+    2008: "The phrase crookcheap mentality is an insult, while respect for ordinary hardworking Indians is positive wording; the positive prediction may over-weight that praise and miss the insult.",
+    4206: "The visible text praises a leader rising through hard work and says India stands by him; the positive prediction is reasonable from this wording, so the negative label may be noisy or depend on missing context.",
+    4772: "The tweet mentions hate but also praises a welfare proposal and expresses hope and support; the mixed wording makes a single sentiment label difficult, and the positive output agrees with several explicit cues.",
+    5542: "Modi era finished expresses a negative judgment in a short tweet; the phrase game changer may have supplied a competing positive cue, although this is only a possible explanation.",
+}
+
+
+def diagnose(text: str, source_row: Any = None) -> str:
+    """Use reviewed examples, not keyword rules pretending to explain a model."""
+    if source_row is not None and int(source_row) in REVIEWED_DIAGNOSES:
+        return REVIEWED_DIAGNOSES[int(source_row)]
+    return "This example needs individual review; the model's internal reason cannot be inferred from its predicted label alone."
 
 
 def technique_table(training: dict[str, Any]) -> list[str]:
     runs = training["full_runs"]
     labels = [
-        ("baseline", "Baseline (HW4 settings)"),
+        ("baseline", "HW4.5 FP32 baseline at maximum batch"),
         ("mixed_precision", "Mixed precision"),
         ("gradient_checkpointing", "Gradient checkpointing"),
         ("gradient_accumulation", "Gradient accumulation"),
         ("optimizer_8bit", "8-bit optimizer"),
-        ("best_combination", "Best combination: AMP + 8-bit optimizer"),
+        ("best_combination", "Combined candidate: AMP + 8-bit optimizer"),
     ]
     lines = [
-        "| Technique | Max/effective batch | Throughput (samples/s) | Peak memory (GB) | Eval accuracy |",
-        "|---|---:|---:|---:|---:|",
+        "| Technique | Physical / effective batch | Optimizer updates | Throughput (samples/s) | Peak memory (GB) | Test accuracy |",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for key, label in labels:
         row = runs[key]
         lines.append(
-            f"| {label} | {row['effective_batch']} | {fmt(row['throughput_samples_per_second'])} | "
+            f"| {label} | {row['physical_batch']} / {row['effective_batch']} | {row['optimizer_steps']} | {fmt(row['throughput_samples_per_second'])} | "
             f"{fmt(row['peak_memory_allocated_gb'])} | {fmt(100 * row['test_accuracy'])}% |"
         )
     return lines
@@ -73,17 +80,27 @@ def ranking_table(training: dict[str, Any]) -> tuple[list[str], list[dict[str, A
     original_batch = training["settings"]["original_batch"]
     scaling = pd.DataFrame(training["batch_scaling"])
     scaling = scaling[(scaling["status"] == "success") & (scaling["physical_batch"] == original_batch)]
-    base = scaling[scaling["technique"] == "baseline"].iloc[0]
+    common_base = scaling[scaling["technique"] == "baseline"].iloc[0]
     rows = []
-    for _, row in scaling.iterrows():
-        if row["technique"] == "baseline":
-            continue
+    for technique in ("mixed_precision", "gradient_checkpointing", "optimizer_8bit", "gradient_accumulation"):
+        if technique == "gradient_accumulation":
+            base = training["full_runs"]["baseline"]
+            row = training["full_runs"][technique]
+            assert base["effective_batch"] == row["effective_batch"]
+            reference = f"effective batch {row['effective_batch']}, {row['epochs']} epochs"
+        else:
+            base = common_base
+            row = scaling[scaling["technique"] == technique].iloc[0]
+            reference = f"physical batch {original_batch}, {int(row['epochs'])} epoch"
+        assert base["optimizer_steps"] == row["optimizer_steps"]
+        assert base["samples_seen"] == row["samples_seen"]
         saved = float(base["peak_memory_allocated_gb"] - row["peak_memory_allocated_gb"])
         lost = float(base["throughput_samples_per_second"] - row["throughput_samples_per_second"])
-        score = float("inf") if lost <= 0 and saved > 0 else saved / max(lost, 1e-9)
+        score = float("inf") if lost <= 0 and saved > 0 else (saved / lost if lost > 0 else float("-inf"))
         rows.append(
             {
-                "technique": row["technique"],
+                "technique": technique,
+                "reference": reference,
                 "memory_saved_gb": saved,
                 "throughput_change": -lost,
                 "memory_saved_per_throughput_lost": score,
@@ -91,13 +108,13 @@ def ranking_table(training: dict[str, Any]) -> tuple[list[str], list[dict[str, A
         )
     rows.sort(key=lambda item: item["memory_saved_per_throughput_lost"], reverse=True)
     lines = [
-        "| Rank | Technique | Memory saved at common batch (GB) | Throughput change (samples/s) | Memory saved per throughput lost |",
-        "|---:|---|---:|---:|---:|",
+        "| Rank within these controls | Technique | Matched FP32 reference | Memory saved (GB) | Throughput change (samples/s) | GB saved per sample/s lost |",
+        "|---:|---|---|---:|---:|---:|",
     ]
     for rank, row in enumerate(rows, start=1):
-        score = "no throughput loss" if math.isinf(row["memory_saved_per_throughput_lost"]) else fmt(row["memory_saved_per_throughput_lost"], 4)
+        score = "no throughput loss" if row["memory_saved_per_throughput_lost"] == float("inf") else ("no memory saving" if row["memory_saved_per_throughput_lost"] == float("-inf") else fmt(row["memory_saved_per_throughput_lost"], 4))
         lines.append(
-            f"| {rank} | {row['technique']} | {fmt(row['memory_saved_gb'])} | "
+            f"| {rank} | {row['technique']} | {row['reference']} | {fmt(row['memory_saved_gb'])} | "
             f"{fmt(row['throughput_change'])} | {score} |"
         )
     return lines, rows
@@ -207,11 +224,33 @@ def render() -> None:
         "",
         *technique_table(training),
         "",
+        "These are three-epoch runs at different batch sizes, not a controlled test of accuracy effects. A larger batch processes the same examples with fewer optimizer updates. The table therefore describes the measured speed, memory, and quality trade-off of each complete configuration; it cannot show that a technique alone caused an accuracy change.",
+        "",
+        f"The original HW4.a run used batch {prior.get('batch_size', 'not recorded')} and reached {fmt(100 * prior['test_accuracy'])}% test accuracy." if prior.get("test_accuracy") is not None else "The original HW4.a accuracy is not available for comparison.",
+        "",
+        "### Controlled one-epoch evidence",
+        "",
+        "The following probes used the same physical and effective batch, examples, epoch count, and optimizer-update budget. They are separate one-epoch measurements, not the three-epoch maximum-batch runs above.",
+        "",
+        "| Technique | Physical batch | Optimizer updates | Throughput (samples/s) | Peak memory (GB) | Test accuracy |",
+        "|---|---:|---:|---:|---:|---:|",
+        *[
+            f"| {row['technique']} | {int(row['physical_batch'])} | {int(row['optimizer_steps'])} | {fmt(row['throughput_samples_per_second'])} | {fmt(row['peak_memory_allocated_gb'])} | {fmt(100 * row['test_accuracy'])}% |"
+            for _, row in scaling[
+                (scaling["status"] == "success")
+                & (scaling["physical_batch"] == training['settings']['original_batch'])
+                & scaling["technique"].isin(["baseline", "mixed_precision", "gradient_checkpointing", "optimizer_8bit"])
+            ].iterrows()
+        ],
+        "",
         f"At the common physical batch, gradient checkpointing changed throughput by **{checkpoint_change:+.1f}%**. That slowdown is expected because checkpointed activations are recomputed during backpropagation. Gradient accumulation used physical batch {runs['gradient_accumulation']['physical_batch']} × {runs['gradient_accumulation']['accumulation_steps']} steps = effective batch {runs['gradient_accumulation']['effective_batch']}; its wall time for {runs['gradient_accumulation']['optimizer_steps']} optimizer steps was {fmt(runs['gradient_accumulation']['training_wall_seconds_including_validation'])} seconds.",
+        f"For accumulation, the matched direct-batch baseline used effective batch {baseline['effective_batch']}, {baseline['optimizer_steps']} optimizer updates, and {baseline['samples_seen']} examples across {baseline['epochs']} epochs. Its wall time was {fmt(baseline['training_wall_seconds_including_validation'])} seconds, compared with {fmt(runs['gradient_accumulation']['training_wall_seconds_including_validation'])} seconds for accumulation. Accumulation lowers the physical batch without claiming identical predictions: dropout and floating-point reduction order can still differ.",
         "",
         "### Memory saved per unit of throughput lost",
         "",
         *rank_lines,
+        "",
+        "The ranking includes all four independent techniques and excludes the combined candidate. AMP, checkpointing, and the 8-bit optimizer use the one-epoch common-physical-batch control. Accumulation uses the three-epoch matched-effective-batch control described above. This is a descriptive ranking against the stated references, not a universal ranking across identical workloads. Positive throughput change means faster; a speedup with memory savings has no finite memory-per-throughput-loss ratio. These short single-run differences include timing noise.",
         "",
         "I would apply mixed precision first because the 4090 has fast tensor cores and AMP normally improves both memory use and speed. I would add the 8-bit optimizer when optimizer state is the limiting memory. On a 32 GB card I would not use checkpointing for this BERT run unless a required batch still failed to fit, because its recomputation cost is measurable.",
         "",
@@ -236,6 +275,9 @@ def render() -> None:
             describe_latency_tradeoff(serving_rows),
             "",
             f"The measured longest successful context at batch 8 was **{serving['vllm']['longest_context_batch_8']} tokens per request**. `outputs/kv_cache_context.csv` gives both the active KV-cache requirement and the GPU memory reported around each request. The active-cache calculation uses the model's actual layer, KV-head, head-dimension, and FP16 byte counts. vLLM reserves a cache pool when its engine starts, so total process memory can stay nearly flat while the amount of that pool occupied by active tokens grows.",
+            f"The configured model context limit was {serving['vllm']['model_max_length']} tokens, including the generated token. "
+            + ("Every tested length succeeded, so no GPU-memory exhaustion boundary was observed. The largest successful prompt is a tested lower bound on supported prompt length, not a measured memory wall. Extending past the configured model limit would test a different configuration. " if all(row['status'] == 'success' for row in serving['vllm']['context_results']) else "The context table distinguishes successful lengths from failed attempts; a failed request alone does not prove GPU-memory exhaustion unless its recorded error says so. ")
+            + "The KV-cache column is calculated active storage, not an isolated measurement of live KV tensors. The measured GPU-used column also includes the reserved pool, model weights, and workspaces.",
             "",
             "| Batch | Context length | Calculated active KV cache (GB) | Measured GPU used after request (GB) | Result |",
             "|---:|---:|---:|---:|---|",
@@ -255,9 +297,11 @@ def render() -> None:
             baseline["training_wall_seconds_including_validation"] / prior["training_wall_seconds"] - 1
         )
         comparison = (
-            f"Compared with my recorded HW4.a training time, this RTX 4090 baseline changed by {training_change:+.1f}%. "
-            "The exact earlier serving values remain in `hw4a_baseline.json`; differences are attributable to the "
-            "4090 hardware, FP16 serving precision, and the closed-batch latency definition documented above."
+            f"Compared with my recorded HW4.a training time, the HW4.5 maximum-batch baseline changed by {training_change:+.1f}%. "
+            f"However, the batch changed from {prior['batch_size']} to {baseline['physical_batch']}, so this is not a hardware-only speed comparison. "
+            "Both serving stages used the same recorded GPU, FP16 precision, and closed-batch latency definition. "
+            "The small serving differences do not establish a hardware improvement; timing variability may contribute. "
+            "The exact earlier values remain in `hw4a_baseline.json`."
         )
         prior_keys = ["hf_batch_1", "vllm_batch_1", "vllm_batch_8", "vllm_batch_32"]
         comparison_table = [
@@ -289,9 +333,11 @@ def render() -> None:
             "" if comparison_table else "",
             "## Part E: recommendation and GPU-hours",
             "",
-            f"The measured best combination was AMP plus the 8-bit optimizer: peak allocated memory {fmt(best['peak_memory_allocated_gb'])} GB, throughput {fmt(best['throughput_samples_per_second'])} samples/s, and measured training wall time {fmt(best['training_wall_seconds_including_validation'])} seconds. One full fine-tune therefore used **{fmt(best['training_wall_seconds_including_validation'] / 3600, 4)} GPU-hours**: one GPU × {fmt(best['training_wall_seconds_including_validation'])} seconds ÷ 3600.",
+            f"The tested combined candidate was AMP plus the 8-bit optimizer: peak allocated memory {fmt(best['peak_memory_allocated_gb'])} GB, throughput {fmt(best['throughput_samples_per_second'])} samples/s, and measured training wall time {fmt(best['training_wall_seconds_including_validation'])} seconds. This three-epoch run used **{fmt(best['training_wall_seconds_including_validation'] / 3600, 4)} GPU-hours**: one GPU × {fmt(best['training_wall_seconds_including_validation'])} seconds ÷ 3600. This is not the GPU cost of the whole benchmark suite.",
             "",
-            "I would use AMP plus the 8-bit optimizer for a full RTX 4090 fine-tune. It preserves the direct training computation, avoids checkpoint recomputation, and gave the best practical speed/memory balance in these measurements.",
+            f"The combined candidate reached {fmt(100 * best['test_accuracy'])}% test accuracy; AMP alone reached {fmt(100 * runs['mixed_precision']['test_accuracy'])}% at {fmt(runs['mixed_precision']['throughput_samples_per_second'])} samples/s. The combination used {fmt(runs['mixed_precision']['peak_memory_allocated_gb'] - best['peak_memory_allocated_gb'])} GB less peak memory than AMP alone at the same batch, but was not the fastest or most accurate configuration. The original HW4.a configuration achieved {fmt(100 * prior['test_accuracy'])}% test accuracy." if prior.get("test_accuracy") is not None else "The combined candidate is a speed/memory option, not a demonstrated accuracy winner.",
+            "",
+            "For accuracy in these measured runs, I would keep the original HW4.a configuration. If memory and speed matter more, I would test AMP at that same batch and optimizer-update budget before replacing it. AMP plus the 8-bit optimizer is useful when the additional measured memory saving matters, but the current maximum-batch run does not preserve the original accuracy. This recommendation uses validation for future configuration selection; the reported test results are descriptive, not a reason to tune repeatedly on the test set.",
             "",
             "## Baseline class behavior",
             "",
@@ -330,7 +376,7 @@ def render() -> None:
         clean_text = " ".join(str(row["text"]).split()).replace("|", "\\|")
         lines.append(
             f"| {row['source_row']} | {row['true_class']} | {row['predicted_class']} | "
-            f"{clean_text} | {diagnose(clean_text)} |"
+            f"{clean_text} | {diagnose(clean_text, row['source_row'])} |"
         )
     lines.extend(
         [
@@ -339,7 +385,7 @@ def render() -> None:
             "",
             "## HW4.5 summary",
             "",
-            f"Best peak-memory / throughput / wall-clock configuration: **AMP + 8-bit optimizer** — {fmt(best['peak_memory_allocated_gb'])} GB peak allocated, {fmt(best['throughput_samples_per_second'])} samples/s, {fmt(best['training_wall_seconds_including_validation'])} seconds. This is the HW4.5 summary and is not an HW5 baseline.",
+            f"Combined speed/memory candidate: **AMP + 8-bit optimizer** — {fmt(best['peak_memory_allocated_gb'])} GB peak allocated, {fmt(best['throughput_samples_per_second'])} samples/s, {fmt(best['training_wall_seconds_including_validation'])} seconds, {fmt(100 * best['test_accuracy'])}% test accuracy. It is not an overall winner because the original HW4.a configuration had higher accuracy. This is the HW4.5 summary and is not an HW5 baseline.",
         ]
     )
     (ROOT / "METRICS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -347,7 +393,7 @@ def render() -> None:
     mistakes_path = OUTPUT_DIR / "baseline_misclassified_examples.csv"
     if mistakes_path.exists():
         mistakes = pd.read_csv(mistakes_path)
-        mistakes["diagnosis"] = mistakes["text"].fillna("").map(diagnose)
+        mistakes["diagnosis"] = mistakes.apply(lambda row: diagnose(str(row['text']), row['source_row']), axis=1)
         mistakes.to_csv(mistakes_path, index=False)
 
     gpu_hours = best["training_wall_seconds_including_validation"] / 3600

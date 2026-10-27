@@ -1,11 +1,38 @@
 {
-  "note": "This template is populated automatically by finalize_hw4a.py after the RTX 4090 HW4.a run.",
-  "training_wall_seconds": null,
-  "peak_gpu_memory_gb": null,
+  "dataset_name": "Twitter_Data.csv",
+  "dataset_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
+  "row_range_zero_based": [
+    834,
+    5833
+  ],
+  "split_ratio": "70/15/15",
+  "seed": 8834,
+  "model_name": "bert-base-uncased",
+  "batch_size": 16,
+  "epochs": 3,
+  "training_wall_seconds": 244.92726297699994,
+  "peak_gpu_memory_gb": 2.4668984413146973,
+  "test_accuracy": 0.836,
   "serving": {
-    "hf_batch_1": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
-    "vllm_batch_1": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
-    "vllm_batch_8": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null},
-    "vllm_batch_32": {"tokens_per_second": null, "p50_latency_ms": null, "p95_latency_ms": null}
+    "hf_batch_1": {
+      "tokens_per_second": 28.531938141257466,
+      "p50_latency_ms": 2114.1480044999525,
+      "p95_latency_ms": 2823.255806699961
+    },
+    "vllm_batch_1": {
+      "tokens_per_second": 66.0790430072379,
+      "p50_latency_ms": 949.9240850000206,
+      "p95_latency_ms": 1037.747558599989
+    },
+    "vllm_batch_8": {
+      "tokens_per_second": 478.1097560260488,
+      "p50_latency_ms": 1066.1401870000873,
+      "p95_latency_ms": 1107.2221040000159
+    },
+    "vllm_batch_32": {
+      "tokens_per_second": 1631.8051040570626,
+      "p50_latency_ms": 1249.704553000015,
+      "p95_latency_ms": 1270.2056719999746
+    }
   }
 }

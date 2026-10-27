@@ -1,0 +1,89 @@
+{
+  "status": "success",
+  "technique": "optimizer_8bit",
+  "flags": {
+    "amp": false,
+    "checkpointing": false,
+    "optimizer8bit": true
+  },
+  "physical_batch": 128,
+  "accumulation_steps": 1,
+  "effective_batch": 128,
+  "epochs": 3,
+  "optimizer_steps": 84,
+  "samples_seen": 10500,
+  "throughput_samples_per_second": 49.62845501010517,
+  "mean_time_per_epoch_seconds": 70.52408500699978,
+  "training_wall_seconds_including_validation": 228.42031252200013,
+  "peak_memory_allocated_gb": 10.248157024383545,
+  "peak_memory_reserved_gb": 10.373046875,
+  "test_loss": 0.7747204012870789,
+  "test_accuracy": 0.68,
+  "best_validation_epoch": 3,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "training_loss": 1.0097454060145787,
+      "validation_loss": 0.9432461199760437,
+      "validation_accuracy": 0.5546666666666666,
+      "training_seconds": 70.48037439499967,
+      "throughput_samples_per_second": 49.659214072624344
+    },
+    {
+      "epoch": 2,
+      "training_loss": 0.8631915977341789,
+      "validation_loss": 0.8422274128595988,
+      "validation_accuracy": 0.6466666666666666,
+      "training_seconds": 70.50709015199982,
+      "throughput_samples_per_second": 49.64039775935539
+    },
+    {
+      "epoch": 3,
+      "training_loss": 0.6864394769668579,
+      "validation_loss": 0.7702798137664795,
+      "validation_accuracy": 0.6866666666666666,
+      "training_seconds": 70.58479047399987,
+      "throughput_samples_per_second": 49.58575319833578
+    }
+  ],
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_label": "-1.0",
+      "precision": 0.5460122699386503,
+      "recall": 0.5329341317365269,
+      "support": 167
+    },
+    {
+      "class_id": 1,
+      "class_label": "0.0",
+      "precision": 0.8203883495145631,
+      "recall": 0.6259259259259259,
+      "support": 270
+    },
+    {
+      "class_id": 2,
+      "class_label": "1.0",
+      "precision": 0.6614173228346457,
+      "recall": 0.805111821086262,
+      "support": 313
+    }
+  ],
+  "confusion_matrix": [
+    [
+      89,
+      15,
+      63
+    ],
+    [
+      35,
+      169,
+      66
+    ],
+    [
+      39,
+      22,
+      252
+    ]
+  ]
+}
