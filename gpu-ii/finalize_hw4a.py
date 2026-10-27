@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from hw45_serving import describe_latency_tradeoff
 
 
 ROOT = Path(__file__).resolve().parent
@@ -123,7 +124,7 @@ def main() -> None:
     crossover = next((row for row in rows[1:] if row["p50_latency_ms"] > hf_latency), rows[-1])
     lines += [
         "",
-        f"Per-request latency first became worse than the plain Hugging Face batch-1 baseline at **{crossover['configuration']}**, while aggregate throughput was still improving. Batching gives the GPU more simultaneous work, so throughput can rise even while an individual request waits longer for its batch. For an interactive application, p95 latency matters most because users feel the slow requests directly. For an offline job, total tokens per second is usually more important.",
+        describe_latency_tradeoff(rows),
     ]
     (ROOT / "HW4A_METRICS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("Created HW4A_METRICS.md and populated hw4a_baseline.json.")

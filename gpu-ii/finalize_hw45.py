@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+from hw45_serving import describe_latency_tradeoff
 
 
 ROOT = Path(__file__).resolve().parent
@@ -232,7 +233,7 @@ def render() -> None:
     lines.extend(
         [
             "",
-            f"Per-request latency became worse than the batch-1 HF baseline at **{crossover['configuration']}**, while total throughput still benefited from batching. For an interactive application, p50 and especially p95 latency matter more than maximum aggregate throughput because the user waits for one response. For offline jobs, total tokens per second is usually the more important number. These results use measured batch completion time rather than dividing batch time by batch size.",
+            describe_latency_tradeoff(serving_rows),
             "",
             f"The measured longest successful context at batch 8 was **{serving['vllm']['longest_context_batch_8']} tokens per request**. `outputs/kv_cache_context.csv` gives both the active KV-cache requirement and the GPU memory reported around each request. The active-cache calculation uses the model's actual layer, KV-head, head-dimension, and FP16 byte counts. vLLM reserves a cache pool when its engine starts, so total process memory can stay nearly flat while the amount of that pool occupied by active tokens grows.",
             "",

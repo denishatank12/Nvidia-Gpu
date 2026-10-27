@@ -13,6 +13,7 @@ import argparse
 import gc
 import json
 import math
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -59,6 +60,28 @@ def gpu_used_mib() -> int:
 
 def percentile(values: list[float], q: float) -> float:
     return float(np.percentile(np.asarray(values, dtype=float), q))
+
+
+def describe_latency_tradeoff(rows: list[dict[str, Any]]) -> str:
+    """Describe an observed crossover only when the measured rows show it."""
+    hf = rows[0]
+    previous_throughput = hf["tokens_per_second"]
+    crossover = None
+    for row in rows[1:]:
+        if row["p50_latency_ms"] > hf["p50_latency_ms"] and row["tokens_per_second"] > previous_throughput:
+            crossover = row["configuration"]
+            break
+        previous_throughput = row["tokens_per_second"]
+    first = (
+        f"The first measured configuration with worse p50 latency than the HF baseline while throughput increased over the preceding configuration was {crossover}. "
+        if crossover else
+        "None of the tested configurations showed worse p50 latency than the HF baseline while also increasing throughput over the preceding configuration. "
+    )
+    return first + (
+        "Batching can increase total work completed per second while individual requests wait longer. "
+        "For an interactive application, p50 and especially p95 latency matter because a user waits for a response. "
+        "For an offline job, aggregate tokens per second is usually more important."
+    )
 
 
 def measure_hf_pipeline(model_name: str) -> dict[str, Any]:
@@ -138,7 +161,9 @@ def measure_vllm(
         max_model_len=max_model_len,
         gpu_memory_utilization=gpu_memory_utilization,
         seed=SEED,
-        enforce_eager=False,
+        # Eager mode avoids a large CUDA-graph compilation step in Colab.
+        # Both HW4.a and HW4.5 inherit the same setting for a fair comparison.
+        enforce_eager=os.environ.get("GPU_ASSIGNMENT_EAGER", "0") == "1",
         generation_config="vllm",
     )
     after_mib = gpu_used_mib()
@@ -272,6 +297,7 @@ def main() -> None:
     payload = {
         "model": args.model,
         "precision": "float16",
+        "execution_mode": "eager" if os.environ.get("GPU_ASSIGNMENT_EAGER") == "1" else "cuda_graphs",
         "output_tokens_per_request": OUTPUT_TOKENS,
         "latency_definition": (
             "Closed-batch wall time from synchronous submission until every response in the batch is returned."

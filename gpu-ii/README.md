@@ -6,6 +6,12 @@ Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4
 
 This folder contains both HW4.a and the one-GPU HW4.5 continuation. Part C is optional and is intentionally skipped. HW4.a creates the BERT baseline and vLLM table. HW4.5 then keeps the BERT model, Twitter rows, frozen 70/15/15 split, seed, sequence length, learning rate, and epoch count fixed while it changes one memory technique at a time.
 
+## Run everything in Google Colab
+
+Open [GPU_II_Colab_Run_All.ipynb](GPU_II_Colab_Run_All.ipynb), select a GPU runtime, and choose Run all. This portable notebook embeds the supporting scripts, installs a separate Python 3.11 environment with pinned CUDA packages, downloads the public dataset and models, runs smoke checks, and executes HW4.a followed by HW4.5. It requires no GitHub sign-in or API key. A hosted Colab runtime runs the code on Google's GPU, not your PC.
+
+Completed stages and individual training probes can be reused in the same runtime. At the end it creates `GPU_II_RESULTS.zip`, including the full BERT checkpoint. Download the executed notebook separately through Colab's File menu. Runtime resets remove Colab's temporary files, so download the archive when it finishes. Colab GPU execution has to be checked on the actual assigned hardware; local CPU smoke checks cannot certify it.
+
 ## Before running
 
 `Homework_4A.ipynb` downloads the public `saurabhshahane/twitter-sentiment-dataset` from Kaggle when `Twitter_Data.csv` is absent. The default columns are `clean_text` and `category`. Its finalizer fills `hw4a_baseline.json` automatically, so no old value is copied by hand or invented.

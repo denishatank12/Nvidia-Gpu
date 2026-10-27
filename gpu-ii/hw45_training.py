@@ -521,10 +521,17 @@ def run_sweep(settings: Settings, settings_path: Path, technique: str) -> list[d
     batch_size = settings.original_batch
     while batch_size <= settings.max_probe_batch:
         result_path = OUTPUT_DIR / f"probe_{technique}_{batch_size}.json"
-        if result_path.exists():
-            result_path.unlink()
         print(f"\nProbing {technique} batch={batch_size}", flush=True)
-        result = probe_subprocess(settings_path, technique, batch_size, result_path)
+        if os.environ.get("GPU_ASSIGNMENT_RESUME") == "1" and result_path.exists():
+            result = json.loads(result_path.read_text(encoding="utf-8"))
+            if result.get("status") not in ("success", "oom"):
+                result = probe_subprocess(settings_path, technique, batch_size, result_path)
+            else:
+                print("Reusing completed probe from this run.", flush=True)
+        else:
+            if result_path.exists():
+                result_path.unlink()
+            result = probe_subprocess(settings_path, technique, batch_size, result_path)
         rows.append(result)
         print(result.get("status"), result.get("error", ""), flush=True)
         if result.get("status") not in ("success", "oom"):
@@ -555,7 +562,7 @@ def save_training_figures(summary: dict[str, Any]) -> None:
     plt.xscale("log", base=2)
     plt.xlabel("Physical batch size")
     plt.ylabel("Training throughput (samples/s)")
-    plt.title("RTX 4090 BERT throughput to the memory wall")
+    plt.title(f"{summary['gpu']['name']} BERT throughput to the memory wall")
     plt.grid(alpha=0.25)
     plt.legend(fontsize=8)
     plt.tight_layout()
@@ -660,13 +667,19 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
     full_runs: dict[str, Any] = {}
     for technique, batch_size in maximum_batches.items():
         print(f"\nTraining final {technique} run at max batch {batch_size}", flush=True)
-        full_runs[technique] = run_training(
-            settings,
-            technique,
-            batch_size,
-            settings.epochs,
-            save_details=technique == "baseline",
-        )
+        result_path = OUTPUT_DIR / f"full_result_{technique}.json"
+        if os.environ.get("GPU_ASSIGNMENT_RESUME") == "1" and result_path.exists():
+            full_runs[technique] = json.loads(result_path.read_text(encoding="utf-8"))
+            print("Reusing completed full run.", flush=True)
+        else:
+            full_runs[technique] = run_training(
+                settings,
+                technique,
+                batch_size,
+                settings.epochs,
+                save_details=technique == "baseline",
+            )
+            result_path.write_text(json.dumps(full_runs[technique], indent=2), encoding="utf-8")
 
     # Gradient accumulation is measured separately: a small physical batch
     # reaches the baseline maximum effective batch for the same epoch count.
@@ -677,14 +690,19 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
         f"steps={accumulation_steps}, effective={settings.original_batch * accumulation_steps}",
         flush=True,
     )
-    full_runs["gradient_accumulation"] = run_training(
-        settings,
-        "baseline",
-        settings.original_batch,
-        settings.epochs,
-        accumulation_steps=accumulation_steps,
-        save_details=False,
-    )
+    accumulation_path = OUTPUT_DIR / "full_result_gradient_accumulation.json"
+    if os.environ.get("GPU_ASSIGNMENT_RESUME") == "1" and accumulation_path.exists():
+        full_runs["gradient_accumulation"] = json.loads(accumulation_path.read_text(encoding="utf-8"))
+    else:
+        full_runs["gradient_accumulation"] = run_training(
+            settings,
+            "baseline",
+            settings.original_batch,
+            settings.epochs,
+            accumulation_steps=accumulation_steps,
+            save_details=False,
+        )
+        accumulation_path.write_text(json.dumps(full_runs["gradient_accumulation"], indent=2), encoding="utf-8")
     full_runs["gradient_accumulation"]["technique"] = "gradient_accumulation"
 
     capture_gpu("after_training")
