@@ -1,0 +1,2 @@
+# Preserve raw console transcripts, including original trailing whitespace.
+RUN_LOG*.txt -whitespace

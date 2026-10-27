@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 if ! command -v nvidia-smi >/dev/null 2>&1; then
-  echo "nvidia-smi is unavailable. Run this on the RTX 4090 Linux system." >&2
+  echo "nvidia-smi is unavailable. Run this on a supported NVIDIA GPU Linux system." >&2
   exit 1
 fi
 
@@ -30,7 +30,7 @@ import torch
 import transformers
 import vllm
 
-assert torch.cuda.is_available(), "PyTorch cannot see the RTX 4090."
+assert torch.cuda.is_available(), "PyTorch cannot see an NVIDIA CUDA GPU."
 print("torch:", torch.__version__, "CUDA:", torch.version.cuda)
 print("transformers:", transformers.__version__)
 print("bitsandbytes:", bitsandbytes.__version__)

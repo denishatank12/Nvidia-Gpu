@@ -198,15 +198,17 @@ def render() -> None:
         f"| VRAM | {fmt(gpu['memory_total_gb'])} GB |",
         f"| Driver / CUDA | {gpu['driver_version']} / {gpu['torch_cuda']} |",
         "",
+        "Memory values in the assignment's GB columns use binary GiB (bytes divided by 2^30), and VRAM uses MiB divided by 1024. Allocated, reserved, total-process, and calculated active KV memory are not interchangeable measurements.",
+        "",
         "## Dataset and fixed split",
         "",
         f"I reused **{manifest['dataset_name']}**, the Twitter sentiment CSV expected from HW4.a. The exact zero-based source row range was **{manifest['requested_row_range_zero_based'][0]}–{manifest['requested_row_range_zero_based'][1]}** (Python slice `{manifest['requested_row_range_python']}`). The raw file SHA-256 was `{manifest['source_sha256']}`. The same saved 70/15/15 split and SEED 8834 were reused for every run, so none of the techniques saw different examples.",
         "",
         f"Usable examples after removing rows with a missing text or label: {manifest['usable_rows']}. Split sizes: train {manifest['split_sizes']['train']}, validation {manifest['split_sizes']['validation']}, test {manifest['split_sizes']['test']}.",
         "",
-        "## Part A: batch scaling on one RTX 4090",
+        f"## Part A: batch scaling on one {gpu['name']}",
         "",
-        "The clarification allowed one GPU, so I measured one RTX 4090 rather than inventing a second-card result. The full batch sweep is in `outputs/batch_scaling.csv`, and the throughput plot is `outputs/batch_size_throughput.png`.",
+        f"The clarification allowed one GPU, so I measured one {gpu['name']} rather than inventing a second-card result. The full batch sweep is in `outputs/batch_scaling.csv`, and the throughput plot is `outputs/batch_size_throughput.png`.",
         "",
         "| Physical batch | Throughput (samples/s) | Peak training memory (GB) | Time/epoch (s) | Status |",
         "|---:|---:|---:|---:|---|",
@@ -252,15 +254,17 @@ def render() -> None:
         "",
         "The ranking includes all four independent techniques and excludes the combined candidate. AMP, checkpointing, and the 8-bit optimizer use the one-epoch common-physical-batch control. Accumulation uses the three-epoch matched-effective-batch control described above. This is a descriptive ranking against the stated references, not a universal ranking across identical workloads. Positive throughput change means faster; a speedup with memory savings has no finite memory-per-throughput-loss ratio. These short single-run differences include timing noise.",
         "",
-        "I would apply mixed precision first because the 4090 has fast tensor cores and AMP normally improves both memory use and speed. I would add the 8-bit optimizer when optimizer state is the limiting memory. On a 32 GB card I would not use checkpointing for this BERT run unless a required batch still failed to fit, because its recomputation cost is measurable.",
+        "I would apply mixed precision first because the common-batch measurements show lower memory use and higher throughput on the measured GPU. I would add the 8-bit optimizer when optimizer state is the limiting memory. On a 32 GB card I would not use checkpointing for this BERT run unless a required batch still failed to fit, because its recomputation cost is measurable; that 32 GB recommendation is an extrapolation, not a second-card experiment.",
         "",
         "## Part C",
         "",
         "**Part C skipped (optional)**",
         "",
-        "## Part D: serving on the RTX 4090",
+        f"## Part D: serving on the {gpu['name']}",
         "",
         f"Model: `{serving['model']}` at {serving['precision']}; {serving['output_tokens_per_request']} maximum generated tokens per request. Latency means {serving['latency_definition']}",
+        "",
+        "Each request in a synchronous batch is assigned the batch-completion time. Individual request completion and time-to-first-token were not recorded. The percentiles describe these short closed-batch measurements, not a production latency guarantee; requests within a batch are not independent timing repetitions.",
         "",
         "| Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |",
         "|---|---:|---:|---:|",
@@ -397,12 +401,17 @@ def render() -> None:
         mistakes.to_csv(mistakes_path, index=False)
 
     gpu_hours = best["training_wall_seconds_including_validation"] / 3600
+    original_seconds = prior.get("training_wall_seconds")
     (ROOT / "GPU_HOURS.md").write_text(
         "# GPU-hour record\n\n"
         f"GPU: {gpu['name']} (`{gpu['uuid']}`)\n\n"
-        f"Chosen full fine-tune wall time: {best['training_wall_seconds_including_validation']:.2f} seconds.\n\n"
+        "The original HW4.a configuration is the accuracy-oriented recommendation from the measured runs. "
+        + (f"Its wall time including validation was {original_seconds:.2f} seconds: "
+           f"1 GPU × {original_seconds:.2f} seconds ÷ 3600 = **{original_seconds / 3600:.4f} GPU-hours**.\n\n" if original_seconds is not None else "Its GPU-hour record is unavailable.\n\n")
+        + f"The faster combined candidate had a wall time of {best['training_wall_seconds_including_validation']:.2f} seconds, but lower test accuracy.\n\n"
         f"Calculation: 1 GPU × {best['training_wall_seconds_including_validation']:.2f} seconds ÷ 3600 "
-        f"= **{gpu_hours:.4f} GPU-hours**.\n",
+        f"= **{gpu_hours:.4f} GPU-hours**.\n\n"
+        "These are individual three-epoch training runs including validation, not the cost of the entire benchmark suite, downloads, or idle allocation time.\n",
         encoding="utf-8",
     )
     print("Created METRICS.md and GPU_HOURS.md")

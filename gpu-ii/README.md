@@ -1,71 +1,52 @@
-# DATA 266 HW4.5: GPU Training Throughput and Memory Engineering
+# GPU II: HW4.a and HW4.5
 
-Student: Denisha Ketan Tank  
-GPU path: one NVIDIA GeForce RTX 4090  
-Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6
+Student: Denisha Ketan Tank
 
-This folder contains both HW4.a and the one-GPU HW4.5 continuation. Part C is optional and is intentionally skipped. HW4.a creates the BERT baseline and vLLM table. HW4.5 then keeps the BERT model, Twitter rows, frozen 70/15/15 split, seed, sequence length, learning rate, and epoch count fixed while it changes one memory technique at a time.
+Actual completed run: one Tesla T4 in Google Colab.
 
-## Run everything in Google Colab
+Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6.
 
-Open [GPU_II_Colab_Run_All.ipynb](GPU_II_Colab_Run_All.ipynb), select a GPU runtime, and choose Run all. This portable notebook embeds the supporting scripts, installs a separate Python 3.11 environment with pinned CUDA packages, downloads the public dataset and models, runs smoke checks, and executes HW4.a followed by HW4.5. It requires no GitHub sign-in or API key. A hosted Colab runtime runs the code on Google's GPU, not your PC.
+## What to read
 
-Completed stages and individual training probes can be reused in the same runtime. At the end it creates `GPU_II_RESULTS.zip`, including the full BERT checkpoint. Download the executed notebook separately through Colab's File menu. Runtime resets remove Colab's temporary files, so download the archive when it finishes. Colab GPU execution has to be checked on the actual assigned hardware; local CPU smoke checks cannot certify it.
+- [Submission notebook](GPU_II_Colab_Run_All.ipynb): the completed Colab run with all original code cells and outputs intact, plus corrected findings in clearly labelled post-run Markdown notes.
+- [HW4.a findings](HW4A_METRICS.md): BERT training, evaluation, error analysis, and the first serving benchmark.
+- [HW4.5 findings](METRICS.md): batch scaling, memory techniques, repeated serving, context tests, and recommendations.
+- [Audit](SUBMISSION_AUDIT.md): requirement checks and the limitations that remain.
+- [Checkpoint](MODEL_CHECKPOINT.md): download, file hashes, exact training command, and reload verification.
+- [Run log](RUN_LOG.txt), [runtime record](RESERVATION_RECORD.md), [GPU-hour calculation](GPU_HOURS.md), and [AI-use appendix](AI_USE.md).
+- [Measured outputs](outputs/): JSON and CSV measurements, plots, and both GPU UUID captures.
 
-## Before running
+There is only one notebook in this folder. It contains both HW4.a and HW4.5, including the saved figures/results and corrected written findings. Some historical printed report output contains the earlier reporting errors; the post-run notes at the end supersede that interpretation. Measurements and executed outputs were not rewritten to make them appear rerun. The separate Markdown reports contain the same corrected findings.
 
-`Homework_4A.ipynb` downloads the public `saurabhshahane/twitter-sentiment-dataset` from Kaggle when `Twitter_Data.csv` is absent. The default columns are `clean_text` and `category`. Its finalizer fills `hw4a_baseline.json` automatically, so no old value is copied by hand or invented.
+## Data and results
 
-The code selects zero-based rows 834 through 5833 when at least 5,834 rows exist. It stores the source-file SHA-256 hash, exact row numbers, excluded missing rows, label mapping, and split indices in `cache/dataset_manifest.json`.
+Both stages used `Twitter_Data.csv` from Kaggle's `saurabhshahane/twitter-sentiment-dataset`: zero-based rows 834 through 5833, split into 3,500 training, 750 validation, and 750 test examples using SEED 8834. The recorded source hash and preparation settings match across both stages.
 
-## Fast RTX 4090 run
+HW4.a test accuracy was 83.60%. The maximum-batch AMP plus 8-bit configuration was faster but reached 60.67%, so it is not an accuracy-preserving replacement. The reports separate batch-size and optimizer-update effects from independent technique comparisons.
 
-After setup, run the short GPU smoke test before executing either notebook:
+Part C skipped (optional).
+
+One GPU was permitted by the clarification. No second-card comparison or distributed result is claimed.
+
+## Run again
+
+For a fresh Colab run, open [GPU_II_Colab_Run_All.ipynb](GPU_II_Colab_Run_All.ipynb), choose a GPU runtime, and select Run all. It installs an isolated Python 3.11 environment and downloads the public dataset and model files. The runtime must provide a supported NVIDIA GPU; a local Mac CPU is not sufficient for vLLM CUDA benchmarks. Its embedded code is retained as originally executed. The post-run notes describe the October 27 run; they are not regenerated measurements for a future GPU session. The repository's finalizer scripts contain the reporting corrections.
+
+The duplicate reviewed notebook and the two unexecuted local wrapper notebooks have been removed. The legacy filename `setup_rtx4090.sh` is retained for compatibility; it no longer requires a particular GPU model.
+
+For Linux, run:
 
 ```bash
 bash setup_rtx4090.sh
 .venv/bin/python smoke_test.py --gpu --vllm
 ```
 
-The smoke test uses temporary synthetic examples and a tiny BERT checkpoint to test CUDA training, AMP, checkpointing, accumulation, and the 8-bit optimizer. It also loads the actual serving model and generates a short answer through vLLM. It never overwrites assignment measurements. It does not replace the full BERT fine-tune or serving benchmarks.
+Use the combined notebook for the full experiment. Full GPU measurements must be obtained on the actual GPU, not inferred from CPU checks. The notebook builder refuses to overwrite an already executed notebook.
 
-Once it prints `SMOKE TEST PASSED`, execute the notebooks in order:
+## Interpretation limits
 
-```bash
-.venv/bin/jupyter nbconvert --to notebook --execute --inplace Homework_4A.ipynb \
-  --ExecutePreprocessor.timeout=-1
-.venv/bin/jupyter nbconvert --to notebook --execute --inplace Homework_4_5.ipynb \
-  --ExecutePreprocessor.timeout=-1
-```
+The longest successful batch-8 prompt was 32,767 tokens, plus one generated token at the model's 32,768-token configured limit. No memory failure occurred within that supported range, so a GPU-memory exhaustion threshold is not claimed. The active KV-cache values are calculated; the process GPU-memory measurements also include the reserved cache pool, weights, and workspaces.
 
-The notebook calls the benchmark scripts and creates all measured tables, plots, logs, UUID captures, `METRICS.md`, and the GPU-hour calculation. It uses only GPU 0.
+Serving latency is synchronous closed-batch completion time, not independently timestamped completion of each request. The measurements use a small number of repeated batches, so the p95 estimates are descriptive rather than a production service-level guarantee.
 
-## Efficiency choices
-
-- Twitter examples are tokenized once and reused from a tensor cache.
-- Every OOM probe uses a new process, preventing a failed batch from fragmenting later runs.
-- Pinned-memory data loading, nonblocking copies, TF32, and fused AdamW are enabled where supported.
-- AMP uses FP16 autocast and gradient scaling.
-- vLLM runs offline closed-batch measurements at batch sizes 1, 8, and 32.
-- Context tests generate one token, which measures capacity without wasting generation time.
-
-## Files produced after the run
-
-- `HW4A_METRICS.md`: original BERT and serving results
-- `hw4a_baseline.json`: measured HW4.a values consumed by HW4.5
-- `outputs/hw4a_*`: HW4.a tables, figures, saved/reload proof, and serving results
-- `MODEL_CHECKPOINT.md`: checkpoint location, reproduction command, and final large-file link field
-- `METRICS.md`: final tables and analysis, including the exact sentence `Part C skipped (optional)`
-- `RUN_LOG.txt`: timestamped command output
-- `outputs/batch_scaling.csv`: every successful batch and the first OOM
-- `outputs/technique_comparison.csv`: required memory-technique table
-- `outputs/serving_benchmark.csv`: HF and vLLM throughput/latency
-- `outputs/kv_cache_context.csv`: batch-8 context capacity and calculated KV-cache size
-- `outputs/gpu_uuid_before.txt` and `outputs/gpu_uuid_after.txt`: the two UUID captures
-- `GPU_HOURS.md`: explicit GPU-hour calculation
-
-The `checkpoints/` and `cache/` folders stay local because the BERT weights and tokenized dataset are large and reproducible.
-
-## Two manual items before submission
-
-The code can create every measured result, but it cannot know the details of a lab reservation or upload a large checkpoint to an approved destination automatically. Fill every field in `RESERVATION_RECORD.md`, upload `checkpoints/hw4a_bert_classifier/` to approved cloud storage or Git LFS, and replace `pending upload` in `MODEL_CHECKPOINT.md` with the shareable link. The final notebook check deliberately fails until both items are complete.
+The audit also records repository visibility and access requirements. A tag identifies a fixed artifact snapshot; it is not a claim that those external requirements have been satisfied.

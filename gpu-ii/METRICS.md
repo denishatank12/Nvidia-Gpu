@@ -11,6 +11,8 @@
 | VRAM | 15.00 GB |
 | Driver / CUDA | 580.82.07 / 12.8 |
 
+Memory values in the assignment's GB columns use binary GiB (bytes divided by 2^30), and VRAM uses MiB divided by 1024. Allocated, reserved, total-process, and calculated active KV memory are not interchangeable measurements.
+
 ## Dataset and fixed split
 
 I reused **Twitter_Data.csv**, the Twitter sentiment CSV expected from HW4.a. The exact zero-based source row range was **834–5833** (Python slice `[834:5834)`). The raw file SHA-256 was `5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4`. The same saved 70/15/15 split and SEED 8834 were reused for every run, so none of the techniques saw different examples.
@@ -71,7 +73,7 @@ For accumulation, the matched direct-batch baseline used effective batch 128, 84
 
 The ranking includes all four independent techniques and excludes the combined candidate. AMP, checkpointing, and the 8-bit optimizer use the one-epoch common-physical-batch control. Accumulation uses the three-epoch matched-effective-batch control described above. This is a descriptive ranking against the stated references, not a universal ranking across identical workloads. Positive throughput change means faster; a speedup with memory savings has no finite memory-per-throughput-loss ratio. These short single-run differences include timing noise.
 
-I would apply mixed precision first because the 4090 has fast tensor cores and AMP normally improves both memory use and speed. I would add the 8-bit optimizer when optimizer state is the limiting memory. On a 32 GB card I would not use checkpointing for this BERT run unless a required batch still failed to fit, because its recomputation cost is measurable.
+I would apply mixed precision first because the common-batch measurements show lower memory use and higher throughput on the measured GPU. I would add the 8-bit optimizer when optimizer state is the limiting memory. On a 32 GB card I would not use checkpointing for this BERT run unless a required batch still failed to fit, because its recomputation cost is measurable; that 32 GB recommendation is an extrapolation, not a second-card experiment.
 
 ## Part C
 
@@ -80,6 +82,8 @@ I would apply mixed precision first because the 4090 has fast tensor cores and A
 ## Part D: serving on the Tesla T4
 
 Model: `Qwen/Qwen2.5-0.5B-Instruct` at float16; 64 maximum generated tokens per request. Latency means Closed-batch wall time from synchronous submission until every response in the batch is returned.
+
+Each request in a synchronous batch is assigned the batch-completion time. Individual request completion and time-to-first-token were not recorded. The percentiles describe these short closed-batch measurements, not a production latency guarantee; requests within a batch are not independent timing repetitions.
 
 | Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |
 |---|---:|---:|---:|

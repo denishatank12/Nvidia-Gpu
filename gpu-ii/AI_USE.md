@@ -1,13 +1,25 @@
 # AI-use appendix
 
-I used an AI assistant to help organize the HW4.a baseline and HW4.5 benchmark code, check the assignment checklist, and make the run reproducible. I reviewed the code and kept the actual measurements tied to the RTX 4090 run instead of filling the report with estimated hardware numbers.
+## What the assistant helped with
 
-One specific issue in the first design was the suggestion to catch a CUDA out-of-memory error and continue testing larger or smaller batches inside the same Python process. The problematic idea was:
+I used an AI assistant to write and organize the BERT training code, GPU memory experiments, serving benchmark, and reporting scripts. It also helped interpret the results and check the submission files. I ran the combined notebook in Google Colab and downloaded the executed notebook and results archive. I am not claiming that I wrote the generated scripts without help.
+
+## A specific mistake
+
+The generated report still referred to the GPU I originally planned to use, although the actual run used a Tesla T4. One incorrect sentence was:
 
 ```text
-catch CUDA OOM, call empty_cache(), and keep benchmarking in the same process
+I would apply mixed precision first because the 4090 has fast tensor cores and AMP normally improves both memory use and speed.
 ```
 
-I caught the problem while reviewing how the memory-wall experiment would work. A failed allocation can leave the process fragmented, so later peak-memory and throughput readings may no longer be comparable. I changed the sweep so every batch-size probe starts in a fresh subprocess and writes one JSON result. That makes the first OOM a recorded result and gives the next technique a clean CUDA process.
+The original ranking also included the combined configuration instead of gradient accumulation. These were reporting mistakes, not experimental findings.
 
-I also verified that HW4.a and HW4.5 share one frozen token cache. The row range, file hash, label mapping, and split indices are saved so I can explain exactly what data each experiment used.
+## How the mistakes were found
+
+After the run, I asked the assistant to audit the downloaded notebook and results archive. The recorded GPU name and UUID showed a Tesla T4. Comparing the ranking with the four requested techniques exposed the missing accumulation row. The maximum-batch runs also had different optimizer-update counts, so their accuracy differences could not be attributed to the techniques alone.
+
+## What changed and what was checked
+
+The reporting code now reads the GPU name from the measured summary. The corrected ranking includes all four techniques and names the matched reference for each comparison. The conclusions distinguish maximum-batch experiments from common-batch probes and explain that no context-length GPU-memory failure occurred before the configured model limit. Individual error diagnoses discuss the actual tweets, including possible label noise, without claiming to know the model's internal reasoning.
+
+The assistant checked that the raw training and serving summaries were unchanged and that the revised CSVs changed diagnoses, not predictions or labels. It also reloaded the saved BERT checkpoint on CPU and reproduced the two predicted classes. There is one submission notebook: its original code cells, execution counts, and outputs remain intact, and clearly labelled post-run Markdown notes contain the corrected analysis. The separate reporting scripts were corrected as well. These checks do not mean that a new GPU benchmark was run after the edits.

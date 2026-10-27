@@ -12,5 +12,5 @@
   "weight_decay": 0.01,
   "original_batch": 16,
   "max_probe_batch": 4096,
-  "num_workers": 4
+  "num_workers": 0
 }

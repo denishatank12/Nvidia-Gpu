@@ -128,7 +128,7 @@ def main():
                 print("PASS: real vLLM model load and generation")
     print("SMOKE TEST PASSED. Synthetic test data was temporary and is not assignment evidence.")
     if not args.gpu:
-        print("GPU tests NOT RUN. On the RTX 4090, run: .venv/bin/python smoke_test.py --gpu --vllm")
+        print("GPU tests NOT RUN. On a supported NVIDIA GPU, run: .venv/bin/python smoke_test.py --gpu --vllm")
 
 
 if __name__ == "__main__":

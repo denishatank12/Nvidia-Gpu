@@ -46,6 +46,8 @@ The trained classifier was saved, reloaded from disk, and used on two custom sen
 
 I used the different Hugging Face model `Qwen/Qwen2.5-0.5B-Instruct` with my own prompts. All configurations generated at most 64 tokens per request.
 
+Latency is the synchronous closed-batch completion time assigned to each request, not an independently recorded request finish or first-token time. The small number of batch repetitions limits the precision of p95. Memory values labelled GB use binary GiB.
+
 | Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |
 |---|---:|---:|---:|
 | HF pipeline, batch 1 | 28.53 | 2114.15 | 2823.26 |

@@ -25,7 +25,7 @@ def md(text):
 def code(text):
     cells.append(nbf.v4.new_code_cell(text))
 
-md("""# GPU II: HW4.a and HW4.5, run in order
+md("""# GPU II: HW4.a and HW4.5
 
 Student: Denisha Ketan Tank
 
@@ -293,6 +293,10 @@ except ImportError:
 
 nb.cells = cells
 destination = ROOT / "GPU_II_Colab_Run_All.ipynb"
+if destination.exists():
+    existing = nbf.read(destination, as_version=4)
+    if any(cell.get('execution_count') is not None or cell.get('outputs') for cell in existing.cells if cell.cell_type == 'code'):
+        raise SystemExit("Refusing to overwrite the executed submission notebook. Run the existing notebook in Colab instead.")
 nbf.write(nb, destination)
 print("Created", destination)
 

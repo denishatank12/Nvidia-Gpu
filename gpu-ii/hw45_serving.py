@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HW4.5 vLLM serving benchmark for one RTX 4090.
+"""HW4.5 vLLM serving benchmark for one supported NVIDIA GPU.
 
 Latency is measured from submission of a synchronous batch until all responses
 in that batch are available.  Every request in that closed batch therefore has
@@ -46,7 +46,7 @@ def require_cuda() -> None:
     import torch
 
     if not torch.cuda.is_available():
-        raise RuntimeError("CUDA is required. Run on the RTX 4090 system.")
+        raise RuntimeError("CUDA is required. Select a supported NVIDIA GPU runtime.")
 
 
 def gpu_used_mib() -> int:

@@ -62,7 +62,7 @@ TECHNIQUES: dict[str, dict[str, Any]] = {
     "mixed_precision": {"amp": True, "checkpointing": False, "optimizer8bit": False},
     "gradient_checkpointing": {"amp": False, "checkpointing": True, "optimizer8bit": False},
     "optimizer_8bit": {"amp": False, "checkpointing": False, "optimizer8bit": True},
-    # On a 4090 this is normally a better speed/memory trade-off than adding
+    # This candidate avoids the recomputation overhead of adding
     # checkpointing, which deliberately recomputes activations.
     "best_combination": {"amp": True, "checkpointing": False, "optimizer8bit": True},
 }
@@ -81,7 +81,7 @@ def require_cuda() -> None:
     import torch
 
     if not torch.cuda.is_available():
-        raise RuntimeError("CUDA is required. Run this notebook on the RTX 4090 system.")
+        raise RuntimeError("CUDA is required. Select a supported NVIDIA GPU runtime.")
 
 
 def gpu_snapshot() -> dict[str, Any]:

@@ -103,6 +103,8 @@ def main() -> None:
         "",
         f"I used the different Hugging Face model `{serving['model']}` with my own prompts. All configurations generated at most {serving['output_tokens_per_request']} tokens per request.",
         "",
+        "Latency is the synchronous closed-batch completion time assigned to each request, not an independently recorded request finish or first-token time. The small number of batch repetitions limits the precision of p95. Memory values labelled GB use binary GiB.",
+        "",
         "| Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |",
         "|---|---:|---:|---:|",
     ]
