@@ -1,0 +1,39 @@
+GPU II: complete fresh T4 run, HW4.a and HW4.5
+
+Only upload GPU_II_T4_Run_All.ipynb to Google Colab. All supporting Python
+code is embedded in the notebook. Do not upload other scripts or datasets.
+
+1. Open https://colab.research.google.com/ and upload the notebook.
+2. Runtime > Change runtime type > T4 GPU > Save.
+3. Runtime > Run all.
+4. Wait for "Both real-GPU smoke stages passed" before leaving it running.
+5. At completion, download the results ZIP and save the executed notebook
+   with File > Download > Download .ipynb.
+
+The notebook installs its private Python 3.11 environment, downloads the
+exact Twitter dataset and models, trains the full 3-epoch BERT baseline,
+runs full-epoch batch scaling and labelled capacity-only probes, trains
+independent memory-technique and combined models, runs matched-update
+controls, benchmarks HF and vLLM twice, observes actual KV-cache usage,
+checks measured artifacts, and writes findings, plots, logs, GPU UUIDs,
+checkpoint and tokenizer, runtime/GPU-hour records, and the results ZIP.
+Part C skipped (optional).
+
+The exact slice is zero-based rows 834 through 5833 inclusive. The same
+SEED 8834 and saved 3500/750/750 split are reused throughout. T4 AMP uses
+FP16 with loss scaling, not BF16. Recoverable overflow replays the same
+update at lower scale without silently reducing the update budget.
+
+Expected CUDA OOMs during capacity probes are recorded assignment evidence,
+not notebook failures. Non-memory errors and persistent numerical failures
+stop with the log preserved; they are not hidden as successful results.
+
+Keep at least 20 GiB free disk space and a stable internet connection.
+Colab may disconnect/reclaim a GPU; unattended overnight allocation is
+not guaranteed. Resume reuses completed stages only if the same run folder
+and GPU remain available. Runtime storage is temporary: download results
+promptly. No fabricated GPU timings or scores are included.
+
+This notebook and its supporting source are local files only. No GitHub
+upload or tag is created by running it. Publish the executed notebook and
+checkpoint archive only after the final real-result audit.

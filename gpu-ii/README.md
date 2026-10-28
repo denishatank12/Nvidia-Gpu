@@ -4,6 +4,14 @@ Student: Denisha Ketan Tank
 
 Historical completed run: one Tesla T4 in Google Colab.
 
+## Fresh T4 run in Google Colab
+
+Use [GPU_II_T4_Run_All.ipynb](t4/GPU_II_T4_Run_All.ipynb) for the fresh, T4-specific HW4.a and HW4.5 workflow. [Open it in Colab](https://colab.research.google.com/github/denishatank12/Nvidia-Gpu/blob/main/gpu-ii/t4/GPU_II_T4_Run_All.ipynb), select a T4 GPU, then Run all. All supporting code is embedded; no extra script or dataset uploads are needed.
+
+The T4 version uses FP16 loss scaling, bounded overflow replay, the corrected physical-batch capacity probes, full training and matched-update controls, both serving benchmarks, observed KV-cache measurements, reports, checkpoint, and results ZIP. Part C skipped (optional). Read [START_HERE.txt](t4/START_HERE.txt) and [VALIDATION.txt](t4/VALIDATION.txt).
+
+Local CPU regression and report tests passed. The notebook is unexecuted: actual CUDA/T4 smoke checks run before expensive experiments. Colab can reclaim a GPU, so an uninterrupted overnight session is not guaranteed. Save the executed notebook and results archive after successful completion. This upload does not change the historical `hw4-5` submission tag or claim new GPU results.
+
 ## Fresh RTX 4050 overnight run
 
 Use [GPU_II_RTX4050_Run_All.ipynb](rtx4050/GPU_II_RTX4050_Run_All.ipynb) for the corrected fresh HW4.a and HW4.5 experiments. It embeds its supporting code and installs an isolated environment. Download this notebook and run it in Linux or WSL2 Jupyter on the GPU machine. Read [START_HERE.txt](rtx4050/START_HERE.txt) and [VALIDATION.txt](rtx4050/VALIDATION.txt) first.

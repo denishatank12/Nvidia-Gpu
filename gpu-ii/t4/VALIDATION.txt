@@ -1,0 +1,35 @@
+T4 notebook validation, October 28, 2026
+
+Notebook: GPU_II_T4_Run_All.ipynb
+Status: fresh, unexecuted GPU experiment notebook. No GPU scores are fabricated.
+
+Passed on this Mac using CPU and explicitly labelled temporary test fixtures:
+1. Notebook schema and syntax for all 10 code cells.
+2. All 11 embedded Python files match their supporting source byte-for-byte.
+3. Exact dataset/split/training configuration: rows 834:5834, seed 8834,
+   3500/750/750 stratified split, 3 full training epochs.
+4. Real tiny BERT forward/backward, checkpoint save/reload and tokenizer.
+5. Production full-epoch and accumulation code preserves sample/update budgets,
+   including partial final batches. Only CUDA plumbing/counters were mocked.
+6. Requested batch 8192 really materializes 8192 examples; normal training
+   remains on the unchanged original split.
+7. Overflow replay restores dropout RNG, performs only the successful logical
+   update, and agrees with its finite-update reference in the CPU test.
+8. Persistent non-finite values stop after eight bounded retries, without
+   changing weights. A controlled scaler is used in these CPU regression tests.
+9. Per-request timing arithmetic, percentiles, actual cache-storage accounting
+   interfaces and non-capacity error classification.
+10. Report/plot generation and measured-artifact checks on explicitly synthetic
+    temporary fixtures. Fixtures were deleted and are not assignment evidence.
+
+Not run here: actual T4 CUDA kernels, real FP16 GradScaler, bitsandbytes CUDA,
+vLLM inference/cache instrumentation, full training, GPU memory walls, final
+accuracy and measured GPU runtime. Those are verified on the T4 by the notebook.
+Before expensive work, it tests actual CUDA overflow recovery, BERT training
+conditions, 8-bit optimizer state, vLLM batches 1/8/32 and live cache occupancy.
+
+The notebook downloads its data/models and installs an isolated Python 3.11
+environment; no extra source-file uploads are needed. Optional Part C is skipped.
+After completion, save the executed notebook and results ZIP for final audit.
+Colab can reclaim its GPU; an uninterrupted overnight session is not guaranteed.
+No GitHub commit, upload, or tag was made for this new T4 version.
