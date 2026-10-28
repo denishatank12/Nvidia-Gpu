@@ -1,0 +1,94 @@
+{
+  "status": "success",
+  "technique": "best_combination",
+  "flags": {
+    "amp": true,
+    "checkpointing": false,
+    "optimizer8bit": true
+  },
+  "physical_batch": 16,
+  "observed_first_batch": 16,
+  "measurement_kind": "full_training_epoch",
+  "accumulation_steps": 1,
+  "effective_batch": 16,
+  "epochs": 3,
+  "optimizer_steps": 657,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "torch.float16",
+  "samples_seen": 10500,
+  "throughput_samples_per_second": 122.41890463473777,
+  "mean_time_per_epoch_seconds": 28.59035547199983,
+  "training_wall_seconds_including_validation": 105.70386885700009,
+  "peak_memory_allocated_gb": 1.6196460723876953,
+  "peak_memory_reserved_gb": 1.744140625,
+  "test_loss": 0.5439657352765401,
+  "test_accuracy": 0.8266666666666667,
+  "best_validation_epoch": 3,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "training_loss": 0.9123536201885768,
+      "validation_loss": 0.717880850315094,
+      "validation_accuracy": 0.716,
+      "training_seconds": 28.738551290999567,
+      "throughput_samples_per_second": 121.7876282127047
+    },
+    {
+      "epoch": 2,
+      "training_loss": 0.5450848867893219,
+      "validation_loss": 0.5874458300272624,
+      "validation_accuracy": 0.7746666666666666,
+      "training_seconds": 28.670965453999997,
+      "throughput_samples_per_second": 122.07471721227655
+    },
+    {
+      "epoch": 3,
+      "training_loss": 0.2889660110133035,
+      "validation_loss": 0.5937218165795008,
+      "validation_accuracy": 0.7973333333333333,
+      "training_seconds": 28.36154967099992,
+      "throughput_samples_per_second": 123.40651482731914
+    }
+  ],
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_label": "-1.0",
+      "precision": 0.6852791878172588,
+      "recall": 0.8083832335329342,
+      "support": 167
+    },
+    {
+      "class_id": 1,
+      "class_label": "0.0",
+      "precision": 0.922077922077922,
+      "recall": 0.7888888888888889,
+      "support": 270
+    },
+    {
+      "class_id": 2,
+      "class_label": "1.0",
+      "precision": 0.84472049689441,
+      "recall": 0.8690095846645367,
+      "support": 313
+    }
+  ],
+  "confusion_matrix": [
+    [
+      135,
+      8,
+      24
+    ],
+    [
+      31,
+      213,
+      26
+    ],
+    [
+      31,
+      10,
+      272
+    ]
+  ]
+}

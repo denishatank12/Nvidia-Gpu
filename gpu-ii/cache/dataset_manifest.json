@@ -1,0 +1,39 @@
+{
+  "dataset_name": "Twitter_Data.csv",
+  "preparation_settings": {
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "start_row": 834,
+    "row_limit": 5000,
+    "seed": 8834,
+    "text_column": "clean_text",
+    "label_column": "category"
+  },
+  "source_path": "/content/GPU_II_T4_RUN_6ec28b7ced2a/Twitter_Data.csv",
+  "source_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
+  "raw_dataset_rows": 162980,
+  "requested_row_range_zero_based": [
+    834,
+    5833
+  ],
+  "requested_row_range_python": "[834:5834)",
+  "selected_rows_before_cleaning": 5000,
+  "excluded_source_rows_with_missing_text_or_label": [],
+  "usable_rows": 5000,
+  "split_sizes": {
+    "train": 3500,
+    "validation": 750,
+    "test": 750
+  },
+  "split_ratio": "70/15/15",
+  "seed": 8834,
+  "model_name": "bert-base-uncased",
+  "max_length": 128,
+  "text_column": "clean_text",
+  "label_column": "category",
+  "label_to_id": {
+    "-1.0": 0,
+    "0.0": 1,
+    "1.0": 2
+  }
+}

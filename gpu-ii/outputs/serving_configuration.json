@@ -1,0 +1,5 @@
+{
+  "gpu_memory_utilization": 0.8,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "note": "Chosen once from free VRAM, then reused unchanged across serving stages and context probes."
+}

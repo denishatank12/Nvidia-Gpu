@@ -1,58 +1,82 @@
-# HW4.a: BERT Fine-Tuning and vLLM Inference
+# HW4.a: BERT sentiment and serving
 
 Student: Denisha Ketan Tank
 
-## Reproducibility and data
+SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6.
 
-Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6.
+Actual GPU: Tesla T4; UUID: `GPU-07e9693f-0780-d80f-57ed-406c0604fd80`; VRAM: 15.00 GiB; driver: 580.82.07; PyTorch CUDA: 12.8.
 
-I used `Twitter_Data.csv` with SHA-256 `5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4`. The exact zero-based source rows were 834 through 5833 (Python slice `[834:5834)`). After recording missing rows, the fixed 70/15/15 split contained 3500 training, 750 validation, and 750 test examples. Every split and model initialization used SEED 8834.
+Dataset: Kaggle saurabhshahane/twitter-sentiment-dataset, Twitter_Data.csv. Zero-based rows 834 through 5833 inclusive, Python slice [834:5834). SHA-256: `5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4`. The fixed SEED 8834 stratified split is 3,500/750/750. Every comparison reuses these exact saved split indices.
 
-## BERT fine-tuning
+Memory is reported in binary GiB. Peak allocated training memory, total GPU-process usage, reserved cache storage, and actively occupied cache blocks are different measurements.
 
-Model: `bert-base-uncased`. Batch size: 16. Epochs: 3. Peak allocated GPU memory: 2.467 GB. Training wall time including validation: 244.93 seconds. Test accuracy: 83.60%.
+Training parameters remain FP32. AMP uses T4-compatible FP16 with conservative loss scaling; the actual autocast dtype is saved in each result. T4 does not support native BF16 or TF32. A recoverable overflow repeats the same logical update at lower scale, restores dropout RNG, and changes no weights until successful. The repeat cost stays in measured time and memory, and overflow retry counts are saved in the raw results. Persistent numerical failure stops instead of being called a successful update.
 
-The best validation accuracy occurred at the final epoch, epoch 3, so this run did not continue past the best point.
+Accuracy columns in the tables are fractions from 0 to 1. Dataset labels -1, 0, and 1 mean negative, neutral, and positive sentiment.
 
-| Epoch | Training loss | Validation loss | Validation accuracy | Training time (s) |
-|---:|---:|---:|---:|---:|
-| 1 | 0.9082 | 0.6851 | 71.60% | 73.26 |
-| 2 | 0.5244 | 0.5202 | 80.80% | 77.30 |
-| 3 | 0.2899 | 0.5094 | 82.40% | 77.27 |
+## BERT results
 
-### Per-class behavior
+The original model used batch 16, sequence length 128, learning rate 0.00002, and three full epochs. Test accuracy was 83.60%. Training plus validation took 255.65 seconds, with 2.466 GiB peak training allocation.
 
-| Class | Precision | Recall | Support |
-|---|---:|---:|---:|
+The best validation accuracy occurred at epoch 3. The best point was the final epoch, so no later training cost is claimed.
+
+| epoch | training_loss | validation_loss | validation_accuracy | training_seconds |
+|---|---|---|---|---|
+| 1 | 0.9082 | 0.6851 | 0.7160 | 75.3306 |
+| 2 | 0.5244 | 0.5202 | 0.8080 | 79.3926 |
+| 3 | 0.2899 | 0.5094 | 0.8240 | 82.4588 |
+
+![Training and validation curves](outputs/hw4a_learning_curves.png)
+
+| class_label | precision | recall | support |
+|---|---|---|---|
 | -1.0 | 0.7151 | 0.7665 | 167 |
 | 0.0 | 0.8294 | 0.9000 | 270 |
 | 1.0 | 0.9209 | 0.8179 | 313 |
 
-The worst class by recall was **-1.0**. The confusion matrix is in `outputs/hw4a_confusion_matrix.png`.
+![Confusion matrix](outputs/hw4a_confusion_matrix.png)
 
-### Five mistakes from the worst class
+The lowest-recall class was -1.0. The following are actual errors from that class. The diagnoses discuss wording, not proven internal model mechanisms.
 
-| Source row | True | Predicted | Tweet | Diagnosis |
-|---:|---|---|---|---|
-| 1667 | -1.0 | 1.0 | ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india | The text explicitly praises Modi and his leadership, so the positive prediction fits the visible wording; the negative dataset label may be noisy, although the missing original context prevents certainty. |
-| 3127 | -1.0 | 1.0 | from rahul gandhis fake promise today from where will bring money this much money india than according him modi government failure and chowkidar chor than more than this money was india before five years than why not thought this | The tweet mixes criticism of a fake promise with a rhetorical comparison between political leaders; the positive prediction misses the critical tone, but the text alone does not establish which phrase drove it. |
-| 4326 | -1.0 | 0.0 | talk about looting hypocrite modi took white money converted black gave trolls everone knows who else | Words such as looting, hypocrite, and trolls convey criticism; the neutral prediction misses these negative cues in the informal wording. |
-| 5127 | -1.0 | 0.0 | took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time | The writer mocks the other person with appearing monkey and wasted that time; treating this as neutral loses the criticism expressed through the rhetorical question. |
-| 4162 | -1.0 | 1.0 | bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi | The tweet attacks Congress but ends by supporting Modi, so it contains different sentiments toward different targets; the positive output may follow the ending rather than the overall negative label. |
+| source_row | true_class | predicted_class | text | diagnosis |
+|---|---|---|---|---|
+| 1667 | -1.0 | 1.0 | ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india | The wording includes leadership, praise; that may explain the prediction 1.0, while the recorded label is -1.0. Missing context or label noise should be considered before assuming the annotation is unambiguous. |
+| 3127 | -1.0 | 1.0 | from rahul gandhis fake promise today from where will bring money this much money india than according him modi government failure and chowkidar chor than more than this money was india before five years than why not thought this  | The wording includes chor, failure, fake, but the prediction is 1.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
+| 4326 | -1.0 | 0.0 | talk about looting hypocrite modi took white money converted black gave trolls everone knows who else | The wording includes hypocrite, looting, trolls, but the prediction is 0.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
+| 5127 | -1.0 | 0.0 | took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time | The wording includes wasted, but the prediction is 0.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
+| 4162 | -1.0 | 1.0 | bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi | The wording includes bullshit, but the prediction is 1.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
 
-The trained classifier was saved, reloaded from disk, and used on two custom sentences. The outputs are in `outputs/hw4a_custom_inference.csv`.
+## Saved model and custom inference
 
-## vLLM serving benchmark
+The classifier and tokenizer were saved and reloaded before these two predictions.
 
-I used the different Hugging Face model `Qwen/Qwen2.5-0.5B-Instruct` with my own prompts. All configurations generated at most 64 tokens per request.
+| text | predicted_class | confidence |
+|---|---|---|
+| The movie was thoughtful, funny, and much better than I expected. | 1.0 | 0.9576 |
+| The story dragged for hours and the ending was disappointing. | -1.0 | 0.9301 |
 
-Latency is the synchronous closed-batch completion time assigned to each request, not an independently recorded request finish or first-token time. The small number of batch repetitions limits the precision of p95. Memory values labelled GB use binary GiB.
+## HF and vLLM serving
 
-| Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |
-|---|---:|---:|---:|
-| HF pipeline, batch 1 | 28.53 | 2114.15 | 2823.26 |
-| vLLM, batch 1 | 66.08 | 949.92 | 1037.75 |
-| vLLM, batch 8 | 478.11 | 1066.14 | 1107.22 |
-| vLLM, batch 32 | 1631.81 | 1249.70 | 1270.21 |
+HF pipeline wall time for each batch-1 request; vLLM individual finished_time minus client submission time, including tokenization, admission, and queue time. Each request has its own completion timestamp; engine arrival_time is also saved.
 
-None of the tested configurations showed worse p50 latency than the HF baseline while also increasing throughput over the preceding configuration. Batching can increase total work completed per second while individual requests wait longer. For an interactive application, p50 and especially p95 latency matter because a user waits for a response. For an offline job, aggregate tokens per second is usually more important.
+Each mode generates exactly 64 new tokens, is warmed up, and uses the same raw prompt family and FP16 model. Each row has at least 100 real requests. vLLM batches have at least 20 measured repetitions. Individual request timestamps and raw observations are saved, so requests are not all assigned the enclosing batch time.
+
+| configuration | tokens_per_second | p50_latency_ms | p95_latency_ms | requests_measured | measured_batches |
+|---|---|---|---|---|---|
+| HF pipeline, batch 1 | 29.9178 | 2132.9225 | 2201.3567 | 100 | 100 |
+| vLLM, batch 1 | 66.3984 | 962.0703 | 1006.2642 | 100 | 100 |
+| vLLM, batch 8 | 494.9773 | 1029.8672 | 1086.2345 | 160 | 20 |
+| vLLM, batch 32 | 1660.8614 | 1228.0576 | 1274.3907 | 640 | 20 |
+
+No tested batch showed worse median request latency than HF while throughput was still increasing. Batching can finish more tokens per second even when individual requests wait longer. For an interactive chatbot I would prioritize request latency, especially p95. For offline generation, total throughput is usually more important.
+
+### My prompts and actual generated answers
+
+| configuration | prompt | answer |
+|---|---|---|
+| HF pipeline, batch 1 | Explain why batching can improve GPU throughput in two sentences. |  Batching allows multiple data points to be processed together, reducing the time and energy required for each individual operation, thereby increasing overall processing speed and efficiency. Additionally, it enables parallelization of tasks across multiple GPUs, allowing for faster computation by utilizing the collective computational power of all available GPUs rather than relying on a single core or |
+| HF pipeline, batch 1 | Describe one benefit and one cost of mixed precision training. |  One benefit of mixed precision training is that it allows for more accurate predictions, as the model can handle larger numbers of parameters and operations efficiently. This can lead to faster training times and improved performance on certain tasks.  One cost associated with mixed precision training is that it requires additional computational resources and memory to store and manipulate the data |
+| vLLM, batch 1 | Explain why batching can improve GPU throughput in two sentences. |  Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU |
+| vLLM, batch 8 | Explain why batching can improve GPU throughput in two sentences. |  Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU |
+| vLLM, batch 32 | Explain why batching can improve GPU throughput in two sentences. |  Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU |
+

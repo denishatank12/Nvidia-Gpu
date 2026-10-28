@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import gc
 import hashlib
+import itertools
 import json
 import math
 import os
@@ -30,6 +31,13 @@ ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = ROOT / "outputs"
 CACHE_DIR = ROOT / "cache"
 CHECKPOINT_DIR = ROOT / "checkpoints"
+
+
+def atomic_json(path, value):
+    path = Path(path)
+    temporary = path.with_name(path.name + '.writing')
+    temporary.write_text(json.dumps(value, indent=2, allow_nan=False), encoding='utf-8')
+    temporary.replace(path)
 
 SID4 = 8834
 SEED = 8834
@@ -88,14 +96,13 @@ def gpu_snapshot() -> dict[str, Any]:
     import torch
 
     require_cuda()
-    props = torch.cuda.get_device_properties(0)
     command = [
         "nvidia-smi",
-        "--query-gpu=name,uuid,memory.total,driver_version",
+        "--query-gpu=name,uuid,memory.total,driver_version,compute_cap",
         "--format=csv,noheader,nounits",
     ]
     line = subprocess.check_output(command, text=True).strip().splitlines()[0]
-    name, uuid, memory_mib, driver = [part.strip() for part in line.split(",")]
+    name, uuid, memory_mib, driver, capability = [part.strip() for part in line.split(",")]
     return {
         "name": name,
         "uuid": uuid,
@@ -103,7 +110,7 @@ def gpu_snapshot() -> dict[str, Any]:
         "memory_total_gb": int(memory_mib) / 1024,
         "driver_version": driver,
         "torch_cuda": torch.version.cuda,
-        "compute_capability": f"{props.major}.{props.minor}",
+        "compute_capability": capability,
     }
 
 
@@ -246,11 +253,16 @@ def load_cache() -> dict[str, Any]:
     return torch.load(path, map_location="cpu", weights_only=False)
 
 
-def make_loader(cache: dict[str, Any], split: str, batch_size: int, settings: Settings, shuffle: bool):
+def make_loader(cache: dict[str, Any], split: str, batch_size: int, settings: Settings, shuffle: bool, capacity_batch: bool = False):
     import torch
     from torch.utils.data import DataLoader, TensorDataset
 
     indices = cache["splits"][split]
+    if capacity_batch:
+        # Capacity only: allocate the REQUESTED physical batch, even when it is
+        # larger than the dataset. Repeated training rows are never used for
+        # accuracy or represented as a normal training epoch.
+        indices = indices[torch.arange(batch_size) % len(indices)]
     dataset = TensorDataset(
         cache["input_ids"].index_select(0, indices),
         cache["attention_mask"].index_select(0, indices),
@@ -310,6 +322,54 @@ def evaluate(model, loader) -> tuple[float, float, list[int], list[int]]:
     return total_loss / total, accuracy, predictions, targets
 
 
+def train_update(model, optimizer, scaler, batches, amp_dtype, amp_enabled):
+    """Complete one logical optimizer update, replaying recoverable FP16 overflow.
+
+    Retried microbatches keep the same examples and dropout RNG. Failed backward
+    attempts never update weights or count as extra samples/optimizer updates.
+    Their actual time and memory remain included in the measurements.
+    """
+    import torch
+    samples = sum(batch[2].size(0) for batch in batches)
+    cpu_rng = torch.get_rng_state() if scaler.is_enabled() else None
+    cuda_rng = torch.cuda.get_rng_state_all() if scaler.is_enabled() else None
+    for attempt in range(8):
+        if attempt:
+            torch.set_rng_state(cpu_rng)
+            torch.cuda.set_rng_state_all(cuda_rng)
+        optimizer.zero_grad(set_to_none=True)
+        weighted_loss = 0.0
+        for input_ids, attention_mask, labels in batches:
+            input_ids = input_ids.cuda(non_blocking=True)
+            attention_mask = attention_mask.cuda(non_blocking=True)
+            labels = labels.cuda(non_blocking=True)
+            with torch.autocast('cuda', dtype=amp_dtype, enabled=amp_enabled):
+                output = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
+                raw_loss = output.loss
+                loss = raw_loss * (labels.size(0) / samples)
+            scaler.scale(loss).backward()
+            weighted_loss += raw_loss.detach().float().item() * labels.size(0)
+        scaler.unscale_(optimizer)
+        gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        if not torch.isfinite(gradient_norm) or not math.isfinite(weighted_loss):
+            if not scaler.is_enabled():
+                raise RuntimeError('Non-finite FP32 loss or gradients; no optimizer update was applied.')
+            # No scaler.step() here: weights and optimizer state stay unchanged.
+            # update(new_scale) clears the per-optimizer unscale state for replay.
+            new_scale = scaler.get_scale() / 2
+            scaler.update(new_scale=new_scale)
+            print(f'FP16 overflow: replaying the same update with loss scale {new_scale}', flush=True)
+            continue
+        previous_scale = scaler.get_scale()
+        scaler.step(optimizer)
+        scaler.update()
+        optimizer.zero_grad(set_to_none=True)
+        if scaler.is_enabled() and scaler.get_scale() < previous_scale:
+            raise RuntimeError('Unexpected skipped FP16 update after finite-gradient verification.')
+        return weighted_loss, samples, attempt
+    raise RuntimeError('FP16 remained non-finite after eight bounded retries; no successful update was claimed.')
+
+
 def run_training(
     settings: Settings,
     technique: str,
@@ -318,6 +378,7 @@ def run_training(
     accumulation_steps: int = 1,
     save_details: bool = False,
     save_name: str | None = None,
+    memory_probe: bool = False,
 ) -> dict[str, Any]:
     import torch
     from sklearn.metrics import confusion_matrix, precision_recall_fscore_support
@@ -326,6 +387,9 @@ def run_training(
     require_cuda()
     flags = TECHNIQUES[technique]
     cache = load_cache()
+    capacity_only = memory_probe and batch_size > len(cache['splits']['train'])
+    if not memory_probe and batch_size > len(cache['splits']['train']):
+        raise ValueError('A full training run cannot claim a physical batch larger than the training split.')
     num_labels = len(cache["label_to_id"])
     set_seed(settings.seed)
     torch.backends.cuda.matmul.allow_tf32 = True
@@ -347,15 +411,34 @@ def run_training(
             model.gradient_checkpointing_enable()
 
     optimizer = build_optimizer(model, settings, flags["optimizer8bit"])
-    scaler = torch.amp.GradScaler("cuda", enabled=flags["amp"])
-    train_loader = make_loader(cache, "train", batch_size, settings, shuffle=True)
-    validation_loader = make_loader(cache, "validation", max(batch_size, 64), settings, shuffle=False)
-    test_loader = make_loader(cache, "test", max(batch_size, 64), settings, shuffle=False)
+    # NVIDIA T4 has FP16 tensor cores, not native BF16. Keep master weights
+    # FP32 and apply FP16 only in autocast-enabled training conditions.
+    amp_dtype = torch.float16
+    scaler_options = dict(enabled=flags['amp'] and amp_dtype == torch.float16,
+                          init_scale=16, growth_interval=100000)
+    if hasattr(torch.amp, 'GradScaler'):
+        scaler = torch.amp.GradScaler('cuda', **scaler_options)
+    else:
+        scaler = torch.cuda.amp.GradScaler(**scaler_options)
+    train_loader = make_loader(cache, "train", batch_size, settings, shuffle=True, capacity_batch=capacity_only)
+    validation_loader = make_loader(cache, "validation", min(batch_size, 16), settings, shuffle=False)
+    test_loader = make_loader(cache, "test", min(batch_size, 16), settings, shuffle=False)
+
+    # Warm up the forward kernels without changing weights, dropout RNG, or
+    # shuffled loader order. Timed epochs still contain every training example.
+    warm_indices = cache["splits"]["train"][:min(2, batch_size)]
+    model.eval()
+    with torch.inference_mode(), torch.autocast("cuda", dtype=amp_dtype, enabled=flags["amp"]):
+        model(input_ids=cache["input_ids"][warm_indices].cuda(),
+              attention_mask=cache["attention_mask"][warm_indices].cuda())
+    torch.cuda.synchronize()
 
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
     epoch_rows: list[dict[str, Any]] = []
     optimizer_steps = 0
+    skipped_updates = 0
+    overflow_retries = 0
     samples_seen = 0
     training_peak_allocated = 0
     training_peak_reserved = 0
@@ -370,34 +453,38 @@ def run_training(
         torch.cuda.reset_peak_memory_stats()
         torch.cuda.synchronize()
         epoch_start = time.perf_counter()
-        for step, (input_ids, attention_mask, labels) in enumerate(train_loader, start=1):
-            input_ids = input_ids.cuda(non_blocking=True)
-            attention_mask = attention_mask.cuda(non_blocking=True)
-            labels = labels.cuda(non_blocking=True)
-            with torch.autocast("cuda", dtype=torch.float16, enabled=flags["amp"]):
-                output = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
-                raw_loss = output.loss
-                # Weight each microbatch by its share of the actual update group,
-                # including a short final group at the end of an epoch.
-                group_start = ((step - 1) // accumulation_steps) * accumulation_steps * batch_size
-                group_samples = min(batch_size * accumulation_steps, len(train_loader.dataset) - group_start)
-                loss = raw_loss * (labels.size(0) / group_samples)
-            scaler.scale(loss).backward()
-            should_step = step % accumulation_steps == 0 or step == len(train_loader)
-            if should_step:
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-                scaler.step(optimizer)
-                scaler.update()
-                optimizer.zero_grad(set_to_none=True)
-                optimizer_steps += 1
-            epoch_loss += raw_loss.detach().float().item() * labels.size(0)
-            epoch_samples += labels.size(0)
-            samples_seen += labels.size(0)
+        iterator = iter(train_loader)
+        for group_index in range(math.ceil(len(train_loader) / accumulation_steps)):
+            batches = list(itertools.islice(iterator, accumulation_steps))
+            if memory_probe and group_index == 0 and batches[0][2].size(0) != batch_size:
+                raise RuntimeError('Memory probe did not materialize the requested physical batch.')
+            weighted_loss, actual_samples, retries = train_update(
+                model, optimizer, scaler, batches, amp_dtype, flags['amp'])
+            optimizer_steps += 1
+            overflow_retries += retries
+            epoch_loss += weighted_loss
+            epoch_samples += actual_samples
+            samples_seen += actual_samples
         torch.cuda.synchronize()
         train_seconds = time.perf_counter() - epoch_start
         training_peak_allocated = max(training_peak_allocated, torch.cuda.max_memory_allocated())
         training_peak_reserved = max(training_peak_reserved, torch.cuda.max_memory_reserved())
+        if capacity_only:
+            result = {'status': 'success', 'technique': technique,
+                'physical_batch': batch_size, 'observed_first_batch': epoch_samples,
+                'measurement_kind': 'capacity_only_repeated_training_rows',
+                'optimizer_steps': optimizer_steps, 'samples_seen': samples_seen,
+                'overflow_retries': overflow_retries, 'amp_dtype': str(amp_dtype) if flags['amp'] else 'disabled',
+                'throughput_samples_per_second': epoch_samples / train_seconds,
+                'capacity_update_seconds': train_seconds,
+                'peak_memory_allocated_gb': training_peak_allocated / 2**30,
+                'peak_memory_reserved_gb': training_peak_reserved / 2**30}
+            if skipped_updates:
+                raise RuntimeError('Capacity probe skipped an optimizer update.')
+            del model, optimizer, train_loader, validation_loader, test_loader
+            gc.collect()
+            torch.cuda.empty_cache()
+            return result
         validation_loss, validation_accuracy, _, _ = evaluate(model, validation_loader)
         row = {
             "epoch": epoch,
@@ -412,6 +499,8 @@ def run_training(
 
     torch.cuda.synchronize()
     wall_seconds = time.perf_counter() - wall_start
+    if skipped_updates:
+        raise RuntimeError(f'{skipped_updates} FP16 updates were skipped by loss scaling. This is not a matched-update run; inspect precision stability rather than reporting attempted steps as completed updates.')
     peak_allocated = training_peak_allocated / 2**30
     peak_reserved = training_peak_reserved / 2**30
     test_loss, test_accuracy, predictions, targets = evaluate(model, test_loader)
@@ -435,13 +524,18 @@ def run_training(
         "technique": technique,
         "flags": flags,
         "physical_batch": batch_size,
+        "observed_first_batch": min(batch_size, len(train_loader.dataset)),
+        "measurement_kind": "full_training_epoch",
         "accumulation_steps": accumulation_steps,
         "effective_batch": batch_size * accumulation_steps,
         "epochs": epochs,
         "optimizer_steps": optimizer_steps,
+        "skipped_updates": skipped_updates,
+        "overflow_retries": overflow_retries,
+        "amp_dtype": str(amp_dtype) if flags['amp'] else 'disabled',
         "samples_seen": samples_seen,
         "throughput_samples_per_second": float(
-            sum(row["throughput_samples_per_second"] for row in epoch_rows) / len(epoch_rows)
+            samples_seen / sum(row["training_seconds"] for row in epoch_rows)
         ),
         "mean_time_per_epoch_seconds": float(
             sum(row["training_seconds"] for row in epoch_rows) / len(epoch_rows)
@@ -511,6 +605,8 @@ def probe_subprocess(settings_path: Path, technique: str, batch_size: int, resul
         result = json.loads(result_path.read_text(encoding="utf-8"))
     else:
         result = {"status": "error", "error": completed.stderr[-4000:]}
+    if completed.returncode != 0:
+        result = {'status': 'error', 'error': completed.stderr[-4000:] or f'Probe process exited {completed.returncode}'}
     result["stdout_tail"] = completed.stdout[-2000:]
     result["stderr_tail"] = completed.stderr[-2000:]
     return result
@@ -524,7 +620,7 @@ def run_sweep(settings: Settings, settings_path: Path, technique: str) -> list[d
         print(f"\nProbing {technique} batch={batch_size}", flush=True)
         if os.environ.get("GPU_ASSIGNMENT_RESUME") == "1" and result_path.exists():
             result = json.loads(result_path.read_text(encoding="utf-8"))
-            if result.get("status") not in ("success", "oom"):
+            if result.get("status") not in ("success", "oom") or (result.get('status') == 'success' and result.get('observed_first_batch') != batch_size):
                 result = probe_subprocess(settings_path, technique, batch_size, result_path)
             else:
                 print("Reusing completed probe from this run.", flush=True)
@@ -672,6 +768,9 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
             full_runs[technique] = json.loads(result_path.read_text(encoding="utf-8"))
             print("Reusing completed full run.", flush=True)
         else:
+            # Do not turn repeated-row capacity probes into quality experiments.
+            train_count = manifest['split_sizes']['train']
+            batch_size = min(batch_size, 2 ** (train_count.bit_length() - 1))
             full_runs[technique] = run_training(
                 settings,
                 technique,
@@ -679,15 +778,17 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
                 settings.epochs,
                 save_details=technique == "baseline",
             )
-            result_path.write_text(json.dumps(full_runs[technique], indent=2), encoding="utf-8")
+            atomic_json(result_path, full_runs[technique])
 
     # Gradient accumulation is measured separately: a small physical batch
     # reaches the baseline maximum effective batch for the same epoch count.
-    baseline_max = maximum_batches["baseline"]
-    accumulation_steps = max(2, math.ceil(baseline_max / settings.original_batch))
+    baseline_max = full_runs['baseline']['physical_batch']
+    accumulation_physical = min(settings.original_batch, max(1, baseline_max // 4))
+    accumulation_steps = baseline_max // accumulation_physical
+    assert accumulation_physical * accumulation_steps == baseline_max
     print(
-        f"\nTraining gradient accumulation: physical={settings.original_batch}, "
-        f"steps={accumulation_steps}, effective={settings.original_batch * accumulation_steps}",
+        f"\nTraining gradient accumulation: physical={accumulation_physical}, "
+        f"steps={accumulation_steps}, effective={accumulation_physical * accumulation_steps}",
         flush=True,
     )
     accumulation_path = OUTPUT_DIR / "full_result_gradient_accumulation.json"
@@ -697,12 +798,13 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
         full_runs["gradient_accumulation"] = run_training(
             settings,
             "baseline",
-            settings.original_batch,
+            accumulation_physical,
             settings.epochs,
             accumulation_steps=accumulation_steps,
             save_details=False,
         )
-        accumulation_path.write_text(json.dumps(full_runs["gradient_accumulation"], indent=2), encoding="utf-8")
+        full_runs["gradient_accumulation"]["technique"] = "gradient_accumulation"
+        atomic_json(accumulation_path, full_runs["gradient_accumulation"])
     full_runs["gradient_accumulation"]["technique"] = "gradient_accumulation"
 
     capture_gpu("after_training")
@@ -723,7 +825,7 @@ def orchestrate_training(settings: Settings, settings_path: Path) -> dict[str, A
         "maximum_batches": maximum_batches,
         "full_runs": full_runs,
     }
-    (OUTPUT_DIR / "training_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    atomic_json(OUTPUT_DIR / 'training_summary.json', summary)
     write_training_tables(summary)
     save_training_figures(summary)
     print("Training benchmark complete.")
@@ -759,7 +861,7 @@ def main() -> None:
     elif args.command == "probe":
         result_path = Path(args.result)
         try:
-            result = run_training(settings, args.technique, args.batch_size, epochs=1)
+            result = run_training(settings, args.technique, args.batch_size, epochs=1, memory_probe=True)
         except RuntimeError as error:
             text = str(error)
             status = "oom" if "out of memory" in text.lower() else "error"
@@ -769,7 +871,7 @@ def main() -> None:
                 "physical_batch": args.batch_size,
                 "error": text,
             }
-        result_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
+        atomic_json(result_path, result)
         print(json.dumps(result))
     elif args.command == "all":
         orchestrate_training(settings, Path(args.settings).resolve())

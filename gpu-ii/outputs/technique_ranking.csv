@@ -1,0 +1,5 @@
+technique,memory_saved_GiB,throughput_change,GiB_saved_per_sample_per_second_lost,rank
+mixed_precision,0.2232666015625,82.5258539276783,no throughput loss,1
+optimizer_8bit,0.601524829864502,-3.098192498061522,0.1942,2
+gradient_accumulation,0.4669785499572754,-5.738937110835103,0.0814,3
+gradient_checkpointing,0.7845063209533691,-13.519563901303027,0.0580,4

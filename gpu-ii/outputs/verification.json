@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "same dataset hash": true,
+    "same preparation settings": true,
+    "exact source rows": true,
+    "fixed split": true,
+    "all independent and combined memory sweeps reached OOM": true,
+    "successful probes materialized their requested batch": true,
+    "quality runs never repeat rows to inflate a physical batch": true,
+    "six matched training conditions": true,
+    "same controlled effective batch and training updates": true,
+    "saved BERT reloaded": true,
+    "five original worst-class mistakes": true,
+    "baseline and repeated serving configurations match": true,
+    "serving batches recorded in both stages": true,
+    "each serving row has at least 100 real request samples": true,
+    "at least 20 measured vLLM batches per shape": true,
+    "request timestamps, not batch copies": true,
+    "eight concurrent KV allocations observed": true,
+    "capacity boundary or unmodified model limit identified": true,
+    "checkpoint weights and tokenizer exist": true,
+    "both GPU UUID captures exist": true,
+    "all required figures exist": true,
+    "optional Part C skip": true
+  },
+  "all_passed": true,
+  "scope": "Checks measured artifacts only. Publishing, private-repository access, a final tag, and student review happen after this run."
+}

@@ -1,11 +1,9 @@
 # GPU-hour record
 
-GPU: Tesla T4 (`GPU-d3085845-9dcd-3867-c44d-22ef57457cde`)
+Actual GPU: Tesla T4 (GPU-07e9693f-0780-d80f-57ed-406c0604fd80).
 
-The original HW4.a configuration is the accuracy-oriented recommendation from the measured runs. Its wall time including validation was 244.93 seconds: 1 GPU × 244.93 seconds ÷ 3600 = **0.0680 GPU-hours**.
+Chosen configuration: baseline. One GPU × 255.648288 seconds / 3600 = 0.071013 GPU-hours.
 
-The faster combined candidate had a wall time of 67.10 seconds, but lower test accuracy.
+Original HW4.a baseline: 0.071013 GPU-hours.
 
-Calculation: 1 GPU × 67.10 seconds ÷ 3600 = **0.0186 GPU-hours**.
-
-These are individual three-epoch training runs including validation, not the cost of the entire benchmark suite, downloads, or idle allocation time.
+These are training-plus-validation costs for individual three-epoch runs, not total allocation time for all experiments.

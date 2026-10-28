@@ -7,43 +7,48 @@
     "optimizer8bit": false
   },
   "physical_batch": 128,
+  "observed_first_batch": 128,
+  "measurement_kind": "full_training_epoch",
   "accumulation_steps": 1,
   "effective_batch": 128,
   "epochs": 3,
   "optimizer_steps": 84,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "disabled",
   "samples_seen": 10500,
-  "throughput_samples_per_second": 49.60486996573513,
-  "mean_time_per_epoch_seconds": 70.5596146266668,
-  "training_wall_seconds_including_validation": 228.44712726299986,
-  "peak_memory_allocated_gb": 10.865760803222656,
-  "peak_memory_reserved_gb": 11.046875,
-  "test_loss": 0.7740846529006958,
+  "throughput_samples_per_second": 45.20837681208789,
+  "mean_time_per_epoch_seconds": 77.41928038133331,
+  "training_wall_seconds_including_validation": 251.77129067899978,
+  "peak_memory_allocated_gb": 10.866048812866211,
+  "peak_memory_reserved_gb": 11.01171875,
+  "test_loss": 0.7740846118927002,
   "test_accuracy": 0.68,
   "best_validation_epoch": 3,
   "epoch_metrics": [
     {
       "epoch": 1,
       "training_loss": 1.0097572840281894,
-      "validation_loss": 0.943273190498352,
+      "validation_loss": 0.9432732446988423,
       "validation_accuracy": 0.5546666666666666,
-      "training_seconds": 71.04229408400033,
-      "throughput_samples_per_second": 49.26642706472293
+      "training_seconds": 77.77485002499998,
+      "throughput_samples_per_second": 45.001693977872776
     },
     {
       "epoch": 2,
       "training_loss": 0.8631806400844029,
-      "validation_loss": 0.8423684708277385,
+      "validation_loss": 0.8423684646288554,
       "validation_accuracy": 0.6466666666666666,
-      "training_seconds": 70.51802540400013,
-      "throughput_samples_per_second": 49.63270000752833
+      "training_seconds": 77.27838460800012,
+      "throughput_samples_per_second": 45.29080179087579
     },
     {
       "epoch": 3,
       "training_loss": 0.6865538611412049,
-      "validation_loss": 0.7696202098528544,
+      "validation_loss": 0.7696202042897542,
       "validation_accuracy": 0.6866666666666666,
-      "training_seconds": 70.11852439199993,
-      "throughput_samples_per_second": 49.91548282495414
+      "training_seconds": 77.20460651099984,
+      "throughput_samples_per_second": 45.33408248769887
     }
   ],
   "per_class": [

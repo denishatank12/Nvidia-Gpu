@@ -7,27 +7,32 @@
     "optimizer8bit": false
   },
   "physical_batch": 256,
+  "observed_first_batch": 256,
+  "measurement_kind": "full_training_epoch",
   "accumulation_steps": 1,
   "effective_batch": 256,
   "epochs": 1,
   "optimizer_steps": 14,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "torch.float16",
   "samples_seen": 3500,
-  "throughput_samples_per_second": 205.26443162165017,
-  "mean_time_per_epoch_seconds": 17.0511762430001,
-  "training_wall_seconds_including_validation": 22.885049935000097,
-  "peak_memory_allocated_gb": 13.915612697601318,
-  "peak_memory_reserved_gb": 14.166015625,
-  "test_loss": 0.9802329107920329,
-  "test_accuracy": 0.5413333333333333,
+  "throughput_samples_per_second": 202.98715746657726,
+  "mean_time_per_epoch_seconds": 17.24247013299987,
+  "training_wall_seconds_including_validation": 23.37158268999974,
+  "peak_memory_allocated_gb": 13.917441368103027,
+  "peak_memory_reserved_gb": 14.169921875,
+  "test_loss": 0.9800887287457783,
+  "test_accuracy": 0.54,
   "best_validation_epoch": 1,
   "epoch_metrics": [
     {
       "epoch": 1,
-      "training_loss": 1.030805037498474,
-      "validation_loss": 0.9680729722976684,
+      "training_loss": 1.030750419821058,
+      "validation_loss": 0.9680093297958374,
       "validation_accuracy": 0.5426666666666666,
-      "training_seconds": 17.0511762430001,
-      "throughput_samples_per_second": 205.26443162165017
+      "training_seconds": 17.24247013299987,
+      "throughput_samples_per_second": 202.98715746657726
     }
   ],
   "per_class": [
@@ -41,14 +46,14 @@
     {
       "class_id": 1,
       "class_label": "0.0",
-      "precision": 0.5913621262458472,
-      "recall": 0.6592592592592592,
+      "precision": 0.59,
+      "recall": 0.6555555555555556,
       "support": 270
     },
     {
       "class_id": 2,
       "class_label": "1.0",
-      "precision": 0.5077951002227171,
+      "precision": 0.5066666666666667,
       "recall": 0.7284345047923323,
       "support": 313
     }
@@ -61,8 +66,8 @@
     ],
     [
       0,
-      178,
-      92
+      177,
+      93
     ],
     [
       0,

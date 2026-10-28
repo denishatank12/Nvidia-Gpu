@@ -32,4 +32,6 @@ The notebook downloads its data/models and installs an isolated Python 3.11
 environment; no extra source-file uploads are needed. Optional Part C is skipped.
 After completion, save the executed notebook and results ZIP for final audit.
 Colab can reclaim its GPU; an uninterrupted overnight session is not guaranteed.
-No GitHub commit, upload, or tag was made for this new T4 version.
+Creation-time validation above was performed before the T4 run. The later
+executed run 6ec28b7ced2a passed its actual GPU smoke tests and was audited.
+See ../SUBMISSION_AUDIT.md and ../GPU_II_Colab_Run_All.ipynb for that run.

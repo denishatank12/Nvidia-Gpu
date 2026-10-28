@@ -1,15 +1,13 @@
-# Colab runtime record
+# Actual runtime record
 
-Provider: Google Colab hosted NVIDIA GPU runtime.
+Provider: Google Colab
 
-Lab reservation: not applicable. This run used the instructor-permitted Colab option, not a reserved lab workstation.
+GPU 0: Tesla T4 (UUID: GPU-07e9693f-0780-d80f-57ed-406c0604fd80)
 
-Actual GPU: Tesla T4, 15,360 MiB reported VRAM.
+Run started (UTC): 2026-10-28T20:22:05.290301+00:00
 
-GPU UUID: `GPU-d3085845-9dcd-3867-c44d-22ef57457cde`.
+Run completed (UTC): 2026-10-28T22:20:07.426370+00:00
 
-First completed smoke check: October 27, 2026, 10:27:51 a.m. PDT (17:27:51 UTC).
+Elapsed session wall time, including setup, downloads, and possible idle/resume intervals: 7082.14 seconds.
 
-Combined run completed: October 27, 2026, 11:29:15 a.m. PDT (18:29:15 UTC).
-
-These are completion markers from the executed notebook, not a claimed reservation window or exact GPU allocation start time. Timestamped output is in `RUN_LOG.txt`; GPU identity captures are in `outputs/`.
+No lab booking is invented. A personal/hosted GPU does not need a lab reservation; if this was a reserved lab system, add its actual booking confirmation before submission.

@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import shutil
+import hashlib
+import time
 import tempfile
 import urllib.request
 import zipfile
@@ -12,12 +14,31 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DESTINATION = ROOT / "Twitter_Data.csv"
+EXPECTED_HASH = "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4"
+
+
+def digest(path):
+    result = hashlib.sha256()
+    with path.open('rb') as handle:
+        for block in iter(lambda: handle.read(2**20), b''): result.update(block)
+    return result.hexdigest()
+
+
+def publish_partial():
+    partial = DESTINATION.with_suffix('.csv.partial')
+    if digest(partial) != EXPECTED_HASH:
+        raise RuntimeError('The downloaded CSV does not match the original HW4.a source hash. It was not used for training.')
+    partial.replace(DESTINATION)
 
 
 def main() -> None:
-    if DESTINATION.exists():
+    if DESTINATION.exists() and digest(DESTINATION) == EXPECTED_HASH:
         print(f"Dataset already present: {DESTINATION}")
         return
+    if DESTINATION.exists():
+        invalid = DESTINATION.with_name('Twitter_Data.invalid.' + str(time.time_ns()) + '.csv')
+        DESTINATION.replace(invalid)
+        print('Preserved an invalid/incomplete download at', invalid)
 
     import kagglehub
 
@@ -37,8 +58,9 @@ def main() -> None:
                 if len(matches) != 1:
                     raise FileNotFoundError("The public Kaggle archive does not contain exactly one Twitter_Data.csv.")
                 # Copy one known file; do not extract arbitrary archive paths.
-                with bundle.open(matches[0]) as source, DESTINATION.open("wb") as output:
+                with bundle.open(matches[0]) as source, DESTINATION.with_suffix('.csv.partial').open("wb") as output:
                     shutil.copyfileobj(source, output)
+        publish_partial()
         print(f"Copied dataset to {DESTINATION}")
         return
     candidates = list(download_dir.rglob("Twitter_Data.csv"))
@@ -52,7 +74,8 @@ def main() -> None:
         raise FileNotFoundError(
             f"Expected one Twitter_Data.csv under {download_dir}, found {len(candidates)}."
         )
-    shutil.copy2(candidates[0], DESTINATION)
+    shutil.copy2(candidates[0], DESTINATION.with_suffix('.csv.partial'))
+    publish_partial()
     print(f"Copied dataset to {DESTINATION}")
 
 

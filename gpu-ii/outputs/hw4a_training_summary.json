@@ -20,12 +20,12 @@
     "learning_rate": 2e-05,
     "weight_decay": 0.01,
     "original_batch": 16,
-    "max_probe_batch": 4096,
+    "max_probe_batch": 65536,
     "num_workers": 0
   },
   "gpu": {
     "name": "Tesla T4",
-    "uuid": "GPU-d3085845-9dcd-3867-c44d-22ef57457cde",
+    "uuid": "GPU-07e9693f-0780-d80f-57ed-406c0604fd80",
     "memory_total_mib": 15360,
     "memory_total_gb": 15.0,
     "driver_version": "580.82.07",
@@ -43,7 +43,7 @@
       "text_column": "clean_text",
       "label_column": "category"
     },
-    "source_path": "/content/gpu-ii/Twitter_Data.csv",
+    "source_path": "/content/GPU_II_T4_RUN_6ec28b7ced2a/Twitter_Data.csv",
     "source_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
     "raw_dataset_rows": 162980,
     "requested_row_range_zero_based": [
@@ -80,43 +80,48 @@
       "optimizer8bit": false
     },
     "physical_batch": 16,
+    "observed_first_batch": 16,
+    "measurement_kind": "full_training_epoch",
     "accumulation_steps": 1,
     "effective_batch": 16,
     "epochs": 3,
     "optimizer_steps": 657,
+    "skipped_updates": 0,
+    "overflow_retries": 0,
+    "amp_dtype": "disabled",
     "samples_seen": 10500,
-    "throughput_samples_per_second": 46.11563124201981,
-    "mean_time_per_epoch_seconds": 75.9443733076667,
-    "training_wall_seconds_including_validation": 244.92726297699994,
-    "peak_memory_allocated_gb": 2.4668984413146973,
-    "peak_memory_reserved_gb": 2.89453125,
-    "test_loss": 0.47083095359802246,
+    "throughput_samples_per_second": 44.26981207961529,
+    "mean_time_per_epoch_seconds": 79.06064732566661,
+    "training_wall_seconds_including_validation": 255.64828790100012,
+    "peak_memory_allocated_gb": 2.4656777381896973,
+    "peak_memory_reserved_gb": 2.70703125,
+    "test_loss": 0.4708309897581736,
     "test_accuracy": 0.836,
     "best_validation_epoch": 3,
     "epoch_metrics": [
       {
         "epoch": 1,
         "training_loss": 0.9082491632870265,
-        "validation_loss": 0.685140488465627,
+        "validation_loss": 0.6851405286788941,
         "validation_accuracy": 0.716,
-        "training_seconds": 73.26271833300001,
-        "throughput_samples_per_second": 47.77327513417532
+        "training_seconds": 75.33056312999997,
+        "throughput_samples_per_second": 46.46188551597518
       },
       {
         "epoch": 2,
         "training_loss": 0.5243684139251709,
-        "validation_loss": 0.5201754274368287,
+        "validation_loss": 0.5201753527323405,
         "validation_accuracy": 0.808,
-        "training_seconds": 77.30118977500001,
-        "throughput_samples_per_second": 45.277440233292964
+        "training_seconds": 79.39262257999997,
+        "throughput_samples_per_second": 44.08470064675374
       },
       {
         "epoch": 3,
         "training_loss": 0.2898897445627621,
-        "validation_loss": 0.5093885161876679,
+        "validation_loss": 0.5093885046641032,
         "validation_accuracy": 0.824,
-        "training_seconds": 77.26921181500006,
-        "throughput_samples_per_second": 45.296178358591135
+        "training_seconds": 82.4587562669999,
+        "throughput_samples_per_second": 42.445461930896286
       }
     ],
     "per_class": [
@@ -194,7 +199,7 @@
       }
     ]
   },
-  "saved_model": "/content/gpu-ii/checkpoints/hw4a_bert_classifier",
+  "saved_model": "/content/GPU_II_T4_RUN_6ec28b7ced2a/checkpoints/hw4a_bert_classifier",
   "reloaded_custom_inference": [
     {
       "text": "The movie was thoughtful, funny, and much better than I expected.",

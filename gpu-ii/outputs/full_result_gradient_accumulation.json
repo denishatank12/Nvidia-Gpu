@@ -1,49 +1,54 @@
 {
   "status": "success",
-  "technique": "baseline",
+  "technique": "gradient_accumulation",
   "flags": {
     "amp": false,
     "checkpointing": false,
     "optimizer8bit": false
   },
   "physical_batch": 16,
+  "observed_first_batch": 16,
+  "measurement_kind": "full_training_epoch",
   "accumulation_steps": 8,
   "effective_batch": 128,
   "epochs": 3,
   "optimizer_steps": 84,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "disabled",
   "samples_seen": 10500,
-  "throughput_samples_per_second": 48.28184954795191,
-  "mean_time_per_epoch_seconds": 72.49109889966667,
-  "training_wall_seconds_including_validation": 234.41336173199988,
-  "peak_memory_allocated_gb": 2.886539936065674,
-  "peak_memory_reserved_gb": 3.28515625,
-  "test_loss": 0.7984976903597514,
+  "throughput_samples_per_second": 44.47542482147953,
+  "mean_time_per_epoch_seconds": 78.69514488166654,
+  "training_wall_seconds_including_validation": 255.63524985999993,
+  "peak_memory_allocated_gb": 2.880680561065674,
+  "peak_memory_reserved_gb": 3.099609375,
+  "test_loss": 0.7984977356592814,
   "test_accuracy": 0.664,
   "best_validation_epoch": 3,
   "epoch_metrics": [
     {
       "epoch": 1,
       "training_loss": 1.0079912191118512,
-      "validation_loss": 0.9425179917017619,
+      "validation_loss": 0.9425179845492045,
       "validation_accuracy": 0.556,
-      "training_seconds": 72.58983522699964,
-      "throughput_samples_per_second": 48.21611716096281
+      "training_seconds": 78.98406110699943,
+      "throughput_samples_per_second": 44.31273792390293
     },
     {
       "epoch": 2,
       "training_loss": 0.8624127771513803,
-      "validation_loss": 0.8404579819043477,
+      "validation_loss": 0.8404579604466756,
       "validation_accuracy": 0.62,
-      "training_seconds": 72.4911419670002,
-      "throughput_samples_per_second": 48.281761123218175
+      "training_seconds": 78.55970066999998,
+      "throughput_samples_per_second": 44.55210457970296
     },
     {
       "epoch": 3,
       "training_loss": 0.6805051567895072,
-      "validation_loss": 0.7732831548055012,
+      "validation_loss": 0.7732831410566966,
       "validation_accuracy": 0.6693333333333333,
-      "training_seconds": 72.39231950500016,
-      "throughput_samples_per_second": 48.347670359674744
+      "training_seconds": 78.5416728680002,
+      "throughput_samples_per_second": 44.56233069904455
     }
   ],
   "per_class": [

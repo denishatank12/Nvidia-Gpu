@@ -8,9 +8,9 @@
   "row_limit": 5000,
   "seed": 8834,
   "epochs": 3,
-  "learning_rate": 0.00002,
+  "learning_rate": 2e-05,
   "weight_decay": 0.01,
   "original_batch": 16,
-  "max_probe_batch": 4096,
+  "max_probe_batch": 65536,
   "num_workers": 0
 }

@@ -1,68 +1,39 @@
 # GPU II: HW4.a and HW4.5
 
-Student: Denisha Ketan Tank
+Student: Denisha Ketan Tank.
 
-Historical completed run: one Tesla T4 in Google Colab.
+## Submission
 
-## Fresh T4 run in Google Colab
+Use the [executed notebook](GPU_II_Colab_Run_All.ipynb). All ten code cells completed in order on October 28, 2026, on one Tesla T4. The notebook contains the measured results, figures and generated reports. Clearly labelled post-run notes clarify the FP32 throughput finding and replace the original AI-use draft without changing any executed code or output.
 
-Use [GPU_II_T4_Run_All.ipynb](t4/GPU_II_T4_Run_All.ipynb) for the fresh, T4-specific HW4.a and HW4.5 workflow. [Open it in Colab](https://colab.research.google.com/github/denishatank12/Nvidia-Gpu/blob/main/gpu-ii/t4/GPU_II_T4_Run_All.ipynb), select a T4 GPU, then Run all. All supporting code is embedded; no extra script or dataset uploads are needed.
+[Download the original results archive and full checkpoint](https://github.com/denishatank12/Nvidia-Gpu/releases/download/hw4-5/GPU_II_T4_RESULTS_6ec28b7ced2a.zip).
 
-The T4 version uses FP16 loss scaling, bounded overflow replay, the corrected physical-batch capacity probes, full training and matched-update controls, both serving benchmarks, observed KV-cache measurements, reports, checkpoint, and results ZIP. Part C skipped (optional). Read [START_HERE.txt](t4/START_HERE.txt) and [VALIDATION.txt](t4/VALIDATION.txt).
+The final submission snapshot is the `hw4-5` tag. The release also preserves the original executed notebook and the earlier results archive as immutable evidence. The new archive is the file with run ID `6ec28b7ced2a`; the older `GPU_II_RESULTS.zip` is historical, not the current run.
 
-Local CPU regression and report tests passed. The notebook is unexecuted: actual CUDA/T4 smoke checks run before expensive experiments. Colab can reclaim a GPU, so an uninterrupted overnight session is not guaranteed. Save the executed notebook and results archive after successful completion. This upload does not change the historical `hw4-5` submission tag or claim new GPU results.
+## Findings and evidence
 
-## Fresh RTX 4050 overnight run
+- [HW4.a findings](HW4A_METRICS.md): BERT results, class analysis, saved-model inference and the first serving benchmark.
+- [HW4.5 findings](METRICS.md): real batch-size memory walls, independent techniques, matched-update controls, repeated serving, observed KV-cache capacity and GPU-hours.
+- [Submission audit](SUBMISSION_AUDIT.md): independent checks and remaining qualifications.
+- [AI-use appendix](AI_USE.md), [checkpoint and hashes](MODEL_CHECKPOINT.md), [GPU-hour calculation](GPU_HOURS.md), and [runtime record](RESERVATION_RECORD.md).
+- [Measured outputs](outputs/) and [timestamped run log](RUN_LOG.txt).
 
-Use [GPU_II_RTX4050_Run_All.ipynb](rtx4050/GPU_II_RTX4050_Run_All.ipynb) for the corrected fresh HW4.a and HW4.5 experiments. It embeds its supporting code and installs an isolated environment. Download this notebook and run it in Linux or WSL2 Jupyter on the GPU machine. Read [START_HERE.txt](rtx4050/START_HERE.txt) and [VALIDATION.txt](rtx4050/VALIDATION.txt) first.
+Both assignments use Kaggle's `saurabhshahane/twitter-sentiment-dataset`, source rows 834 through 5833 inclusive. The same SEED 8834 split contains 3,500 training, 750 validation and 750 test examples.
 
-The uploaded run exposed an oversized-batch bug: a requested batch larger than the training split was silently capped by the dataset. The new capacity probes allocate the actual requested batch and distinguish repeated-row capacity testing from unchanged-split quality training. CPU regression and reporting tests passed. Actual RTX 4050 execution still needs the real GPU smoke tests at the start of the notebook; it is not claimed verified from this Mac.
+The original batch-16 BERT fine-tune reached 83.60% test accuracy. It took 255.65 seconds including validation and used 2.466 GiB peak allocated training memory. All six controlled conditions completed three epochs, 10,500 training examples and 657 optimizer updates. Maximum-batch quality results are kept separate because those runs have fewer updates.
 
-The `rtx4050` notebook is intentionally unexecuted. Save its executed copy and results ZIP after completion. The existing T4 notebook, results and `hw4-5` tag are preserved, not relabelled as new 4050 measurements. No new submission tag is created for unexecuted code.
+FP32 throughput was highest at batch 16, at 50.05 samples/s. Larger tested batches did not improve it. Batch 128 was the largest successful FP32 batch; batch 256 produced the expected CUDA OOM.
 
-Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6.
+The context experiment verified eight concurrent prompts of 29,296 tokens each. At 29,424 tokens, the configured cache could no longer admit all eight together. This is a 128-token engine-configuration capacity bracket, not a universal hardware-only or exact one-token OOM limit.
 
-## What to read
+Part C skipped (optional). One GPU is permitted by the clarification; no second-card comparison or distributed result is invented.
 
-- [Submission notebook](GPU_II_Colab_Run_All.ipynb): the completed Colab run with all original code cells and outputs intact, plus corrected findings in clearly labelled post-run Markdown notes.
-- [HW4.a findings](HW4A_METRICS.md): BERT training, evaluation, error analysis, and the first serving benchmark.
-- [HW4.5 findings](METRICS.md): batch scaling, memory techniques, repeated serving, context tests, and recommendations.
-- [Audit](SUBMISSION_AUDIT.md): requirement checks and the limitations that remain.
-- [Checkpoint](MODEL_CHECKPOINT.md): download, file hashes, exact training command, and reload verification.
-- [Run log](RUN_LOG.txt), [runtime record](RESERVATION_RECORD.md), [GPU-hour calculation](GPU_HOURS.md), and [AI-use appendix](AI_USE.md).
-- [Measured outputs](outputs/): JSON and CSV measurements, plots, and both GPU UUID captures.
+## Reproducing the run
 
-There is only one notebook in this folder. It contains both HW4.a and HW4.5, including the saved figures/results and corrected written findings. Some historical printed report output contains the earlier reporting errors; the post-run notes at the end supersede that interpretation. Measurements and executed outputs were not rewritten to make them appear rerun. The separate Markdown reports contain the same corrected findings.
+For a future T4 run, use [the self-contained T4 run notebook](t4/GPU_II_T4_Run_All.ipynb) and its [instructions](t4/START_HERE.txt). For a local RTX 4050, use the separate [RTX 4050 notebook](rtx4050/GPU_II_RTX4050_Run_All.ipynb). These templates are distinct from the executed submission notebook above.
 
-## Data and results
+The Python source, locked requirements, installed package versions, manifest and raw results from the actual T4 run are included in the archive. The executed notebook embeds that source and performs its own setup; no legacy wrapper is needed. The revised AI-use and plateau wording are post-run editorial changes, not new GPU measurements.
 
-Both stages used `Twitter_Data.csv` from Kaggle's `saurabhshahane/twitter-sentiment-dataset`: zero-based rows 834 through 5833, split into 3,500 training, 750 validation, and 750 test examples using SEED 8834. The recorded source hash and preparation settings match across both stages.
+## Access qualification
 
-HW4.a test accuracy was 83.60%. The maximum-batch AMP plus 8-bit configuration was faster but reached 60.67%, so it is not an accuracy-preserving replacement. The reports separate batch-size and optimizer-update effects from independent technique comparisons.
-
-Part C skipped (optional).
-
-One GPU was permitted by the clarification. No second-card comparison or distributed result is claimed.
-
-## Run again
-
-For a new run, use the corrected [RTX 4050 notebook](rtx4050/GPU_II_RTX4050_Run_All.ipynb), not the historical T4 notebook. Hosted Colab uses its assigned GPU rather than your laptop's card. Native Windows is unsupported by vLLM; use Linux or WSL2. The old notebook's embedded code is retained as originally executed, and its post-run notes are historical rather than new GPU measurements.
-
-The duplicate reviewed notebook and the two unexecuted local wrapper notebooks have been removed. The legacy filename `setup_rtx4090.sh` is retained for compatibility; it no longer requires a particular GPU model.
-
-For Linux, run:
-
-```bash
-bash setup_rtx4090.sh
-.venv/bin/python smoke_test.py --gpu --vllm
-```
-
-Use the combined notebook for the full experiment. Full GPU measurements must be obtained on the actual GPU, not inferred from CPU checks. The notebook builder refuses to overwrite an already executed notebook.
-
-## Interpretation limits
-
-The longest successful batch-8 prompt was 32,767 tokens, plus one generated token at the model's 32,768-token configured limit. No memory failure occurred within that supported range, so a GPU-memory exhaustion threshold is not claimed. The active KV-cache values are calculated; the process GPU-memory measurements also include the reserved cache pool, weights, and workspaces.
-
-Serving latency is synchronous closed-batch completion time, not independently timestamped completion of each request. The measurements use a small number of repeated batches, so the p95 estimates are descriptive rather than a production service-level guarantee.
-
-The audit also records repository visibility and access requirements. A tag identifies a fixed artifact snapshot; it is not a claim that those external requirements have been satisfied.
+Repository visibility is unchanged at the user's request. It remains public, although the standing course instructions request a private repository shared with the instructor and graders. Publication and tagging do not resolve that discrepancy or certify the student's personal understanding.

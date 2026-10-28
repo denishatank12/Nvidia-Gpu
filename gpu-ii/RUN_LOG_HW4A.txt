@@ -1,14 +1,22 @@
 
-[2026-10-27T17:25:14.296770+00:00] Install environment manager
-COMMAND: /usr/bin/python3 -m pip install --quiet --target /content/gpu-ii/.setup-tools uv==0.8.22
+[2026-10-28T20:22:05.301435+00:00] Install uv environment manager
+COMMAND: /usr/bin/python3 -m pip install --quiet --target /content/GPU_II_T4_RUN_6ec28b7ced2a/.setup_tools uv==0.8.22
 EXIT CODE: 0
 
-[2026-10-27T17:25:22.068479+00:00] Install compatible CUDA packages
-COMMAND: /usr/bin/python3 -m uv pip install --python /content/gpu-ii/.venv/bin/python -r /content/gpu-ii/requirements_colab.txt
-Resolved 211 packages in 1.57s
-Prepared 211 packages in 1m 51s
-Installed 211 packages in 1.15s
- + accelerate==1.15.0
+[2026-10-28T20:22:08.749288+00:00] Create isolated Python 3.11 environment
+COMMAND: /usr/bin/python3 -m uv venv --python 3.11 /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv
+warning: The `--system` flag has no effect, `uv venv` always ignores virtual environments when finding a Python interpreter; did you mean `--no-managed-python`?
+Using CPython 3.11.17
+Creating virtual environment at: .venv
+Activate with: source .venv/bin/activate
+EXIT CODE: 0
+
+[2026-10-28T20:22:10.361498+00:00] Install pinned CUDA packages
+COMMAND: /usr/bin/python3 -m uv pip install --python /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python -r /content/GPU_II_T4_RUN_6ec28b7ced2a/requirements_locked.txt
+Resolved 209 packages in 1.39s
+Prepared 209 packages in 1m 35s
+Installed 209 packages in 1.45s
+ + accelerate==1.10.1
  + agent-detector==2.0.0
  + aiohappyeyeballs==2.7.1
  + aiohttp==3.14.5
@@ -59,7 +67,7 @@ Installed 211 packages in 1.15s
  + gguf==0.19.0
  + googleapis-common-protos==1.76.0
  + h11==0.16.0
- + hf-xet==1.7.0
+ + hf-xet==1.7.1
  + httpcore==1.0.9
  + httpcore2==2.16.0
  + httptools==0.9.0
@@ -68,7 +76,7 @@ Installed 211 packages in 1.15s
  + huggingface-hub==0.36.2
  + idna==3.20
  + interegular==0.3.3
- + ipykernel==6.31.0
+ + ipykernel==6.30.1
  + ipython==9.17.1
  + ipython-pygments-lexers==1.1.1
  + jedi==0.20.1
@@ -80,8 +88,7 @@ Installed 211 packages in 1.15s
  + jupyter-client==8.10.0
  + jupyter-core==5.9.1
  + jupyterlab-pygments==0.3.0
- + kagglehub==0.4.3
- + kagglesdk==0.1.38
+ + kagglehub==0.3.13
  + kiwisolver==1.5.1
  + lark==1.2.2
  + llguidance==0.7.30
@@ -89,19 +96,18 @@ Installed 211 packages in 1.15s
  + lm-format-enforcer==0.11.3
  + markdown-it-py==4.2.0
  + markupsafe==3.0.4
- + matplotlib==3.11.2
+ + matplotlib==3.10.7
  + matplotlib-inline==0.2.2
  + mdurl==0.1.2
- + mistral-common==1.12.0
+ + mistral-common==1.13.0
  + mistune==3.4.0
  + mpmath==1.3.0
  + msgpack==1.2.4
  + msgspec==0.22.0
  + multidict==7.2.1
- + narwhals==2.28.0
  + nbclient==0.11.0
- + nbconvert==7.17.2
- + nbformat==5.11.1
+ + nbconvert==7.16.6
+ + nbformat==5.10.4
  + nest-asyncio==1.6.0
  + networkx==3.6.1
  + ninja==1.13.2
@@ -134,13 +140,13 @@ Installed 211 packages in 1.15s
  + opentelemetry-semantic-conventions==0.66b1
  + outlines-core==0.2.11
  + packaging==26.3
- + pandas==2.3.3
+ + pandas==2.2.3
  + pandocfilters==1.5.1
  + parso==0.8.7
  + partial-json-parser==0.2.1.1.post7
  + pexpect==4.9.0
  + pillow==13.0.0
- + platformdirs==4.13.6
+ + platformdirs==4.14.0
  + prometheus-client==0.26.0
  + prometheus-fastapi-instrumentator==8.1.0
  + prompt-toolkit==3.0.53
@@ -156,7 +162,7 @@ Installed 211 packages in 1.15s
  + pydantic==2.14.1
  + pydantic-core==2.50.1
  + pydantic-extra-types==2.11.1
- + pydantic-settings==2.16.1
+ + pydantic-settings==2.16.2
  + pygments==2.21.0
  + pyparsing==3.3.3
  + python-dateutil==3.0.0
@@ -175,7 +181,7 @@ Installed 211 packages in 1.15s
  + rignore==0.8.1
  + rpds-py==2026.9.1
  + safetensors==0.8.0
- + scikit-learn==1.9.1
+ + scikit-learn==1.7.2
  + scipy==1.17.1
  + seaborn==0.13.2
  + sentencepiece==0.2.2
@@ -207,7 +213,7 @@ Installed 211 packages in 1.15s
  + typer==0.27.3
  + typing-extensions==4.16.0
  + typing-inspection==0.4.4
- + tzdata==2026.5
+ + tzdata==2026.6
  + urllib3==2.8.0
  + uvicorn==0.54.0
  + uvloop==0.23.0
@@ -221,51 +227,156 @@ Installed 211 packages in 1.15s
  + yarl==1.25.1
 EXIT CODE: 0
 
-[2026-10-27T17:27:26.808420+00:00] smoke
-COMMAND: /content/gpu-ii/.venv/bin/python smoke_test.py --gpu
+[2026-10-28T20:23:49.919055+00:00] Verify the actual CUDA GPU
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python -c import torch; assert torch.cuda.is_available(), 'CUDA is not visible. Check the host NVIDIA driver and WSL GPU support.'; print('Torch:',torch.__version__,'CUDA:',torch.version.cuda,'GPU:',torch.cuda.get_device_name(0),'VRAM GiB:',torch.cuda.get_device_properties(0).total_memory/2**30)
+Torch: 2.8.0+cu128 CUDA: 12.8 GPU: Tesla T4 VRAM GiB: 14.56317138671875
+EXIT CODE: 0
+
+[2026-10-28T20:23:59.561337+00:00] precision_regression
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python test_precision.py --gpu
+FP16 overflow: replaying the same update with loss scale 8.0
+PASS: overflow replay restores dropout RNG and applies exactly the same one successful update
+PASS: accumulation matches direct batches, including the short final update group
+FP16 overflow: replaying the same update with loss scale 8.0
+FP16 overflow: replaying the same update with loss scale 4.0
+FP16 overflow: replaying the same update with loss scale 2.0
+FP16 overflow: replaying the same update with loss scale 1.0
+FP16 overflow: replaying the same update with loss scale 0.5
+FP16 overflow: replaying the same update with loss scale 0.25
+FP16 overflow: replaying the same update with loss scale 0.125
+FP16 overflow: replaying the same update with loss scale 0.0625
+PASS: persistent overflow stops after bounded retries without updating model weights
+PRECISION REGRESSION PASSED (CPU and controlled scaler only)
+FP16 overflow: replaying the same update with loss scale 8.0
+PASS CUDA: real FP16 autocast/GradScaler recovers a deliberately non-finite attempt without losing the logical update
+REAL CUDA PRECISION SMOKE PASSED
+EXIT CODE: 0
+
+[2026-10-28T20:24:11.057789+00:00] reporting_smoke
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python test_reporting.py
+PASS: same dataset hash
+PASS: same preparation settings
+PASS: exact source rows
+PASS: fixed split
+PASS: all independent and combined memory sweeps reached OOM
+PASS: successful probes materialized their requested batch
+PASS: quality runs never repeat rows to inflate a physical batch
+PASS: six matched training conditions
+PASS: same controlled effective batch and training updates
+PASS: saved BERT reloaded
+PASS: five original worst-class mistakes
+PASS: baseline and repeated serving configurations match
+PASS: serving batches recorded in both stages
+PASS: each serving row has at least 100 real request samples
+PASS: at least 20 measured vLLM batches per shape
+PASS: request timestamps, not batch copies
+PASS: eight concurrent KV allocations observed
+PASS: capacity boundary or unmodified model limit identified
+PASS: checkpoint weights and tokenizer exist
+PASS: both GPU UUID captures exist
+PASS: all required figures exist
+PASS: optional Part C skip
+REPORTS AND MEASURED-ARTIFACT CHECKS COMPLETE
+PASS: reports, plots, matched ranking, capacity bracket, and artifact verification on temporary synthetic fixtures
+REPORTING TEST PASSED. Fixtures deleted; no GPU results fabricated.
+EXIT CODE: 0
+
+[2026-10-28T20:24:13.710478+00:00] bert_smoke
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python smoke_test.py --gpu
 PASS: Python scripts and notebook cells are valid
 PASS: real tiny BERT forward/backward, checkpoint save/reload, tokenizer
 PASS: exact row range, 3500/750/750 disjoint split, cache reuse and invalidation
 PASS: TensorDataset and DataLoader
+PASS regression: batch 8192 really contains 8192 examples, not a clamped 3500; normal training split unchanged
 
 Probing baseline batch=16
 error test failure
 PASS: ordinary probe errors stop the sweep
 PASS: KV-cache arithmetic and latency percentile
 CUDA: Tesla T4
-{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.0986360311508179, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.5042323970000098, "throughput_samples_per_second": 83.29492561343532}
+{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.098636057641771, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.3287187990000575, "throughput_samples_per_second": 127.76878026982769}
 PASS CUDA training: baseline
-{"epoch": 1, "training_loss": 1.0988653273809523, "validation_loss": 1.0986363887786865, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.28074430599997413, "throughput_samples_per_second": 149.6023217653571}
+{"epoch": 1, "training_loss": 1.0988653273809523, "validation_loss": 1.0986364152696397, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.16948936300002515, "throughput_samples_per_second": 247.8031615470392}
+PASS CUDA: T4 FP16 autocast and GradScaler, with actual completed updates
 PASS CUDA training: mixed_precision
-{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.0986360311508179, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.1997480989999758, "throughput_samples_per_second": 210.26482960423613}
+{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.098636057641771, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.20698487699996804, "throughput_samples_per_second": 202.9133751641502}
 PASS CUDA training: gradient_checkpointing
-{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.0986361503601074, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.16637080300000662, "throughput_samples_per_second": 252.44814139653056}
+{"epoch": 1, "training_loss": 1.0986804508027577, "validation_loss": 1.098636229832967, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.18168759599996065, "throughput_samples_per_second": 231.16602852739103}
 PASS CUDA training: optimizer_8bit
-{"epoch": 1, "training_loss": 1.0988653273809523, "validation_loss": 1.0986363887786865, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.16575326599996743, "throughput_samples_per_second": 253.3886722932401}
+{"epoch": 1, "training_loss": 1.0988653273809523, "validation_loss": 1.0986363622877333, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.17446832799998901, "throughput_samples_per_second": 240.7313721720463}
+PASS CUDA: T4 FP16 autocast and GradScaler, with actual completed updates
 PASS CUDA training: best_combination
-{"epoch": 1, "training_loss": 1.0986670142128354, "validation_loss": 1.0986353158950806, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.10079591800001708, "throughput_samples_per_second": 416.68354069648814}
+{"epoch": 1, "training_loss": 1.0986670142128354, "validation_loss": 1.0986353821224637, "validation_accuracy": 0.3333333333333333, "training_seconds": 0.10094786199999817, "throughput_samples_per_second": 416.0563598662522}
 PASS CUDA gradient accumulation
+PASS CUDA regression: oversized physical batch runs one actual update and never reports quality accuracy
+PASS CUDA: actual 8-bit optimizer-state kernel on a large parameter tensor
 SMOKE TEST PASSED. Synthetic test data was temporary and is not assignment evidence.
 EXIT CODE: 0
 
-[2026-10-27T17:27:51.225370+00:00] Download the public Twitter dataset
-COMMAND: /content/gpu-ii/.venv/bin/python get_twitter_data.py
-Downloading saurabhshahane/twitter-sentiment-dataset from Kaggle...
-Downloading to /root/.cache/kagglehub/datasets/saurabhshahane/twitter-sentiment-dataset/1.archive...
+[2026-10-28T20:24:30.325627+00:00] measurement_smoke
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python test_measurements.py --gpu
+PASS: real per-request arithmetic, percentiles, cache storage accounting, and capacity-error classification
+INFO 10-28 20:24:36 [__init__.py:216] Automatically detected platform cuda.
+INFO 10-28 20:24:38 [utils.py:328] non-default args: {'dtype': 'float16', 'seed': 8834, 'max_model_len': 512, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.8, 'max_num_batched_tokens': 512, 'max_num_seqs': 32, 'disable_log_stats': True, 'enforce_eager': True, 'enable_chunked_prefill': False, 'disable_async_output_proc': True, 'generation_config': 'vllm', 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 10-28 20:24:50 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
+WARNING 10-28 20:24:50 [__init__.py:2767] Casting torch.bfloat16 to torch.float16.
+INFO 10-28 20:24:50 [__init__.py:1815] Using max model len 512
+INFO 10-28 20:24:52 [__init__.py:3400] Cudagraph is disabled under eager mode
+INFO 10-28 20:24:52 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=512, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=8834, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=False, 
+INFO 10-28 20:24:55 [cuda.py:408] Cannot use FlashAttention-2 backend for Volta and Turing GPUs.
+INFO 10-28 20:24:55 [cuda.py:453] Using XFormers backend.
+[W1028 20:24:57.680353843 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+INFO 10-28 20:24:57 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+INFO 10-28 20:24:57 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+INFO 10-28 20:24:57 [weight_utils.py:348] Using model weights format ['*.safetensors']
+INFO 10-28 20:25:03 [weight_utils.py:369] Time spent downloading weights for Qwen/Qwen2.5-0.5B-Instruct: 5.409121 seconds
+INFO 10-28 20:25:03 [weight_utils.py:406] No model.safetensors.index.json found in remote.
 
-  0%|          | 0.00/7.60M [00:00<?, ?B/s]
- 13%|█▎        | 1.00M/7.60M [00:01<00:06, 989kB/s]
- 26%|██▋       | 2.00M/7.60M [00:01<00:03, 1.92MB/s]
- 39%|███▉      | 3.00M/7.60M [00:01<00:01, 3.05MB/s]
- 66%|██████▌   | 5.00M/7.60M [00:01<00:00, 5.61MB/s]
-100%|██████████| 7.60M/7.60M [00:01<00:00, 9.39MB/s]
-100%|██████████| 7.60M/7.60M [00:01<00:00, 5.02MB/s]
-Extracting files...
-Copied dataset to /content/gpu-ii/Twitter_Data.csv
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.01s/it]
+
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.01s/it]
+
+INFO 10-28 20:25:04 [default_loader.py:268] Loading weights took 1.04 seconds
+INFO 10-28 20:25:05 [model_runner.py:1083] Model loading took 0.9277 GiB and 6.923312 seconds
+INFO 10-28 20:25:06 [worker.py:290] Memory profiling takes 0.70 seconds
+INFO 10-28 20:25:06 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.80) = 11.65GiB
+INFO 10-28 20:25:06 [worker.py:290] model weights take 0.93GiB; non_torch_memory takes 0.05GiB; PyTorch activation peak memory takes 0.24GiB; the rest of the memory reserved for KV Cache is 10.44GiB.
+INFO 10-28 20:25:06 [executor_base.py:114] # cuda blocks: 56993, # CPU blocks: 21845
+INFO 10-28 20:25:06 [executor_base.py:119] Maximum concurrency for 512 tokens per request: 1781.03x
+INFO 10-28 20:25:10 [worker.py:467] Free memory on device (14.46/14.56 GiB) on startup. Desired GPU memory utilization is (0.8, 11.65 GiB). Actual usage is 0.93 GiB for weight, 0.24 GiB for peak activation, 0.05 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11048039014` to fit into requested memory, or `--kv-cache-memory=14065486848` to fully utilize gpu memory. Current kv cache memory in use is 11205325414 bytes.
+INFO 10-28 20:25:10 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 5.57 seconds
+INFO 10-28 20:25:12 [llm.py:295] Supported_tasks: ['generate']
+INFO 10-28 20:25:12 [__init__.py:36] No IOProcessor plugins requested by the model
+PASS: real vLLM request timestamps at batch 1
+PASS: real vLLM request timestamps at batch 8
+PASS: real vLLM request timestamps at batch 32
+PASS: real GPU KV-cache tensors and scheduler interface
+PASS: eight simultaneous prompts and observed allocated blocks in the live scheduler
+MEASUREMENT SMOKE TEST PASSED ON GPU
+[rank0]:[W1028 20:25:14.975115950 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
 EXIT CODE: 0
 
-[2026-10-27T17:27:59.420540+00:00] Freeze the real data and split
-COMMAND: /content/gpu-ii/.venv/bin/python hw45_training.py prepare --settings settings.json
+[2026-10-28T20:25:17.439592+00:00] data
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python run_experiments.py prepare
+Downloading saurabhshahane/twitter-sentiment-dataset from Kaggle...
+Warning: Looks like you're using an outdated `kagglehub` version (installed: 0.3.13), please consider upgrading to the latest version (1.0.3).
+Downloading from https://www.kaggle.com/api/v1/datasets/download/saurabhshahane/twitter-sentiment-dataset?dataset_version_number=1...
+
+  0%|          | 0.00/7.60M [00:00<?, ?B/s]
+ 13%|█▎        | 1.00M/7.60M [00:00<00:03, 1.98MB/s]
+ 39%|███▉      | 3.00M/7.60M [00:00<00:00, 5.47MB/s]
+ 92%|█████████▏| 7.00M/7.60M [00:00<00:00, 13.0MB/s]
+100%|██████████| 7.60M/7.60M [00:00<00:00, 9.98MB/s]
+Extracting files...
+Copied dataset to /content/GPU_II_T4_RUN_6ec28b7ced2a/Twitter_Data.csv
 {
   "dataset_name": "Twitter_Data.csv",
   "preparation_settings": {
@@ -277,7 +388,7 @@ COMMAND: /content/gpu-ii/.venv/bin/python hw45_training.py prepare --settings se
     "text_column": "clean_text",
     "label_column": "category"
   },
-  "source_path": "/content/gpu-ii/Twitter_Data.csv",
+  "source_path": "/content/GPU_II_T4_RUN_6ec28b7ced2a/Twitter_Data.csv",
   "source_sha256": "5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4",
   "raw_dataset_rows": 162980,
   "requested_row_range_zero_based": [
@@ -305,22 +416,22 @@ COMMAND: /content/gpu-ii/.venv/bin/python hw45_training.py prepare --settings se
     "1.0": 2
   }
 }
+Selected common FP32 training batch: 16
 EXIT CODE: 0
 
-[2026-10-27T17:28:10.464081+00:00] hw4a_training
-COMMAND: /content/gpu-ii/.venv/bin/python hw4a_training.py --settings settings.json
-Using frozen tokenized data and split indices from /content/gpu-ii/cache/twitter_bert_cache.pt
+[2026-10-28T20:27:02.807056+00:00] hw4a_training
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python hw4a_training.py --settings settings.json
+Using frozen tokenized data and split indices from /content/GPU_II_T4_RUN_6ec28b7ced2a/cache/twitter_bert_cache.pt
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 0.9082491632870265, "validation_loss": 0.685140488465627, "validation_accuracy": 0.716, "training_seconds": 73.26271833300001, "throughput_samples_per_second": 47.77327513417532}
-{"epoch": 2, "training_loss": 0.5243684139251709, "validation_loss": 0.5201754274368287, "validation_accuracy": 0.808, "training_seconds": 77.30118977500001, "throughput_samples_per_second": 45.277440233292964}
-{"epoch": 3, "training_loss": 0.2898897445627621, "validation_loss": 0.5093885161876679, "validation_accuracy": 0.824, "training_seconds": 77.26921181500006, "throughput_samples_per_second": 45.296178358591135}
+{"epoch": 1, "training_loss": 0.9082491632870265, "validation_loss": 0.6851405286788941, "validation_accuracy": 0.716, "training_seconds": 75.33056312999997, "throughput_samples_per_second": 46.46188551597518}
+{"epoch": 2, "training_loss": 0.5243684139251709, "validation_loss": 0.5201753527323405, "validation_accuracy": 0.808, "training_seconds": 79.39262257999997, "throughput_samples_per_second": 44.08470064675374}
+{"epoch": 3, "training_loss": 0.2898897445627621, "validation_loss": 0.5093885046641032, "validation_accuracy": 0.824, "training_seconds": 82.4587562669999, "throughput_samples_per_second": 42.445461930896286}
 HW4.a BERT baseline complete.
 EXIT CODE: 0
 
-[2026-10-27T17:33:33.378697+00:00] hw4a_serving
-COMMAND: /content/gpu-ii/.venv/bin/python hw45_serving.py --output-prefix hw4a_ --skip-context-capacity
-Loading plain Hugging Face pipeline baseline...
+[2026-10-28T20:31:39.182923+00:00] hw4a_serving
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python accurate_serving.py benchmark --prefix hw4a_
 Device set to use cuda:0
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
@@ -334,64 +445,186 @@ The following generation flags are not valid and may be ignored: ['temperature',
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-INFO 10-27 17:34:17 [__init__.py:216] Automatically detected platform cuda.
-Loading vLLM with max_model_len=32768...
-INFO 10-27 17:34:21 [utils.py:328] non-default args: {'dtype': 'float16', 'seed': 8834, 'max_model_len': 32768, 'gpu_memory_utilization': 0.85, 'disable_log_stats': True, 'enforce_eager': True, 'generation_config': 'vllm', 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
-INFO 10-27 17:34:34 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
-WARNING 10-27 17:34:34 [__init__.py:2767] Casting torch.bfloat16 to torch.float16.
-INFO 10-27 17:34:34 [__init__.py:1815] Using max model len 32768
-WARNING 10-27 17:34:35 [cuda.py:103] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
-INFO 10-27 17:34:35 [__init__.py:3400] Cudagraph is disabled under eager mode
-INFO 10-27 17:34:36 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=8834, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=None, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=False, 
-INFO 10-27 17:34:39 [cuda.py:388] Using XFormers backend.
-[W1027 17:34:39.847520398 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+HF measured requests: 10/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 20/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 30/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 40/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 50/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 60/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 70/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 80/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 90/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 100/100
+INFO 10-28 20:35:27 [__init__.py:216] Automatically detected platform cuda.
+INFO 10-28 20:35:29 [utils.py:328] non-default args: {'dtype': 'float16', 'seed': 8834, 'max_model_len': 4096, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.8, 'max_num_batched_tokens': 4096, 'max_num_seqs': 32, 'disable_log_stats': True, 'enforce_eager': True, 'enable_chunked_prefill': False, 'disable_async_output_proc': True, 'generation_config': 'vllm', 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 10-28 20:35:38 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
+WARNING 10-28 20:35:38 [__init__.py:2767] Casting torch.bfloat16 to torch.float16.
+INFO 10-28 20:35:38 [__init__.py:1815] Using max model len 4096
+INFO 10-28 20:35:39 [__init__.py:3400] Cudagraph is disabled under eager mode
+INFO 10-28 20:35:39 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=8834, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=False, 
+INFO 10-28 20:35:41 [cuda.py:408] Cannot use FlashAttention-2 backend for Volta and Turing GPUs.
+INFO 10-28 20:35:41 [cuda.py:453] Using XFormers backend.
+[W1028 20:35:42.946719266 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-INFO 10-27 17:34:39 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
-INFO 10-27 17:34:39 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
-INFO 10-27 17:34:40 [weight_utils.py:348] Using model weights format ['*.safetensors']
-INFO 10-27 17:34:41 [weight_utils.py:406] No model.safetensors.index.json found in remote.
+INFO 10-28 20:35:42 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+INFO 10-28 20:35:42 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+INFO 10-28 20:35:43 [weight_utils.py:348] Using model weights format ['*.safetensors']
+INFO 10-28 20:35:43 [weight_utils.py:406] No model.safetensors.index.json found in remote.
 
 Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
 
-Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.05it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.04s/it]
 
-Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.05it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.04s/it]
 
-INFO 10-27 17:34:42 [default_loader.py:268] Loading weights took 1.01 seconds
-INFO 10-27 17:34:42 [model_runner.py:1083] Model loading took 0.9265 GiB and 2.040848 seconds
-INFO 10-27 17:34:44 [worker.py:290] Memory profiling takes 1.76 seconds
-INFO 10-27 17:34:44 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.85) = 12.38GiB
-INFO 10-27 17:34:44 [worker.py:290] model weights take 0.93GiB; non_torch_memory takes 0.02GiB; PyTorch activation peak memory takes 1.43GiB; the rest of the memory reserved for KV Cache is 10.00GiB.
-INFO 10-27 17:34:45 [executor_base.py:114] # cuda blocks: 54601, # CPU blocks: 21845
-INFO 10-27 17:34:45 [executor_base.py:119] Maximum concurrency for 32768 tokens per request: 26.66x
-INFO 10-27 17:34:49 [worker.py:467] Free memory on device (14.41/14.56 GiB) on startup. Desired GPU memory utilization is (0.85, 12.38 GiB). Actual usage is 0.93 GiB for weight, 1.43 GiB for peak activation, 0.02 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=10577874636` to fit into requested memory, or `--kv-cache-memory=12763136512` to fully utilize gpu memory. Current kv cache memory in use is 10735161036 bytes.
-INFO 10-27 17:34:49 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 6.87 seconds
-INFO 10-27 17:34:51 [llm.py:295] Supported_tasks: ['generate']
-INFO 10-27 17:34:51 [__init__.py:36] No IOProcessor plugins requested by the model
-       configuration  batch_size  tokens_per_second  p50_latency_ms  p95_latency_ms  requests_measured  generated_tokens
-HF pipeline, batch 1           1          28.531938     2114.148004     2823.255807                 10               640
-       vLLM, batch 1           1          66.079043      949.924085     1037.747559                 10               640
-       vLLM, batch 8           8         478.109756     1066.140187     1107.222104                 40              2560
-      vLLM, batch 32          32        1631.805104     1249.704553     1270.205672                 96              6144
-Longest successful context at batch 8: None
-[rank0]:[W1027 17:35:11.501941357 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+INFO 10-28 20:35:44 [default_loader.py:268] Loading weights took 1.07 seconds
+INFO 10-28 20:35:44 [model_runner.py:1083] Model loading took 0.9265 GiB and 1.563610 seconds
+INFO 10-28 20:35:45 [worker.py:290] Memory profiling takes 0.55 seconds
+INFO 10-28 20:35:45 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.80) = 11.65GiB
+INFO 10-28 20:35:45 [worker.py:290] model weights take 0.93GiB; non_torch_memory takes 0.02GiB; PyTorch activation peak memory takes 0.24GiB; the rest of the memory reserved for KV Cache is 10.47GiB.
+INFO 10-28 20:35:46 [executor_base.py:114] # cuda blocks: 57153, # CPU blocks: 21845
+INFO 10-28 20:35:46 [executor_base.py:119] Maximum concurrency for 4096 tokens per request: 223.25x
+INFO 10-28 20:35:49 [worker.py:467] Free memory on device (14.41/14.56 GiB) on startup. Desired GPU memory utilization is (0.8, 11.65 GiB). Actual usage is 0.93 GiB for weight, 0.24 GiB for peak activation, 0.02 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11079574118` to fit into requested memory, or `--kv-cache-memory=14046690304` to fully utilize gpu memory. Current kv cache memory in use is 11236860518 bytes.
+INFO 10-28 20:35:49 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 4.95 seconds
+INFO 10-28 20:35:51 [llm.py:295] Supported_tasks: ['generate']
+INFO 10-28 20:35:51 [__init__.py:36] No IOProcessor plugins requested by the model
+vLLM batch 1: 5 measured batches
+vLLM batch 1: 10 measured batches
+vLLM batch 1: 15 measured batches
+vLLM batch 1: 20 measured batches
+vLLM batch 1: 25 measured batches
+vLLM batch 1: 30 measured batches
+vLLM batch 1: 35 measured batches
+vLLM batch 1: 40 measured batches
+vLLM batch 1: 45 measured batches
+vLLM batch 1: 50 measured batches
+vLLM batch 1: 55 measured batches
+vLLM batch 1: 60 measured batches
+vLLM batch 1: 65 measured batches
+vLLM batch 1: 70 measured batches
+vLLM batch 1: 75 measured batches
+vLLM batch 1: 80 measured batches
+vLLM batch 1: 85 measured batches
+vLLM batch 1: 90 measured batches
+vLLM batch 1: 95 measured batches
+vLLM batch 1: 100 measured batches
+vLLM batch 8: 5 measured batches
+vLLM batch 8: 10 measured batches
+vLLM batch 8: 15 measured batches
+vLLM batch 8: 20 measured batches
+vLLM batch 32: 5 measured batches
+vLLM batch 32: 10 measured batches
+vLLM batch 32: 15 measured batches
+vLLM batch 32: 20 measured batches
+       configuration  batch_size  tokens_per_second  p50_latency_ms  p95_latency_ms  requests_measured  generated_tokens  measured_wall_seconds  measured_batches
+HF pipeline, batch 1           1          29.917760     2132.922453     2201.356686                100              6400             213.919757               100
+       vLLM, batch 1           1          66.398427      962.070346     1006.264222                100              6400              96.387825               100
+       vLLM, batch 8           8         494.977346     1029.867172     1086.234498                160             10240              20.687815                20
+      vLLM, batch 32          32        1660.861442     1228.057623     1274.390662                640             40960              24.661901                20
+[rank0]:[W1028 20:38:21.796859864 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
 EXIT CODE: 0
 
-[2026-10-27T17:35:14.391859+00:00] Write the HW4.a results and shared baseline
-COMMAND: /content/gpu-ii/.venv/bin/python finalize_hw4a.py
-Created HW4A_METRICS.md and populated hw4a_baseline.json.
-EXIT CODE: 0
-
-[2026-10-27T17:35:14.925057+00:00] hw45_training
-COMMAND: /content/gpu-ii/.venv/bin/python hw45_training.py all --settings settings.json
-Using frozen tokenized data and split indices from /content/gpu-ii/cache/twitter_bert_cache.pt
+[2026-10-28T20:38:26.640522+00:00] hw45_training
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python hw45_training.py all --settings settings.json
+Using frozen tokenized data and split indices from /content/GPU_II_T4_RUN_6ec28b7ced2a/cache/twitter_bert_cache.pt
 
 Probing baseline batch=16
+Reusing completed probe from this run.
 success 
 
 Probing baseline batch=32
@@ -404,7 +637,7 @@ Probing baseline batch=128
 success 
 
 Probing baseline batch=256
-oom CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+oom CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 25.81 MiB is free. Including non-PyTorch memory, this process has 14.54 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 34.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
 
 Probing mixed_precision batch=16
 success 
@@ -458,7 +691,7 @@ Probing optimizer_8bit batch=128
 success 
 
 Probing optimizer_8bit batch=256
-oom CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 1.81 MiB is free. Including non-PyTorch memory, this process has 14.56 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 58.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+oom CUDA out of memory. Tried to allocate 96.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 25.81 MiB is free. Including non-PyTorch memory, this process has 14.54 GiB memory in use. Of the allocated memory 14.38 GiB is allocated by PyTorch, and 34.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
 
 Probing best_combination batch=16
 success 
@@ -481,50 +714,79 @@ oom CUDA out of memory. Tried to allocate 384.00 MiB. GPU 0 has a total capacity
 Training final baseline run at max batch 128
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.0097572840281894, "validation_loss": 0.943273190498352, "validation_accuracy": 0.5546666666666666, "training_seconds": 71.04229408400033, "throughput_samples_per_second": 49.26642706472293}
-{"epoch": 2, "training_loss": 0.8631806400844029, "validation_loss": 0.8423684708277385, "validation_accuracy": 0.6466666666666666, "training_seconds": 70.51802540400013, "throughput_samples_per_second": 49.63270000752833}
-{"epoch": 3, "training_loss": 0.6865538611412049, "validation_loss": 0.7696202098528544, "validation_accuracy": 0.6866666666666666, "training_seconds": 70.11852439199993, "throughput_samples_per_second": 49.91548282495414}
+{"epoch": 1, "training_loss": 1.0097572840281894, "validation_loss": 0.9432732446988423, "validation_accuracy": 0.5546666666666666, "training_seconds": 77.77485002499998, "throughput_samples_per_second": 45.001693977872776}
+{"epoch": 2, "training_loss": 0.8631806400844029, "validation_loss": 0.8423684646288554, "validation_accuracy": 0.6466666666666666, "training_seconds": 77.27838460800012, "throughput_samples_per_second": 45.29080179087579}
+{"epoch": 3, "training_loss": 0.6865538611412049, "validation_loss": 0.7696202042897542, "validation_accuracy": 0.6866666666666666, "training_seconds": 77.20460651099984, "throughput_samples_per_second": 45.33408248769887}
 
 Training final mixed_precision run at max batch 256
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.030805037498474, "validation_loss": 0.9680729722976684, "validation_accuracy": 0.5426666666666666, "training_seconds": 16.78014446799989, "throughput_samples_per_second": 208.57984903971348}
-{"epoch": 2, "training_loss": 0.928497141293117, "validation_loss": 0.9172899001439413, "validation_accuracy": 0.5653333333333334, "training_seconds": 16.852223540999603, "throughput_samples_per_second": 207.68772687383867}
-{"epoch": 3, "training_loss": 0.8282787045751299, "validation_loss": 0.8601173669497172, "validation_accuracy": 0.6186666666666667, "training_seconds": 16.847256247000132, "throughput_samples_per_second": 207.74896212688753}
+{"epoch": 1, "training_loss": 1.030750419821058, "validation_loss": 0.9680093297958374, "validation_accuracy": 0.5426666666666666, "training_seconds": 18.322200413000246, "throughput_samples_per_second": 191.0250909337629}
+{"epoch": 2, "training_loss": 0.9285027894973755, "validation_loss": 0.917230192343394, "validation_accuracy": 0.5653333333333334, "training_seconds": 18.509228795000126, "throughput_samples_per_second": 189.09485850352937}
+{"epoch": 3, "training_loss": 0.8282956540243966, "validation_loss": 0.8600178850491842, "validation_accuracy": 0.6226666666666667, "training_seconds": 18.472266941999806, "throughput_samples_per_second": 189.47322551095021}
 
 Training final gradient_checkpointing run at max batch 512
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.0536154315131052, "validation_loss": 0.9975050880114238, "validation_accuracy": 0.5373333333333333, "training_seconds": 94.22291024999959, "throughput_samples_per_second": 37.14595516858402}
-{"epoch": 2, "training_loss": 0.9716988578523909, "validation_loss": 0.962130433400472, "validation_accuracy": 0.5573333333333333, "training_seconds": 94.49856750399977, "throughput_samples_per_second": 37.03759847843046}
-{"epoch": 3, "training_loss": 0.9162086610794067, "validation_loss": 0.9226926587422689, "validation_accuracy": 0.5706666666666667, "training_seconds": 94.49974703199996, "throughput_samples_per_second": 37.03713618211923}
+{"epoch": 1, "training_loss": 1.0536154315131052, "validation_loss": 0.9975050973892212, "validation_accuracy": 0.5373333333333333, "training_seconds": 102.80724327100006, "throughput_samples_per_second": 34.04429385168898}
+{"epoch": 2, "training_loss": 0.9716988578523909, "validation_loss": 0.9621304151217143, "validation_accuracy": 0.5573333333333333, "training_seconds": 103.30473408300031, "throughput_samples_per_second": 33.880344701220764}
+{"epoch": 3, "training_loss": 0.9162086610794067, "validation_loss": 0.9226926754315694, "validation_accuracy": 0.5706666666666667, "training_seconds": 103.01586465900027, "throughput_samples_per_second": 33.97534944336569}
 
 Training final optimizer_8bit run at max batch 128
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.0097454060145787, "validation_loss": 0.9432461199760437, "validation_accuracy": 0.5546666666666666, "training_seconds": 70.48037439499967, "throughput_samples_per_second": 49.659214072624344}
-{"epoch": 2, "training_loss": 0.8631915977341789, "validation_loss": 0.8422274128595988, "validation_accuracy": 0.6466666666666666, "training_seconds": 70.50709015199982, "throughput_samples_per_second": 49.64039775935539}
-{"epoch": 3, "training_loss": 0.6864394769668579, "validation_loss": 0.7702798137664795, "validation_accuracy": 0.6866666666666666, "training_seconds": 70.58479047399987, "throughput_samples_per_second": 49.58575319833578}
+{"epoch": 1, "training_loss": 1.0097454060145787, "validation_loss": 0.9432461420694987, "validation_accuracy": 0.5546666666666666, "training_seconds": 77.2800442710004, "throughput_samples_per_second": 45.28982912750978}
+{"epoch": 2, "training_loss": 0.8631915977341789, "validation_loss": 0.8422274381319682, "validation_accuracy": 0.6466666666666666, "training_seconds": 77.17074589799995, "throughput_samples_per_second": 45.35397396088548}
+{"epoch": 3, "training_loss": 0.6864394769668579, "validation_loss": 0.7702798056602478, "validation_accuracy": 0.6866666666666666, "training_seconds": 77.40598093900007, "throughput_samples_per_second": 45.21614425063848}
 
 Training final best_combination run at max batch 256
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.0308017575400217, "validation_loss": 0.9680942802429199, "validation_accuracy": 0.5426666666666666, "training_seconds": 16.712599390999912, "throughput_samples_per_second": 209.42283830992946}
-{"epoch": 2, "training_loss": 0.9284944184167044, "validation_loss": 0.9172889486948649, "validation_accuracy": 0.5653333333333334, "training_seconds": 16.988719093999862, "throughput_samples_per_second": 206.01906362888434}
-{"epoch": 3, "training_loss": 0.8283933099337987, "validation_loss": 0.8602254624366761, "validation_accuracy": 0.62, "training_seconds": 16.946214902000065, "throughput_samples_per_second": 206.53579694583686}
+{"epoch": 1, "training_loss": 1.0307520913396564, "validation_loss": 0.9680121831893921, "validation_accuracy": 0.5426666666666666, "training_seconds": 18.303582481000376, "throughput_samples_per_second": 191.2193967291975}
+{"epoch": 2, "training_loss": 0.9285081623622349, "validation_loss": 0.9172422893842062, "validation_accuracy": 0.5653333333333334, "training_seconds": 18.35812370900021, "throughput_samples_per_second": 190.6512917920963}
+{"epoch": 3, "training_loss": 0.828313930102757, "validation_loss": 0.8600263764063517, "validation_accuracy": 0.6226666666666667, "training_seconds": 18.44467467300001, "throughput_samples_per_second": 189.7566675504138}
 
 Training gradient accumulation: physical=16, steps=8, effective=128
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-{"epoch": 1, "training_loss": 1.0079912191118512, "validation_loss": 0.9425179917017619, "validation_accuracy": 0.556, "training_seconds": 72.58983522699964, "throughput_samples_per_second": 48.21611716096281}
-{"epoch": 2, "training_loss": 0.8624127771513803, "validation_loss": 0.8404579819043477, "validation_accuracy": 0.62, "training_seconds": 72.4911419670002, "throughput_samples_per_second": 48.281761123218175}
-{"epoch": 3, "training_loss": 0.6805051567895072, "validation_loss": 0.7732831548055012, "validation_accuracy": 0.6693333333333333, "training_seconds": 72.39231950500016, "throughput_samples_per_second": 48.347670359674744}
+{"epoch": 1, "training_loss": 1.0079912191118512, "validation_loss": 0.9425179845492045, "validation_accuracy": 0.556, "training_seconds": 78.98406110699943, "throughput_samples_per_second": 44.31273792390293}
+{"epoch": 2, "training_loss": 0.8624127771513803, "validation_loss": 0.8404579604466756, "validation_accuracy": 0.62, "training_seconds": 78.55970066999998, "throughput_samples_per_second": 44.55210457970296}
+{"epoch": 3, "training_loss": 0.6805051567895072, "validation_loss": 0.7732831410566966, "validation_accuracy": 0.6693333333333333, "training_seconds": 78.5416728680002, "throughput_samples_per_second": 44.56233069904455}
 Training benchmark complete.
 EXIT CODE: 0
 
-[2026-10-27T18:26:38.836767+00:00] hw45_serving
-COMMAND: /content/gpu-ii/.venv/bin/python hw45_serving.py
-Loading plain Hugging Face pipeline baseline...
+[2026-10-28T21:32:05.855061+00:00] controlled_training
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python run_experiments.py controlled
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{"epoch": 1, "training_loss": 0.9127267194475447, "validation_loss": 0.7175294337272644, "validation_accuracy": 0.7133333333333334, "training_seconds": 27.62648591300058, "throughput_samples_per_second": 126.69001808706174}
+{"epoch": 2, "training_loss": 0.5395572117737362, "validation_loss": 0.5883979020118714, "validation_accuracy": 0.776, "training_seconds": 27.96789092400013, "throughput_samples_per_second": 125.14350865822848}
+{"epoch": 3, "training_loss": 0.2855576422555106, "validation_loss": 0.5421475919485093, "validation_accuracy": 0.804, "training_seconds": 27.21602458000052, "throughput_samples_per_second": 128.60070690015274}
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{"epoch": 1, "training_loss": 0.9082491632870265, "validation_loss": 0.6851405286788941, "validation_accuracy": 0.716, "training_seconds": 114.47703562599963, "throughput_samples_per_second": 30.57381754218915}
+{"epoch": 2, "training_loss": 0.5243684139251709, "validation_loss": 0.5201753527323405, "validation_accuracy": 0.808, "training_seconds": 113.11866850099977, "throughput_samples_per_second": 30.940958255436556}
+{"epoch": 3, "training_loss": 0.2898897445627621, "validation_loss": 0.5093885046641032, "validation_accuracy": 0.824, "training_seconds": 113.8649546330007, "throughput_samples_per_second": 30.73816707942216}
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{"epoch": 1, "training_loss": 0.9084105613572256, "validation_loss": 0.6841499562263489, "validation_accuracy": 0.716, "training_seconds": 85.39434712499951, "throughput_samples_per_second": 40.98631956137249}
+{"epoch": 2, "training_loss": 0.52365028994424, "validation_loss": 0.5230883061091105, "validation_accuracy": 0.8106666666666666, "training_seconds": 84.82756338400031, "throughput_samples_per_second": 41.26017370269237}
+{"epoch": 3, "training_loss": 0.29218160102197105, "validation_loss": 0.5011617351373037, "validation_accuracy": 0.812, "training_seconds": 84.80813462199967, "throughput_samples_per_second": 41.26962602820982}
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{"epoch": 1, "training_loss": 0.9123536201885768, "validation_loss": 0.717880850315094, "validation_accuracy": 0.716, "training_seconds": 28.738551290999567, "throughput_samples_per_second": 121.7876282127047}
+{"epoch": 2, "training_loss": 0.5450848867893219, "validation_loss": 0.5874458300272624, "validation_accuracy": 0.7746666666666666, "training_seconds": 28.670965453999997, "throughput_samples_per_second": 122.07471721227655}
+{"epoch": 3, "training_loss": 0.2889660110133035, "validation_loss": 0.5937218165795008, "validation_accuracy": 0.7973333333333333, "training_seconds": 28.36154967099992, "throughput_samples_per_second": 123.40651482731914}
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{"epoch": 1, "training_loss": 0.9211922878878457, "validation_loss": 0.7398605682849884, "validation_accuracy": 0.6826666666666666, "training_seconds": 91.03989530299987, "throughput_samples_per_second": 38.44468393061378}
+{"epoch": 2, "training_loss": 0.5339880841629846, "validation_loss": 0.5479015309810639, "validation_accuracy": 0.7946666666666666, "training_seconds": 90.75132721499995, "throughput_samples_per_second": 38.56692907320366}
+{"epoch": 3, "training_loss": 0.27082455342901607, "validation_loss": 0.6164105427016815, "validation_accuracy": 0.816, "training_seconds": 90.71751258099994, "throughput_samples_per_second": 38.58130476047739}
+Matched-budget training complete. Each condition has the same effective batch and update count.
+EXIT CODE: 0
+
+[2026-10-28T21:52:14.476730+00:00] hw45_serving
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python accurate_serving.py benchmark
 Device set to use cuda:0
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
@@ -538,55 +800,542 @@ The following generation flags are not valid and may be ignored: ['temperature',
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-INFO 10-27 18:27:13 [__init__.py:216] Automatically detected platform cuda.
-Loading vLLM with max_model_len=32768...
-INFO 10-27 18:27:15 [utils.py:328] non-default args: {'dtype': 'float16', 'seed': 8834, 'max_model_len': 32768, 'gpu_memory_utilization': 0.85, 'disable_log_stats': True, 'enforce_eager': True, 'generation_config': 'vllm', 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
-INFO 10-27 18:27:25 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
-WARNING 10-27 18:27:25 [__init__.py:2767] Casting torch.bfloat16 to torch.float16.
-INFO 10-27 18:27:25 [__init__.py:1815] Using max model len 32768
-WARNING 10-27 18:27:26 [cuda.py:103] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
-INFO 10-27 18:27:26 [__init__.py:3400] Cudagraph is disabled under eager mode
-INFO 10-27 18:27:26 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=8834, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=None, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=False, 
-INFO 10-27 18:27:29 [cuda.py:388] Using XFormers backend.
-[W1027 18:27:30.184642853 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+HF measured requests: 10/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 20/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 30/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 40/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 50/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 60/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 70/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 80/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 90/100
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+HF measured requests: 100/100
+INFO 10-28 21:56:02 [__init__.py:216] Automatically detected platform cuda.
+INFO 10-28 21:56:03 [utils.py:328] non-default args: {'dtype': 'float16', 'seed': 8834, 'max_model_len': 4096, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.8, 'max_num_batched_tokens': 4096, 'max_num_seqs': 32, 'disable_log_stats': True, 'enforce_eager': True, 'enable_chunked_prefill': False, 'disable_async_output_proc': True, 'generation_config': 'vllm', 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 10-28 21:56:12 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
+WARNING 10-28 21:56:12 [__init__.py:2767] Casting torch.bfloat16 to torch.float16.
+INFO 10-28 21:56:12 [__init__.py:1815] Using max model len 4096
+INFO 10-28 21:56:13 [__init__.py:3400] Cudagraph is disabled under eager mode
+INFO 10-28 21:56:13 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=8834, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=False, 
+INFO 10-28 21:56:16 [cuda.py:408] Cannot use FlashAttention-2 backend for Volta and Turing GPUs.
+INFO 10-28 21:56:16 [cuda.py:453] Using XFormers backend.
+[W1028 21:56:16.117232224 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
 [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-INFO 10-27 18:27:30 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
-INFO 10-27 18:27:30 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
-INFO 10-27 18:27:31 [weight_utils.py:348] Using model weights format ['*.safetensors']
-INFO 10-27 18:27:31 [weight_utils.py:406] No model.safetensors.index.json found in remote.
+INFO 10-28 21:56:16 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+INFO 10-28 21:56:16 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+INFO 10-28 21:56:17 [weight_utils.py:348] Using model weights format ['*.safetensors']
+INFO 10-28 21:56:17 [weight_utils.py:406] No model.safetensors.index.json found in remote.
 
 Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
 
-Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.07it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.01s/it]
 
-Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.07it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.01s/it]
 
-INFO 10-27 18:27:32 [default_loader.py:268] Loading weights took 0.96 seconds
-INFO 10-27 18:27:33 [model_runner.py:1083] Model loading took 0.9265 GiB and 1.973904 seconds
-INFO 10-27 18:27:35 [worker.py:290] Memory profiling takes 1.72 seconds
-INFO 10-27 18:27:35 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.85) = 12.38GiB
-INFO 10-27 18:27:35 [worker.py:290] model weights take 0.93GiB; non_torch_memory takes 0.02GiB; PyTorch activation peak memory takes 1.43GiB; the rest of the memory reserved for KV Cache is 10.00GiB.
-INFO 10-27 18:27:35 [executor_base.py:114] # cuda blocks: 54601, # CPU blocks: 21845
-INFO 10-27 18:27:35 [executor_base.py:119] Maximum concurrency for 32768 tokens per request: 26.66x
-INFO 10-27 18:27:39 [worker.py:467] Free memory on device (14.41/14.56 GiB) on startup. Desired GPU memory utilization is (0.85, 12.38 GiB). Actual usage is 0.93 GiB for weight, 1.43 GiB for peak activation, 0.02 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=10577874636` to fit into requested memory, or `--kv-cache-memory=12763136512` to fully utilize gpu memory. Current kv cache memory in use is 10735161036 bytes.
-INFO 10-27 18:27:39 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 6.84 seconds
-INFO 10-27 18:27:42 [llm.py:295] Supported_tasks: ['generate']
-INFO 10-27 18:27:42 [__init__.py:36] No IOProcessor plugins requested by the model
-       configuration  batch_size  tokens_per_second  p50_latency_ms  p95_latency_ms  requests_measured  generated_tokens
-HF pipeline, batch 1           1          29.946473     2127.671157     2267.565926                 10               640
-       vLLM, batch 1           1          66.096173      951.877026     1063.993893                 10               640
-       vLLM, batch 8           8         503.682136     1022.927239     1030.104012                 40              2560
-      vLLM, batch 32          32        1606.640823     1240.241725     1391.270230                 96              6144
-Longest successful context at batch 8: 32767
-[rank0]:[W1027 18:29:11.349130912 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+INFO 10-28 21:56:18 [default_loader.py:268] Loading weights took 1.03 seconds
+INFO 10-28 21:56:19 [model_runner.py:1083] Model loading took 0.9265 GiB and 1.523169 seconds
+INFO 10-28 21:56:19 [worker.py:290] Memory profiling takes 0.56 seconds
+INFO 10-28 21:56:19 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.80) = 11.65GiB
+INFO 10-28 21:56:19 [worker.py:290] model weights take 0.93GiB; non_torch_memory takes 0.02GiB; PyTorch activation peak memory takes 0.24GiB; the rest of the memory reserved for KV Cache is 10.47GiB.
+INFO 10-28 21:56:20 [executor_base.py:114] # cuda blocks: 57153, # CPU blocks: 21845
+INFO 10-28 21:56:20 [executor_base.py:119] Maximum concurrency for 4096 tokens per request: 223.25x
+INFO 10-28 21:56:23 [worker.py:467] Free memory on device (14.41/14.56 GiB) on startup. Desired GPU memory utilization is (0.8, 11.65 GiB). Actual usage is 0.93 GiB for weight, 0.24 GiB for peak activation, 0.02 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11079574118` to fit into requested memory, or `--kv-cache-memory=14046690304` to fully utilize gpu memory. Current kv cache memory in use is 11236860518 bytes.
+INFO 10-28 21:56:23 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 4.93 seconds
+INFO 10-28 21:56:25 [llm.py:295] Supported_tasks: ['generate']
+INFO 10-28 21:56:25 [__init__.py:36] No IOProcessor plugins requested by the model
+vLLM batch 1: 5 measured batches
+vLLM batch 1: 10 measured batches
+vLLM batch 1: 15 measured batches
+vLLM batch 1: 20 measured batches
+vLLM batch 1: 25 measured batches
+vLLM batch 1: 30 measured batches
+vLLM batch 1: 35 measured batches
+vLLM batch 1: 40 measured batches
+vLLM batch 1: 45 measured batches
+vLLM batch 1: 50 measured batches
+vLLM batch 1: 55 measured batches
+vLLM batch 1: 60 measured batches
+vLLM batch 1: 65 measured batches
+vLLM batch 1: 70 measured batches
+vLLM batch 1: 75 measured batches
+vLLM batch 1: 80 measured batches
+vLLM batch 1: 85 measured batches
+vLLM batch 1: 90 measured batches
+vLLM batch 1: 95 measured batches
+vLLM batch 1: 100 measured batches
+vLLM batch 8: 5 measured batches
+vLLM batch 8: 10 measured batches
+vLLM batch 8: 15 measured batches
+vLLM batch 8: 20 measured batches
+vLLM batch 32: 5 measured batches
+vLLM batch 32: 10 measured batches
+vLLM batch 32: 15 measured batches
+vLLM batch 32: 20 measured batches
+       configuration  batch_size  tokens_per_second  p50_latency_ms  p95_latency_ms  requests_measured  generated_tokens  measured_wall_seconds  measured_batches
+HF pipeline, batch 1           1          29.883489     2119.854475     2222.850350                100              6400             214.165086               100
+       vLLM, batch 1           1          67.474442      945.520163      996.697044                100              6400              94.850729               100
+       vLLM, batch 8           8         501.263902     1012.903452     1068.588018                160             10240              20.428361                20
+      vLLM, batch 32          32        1690.880756     1203.518152     1253.855944                640             40960              24.224062                20
+[rank0]:[W1028 21:58:52.462933398 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
 EXIT CODE: 0
 
-[2026-10-27T18:29:13.562204+00:00] Write HW4.5 findings and GPU-hour calculation
-COMMAND: /content/gpu-ii/.venv/bin/python finalize_hw45.py
-Created METRICS.md and GPU_HOURS.md
+[2026-10-28T21:58:55.206087+00:00] context_capacity
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python accurate_serving.py context
+Starting isolated simultaneous-batch-8 context probe: 1
+Context 1 success
+Starting isolated simultaneous-batch-8 context probe: 128
+Context 128 success
+Starting isolated simultaneous-batch-8 context probe: 256
+Context 256 success
+Starting isolated simultaneous-batch-8 context probe: 512
+Context 512 success
+Starting isolated simultaneous-batch-8 context probe: 1024
+Context 1024 success
+Starting isolated simultaneous-batch-8 context probe: 2048
+Context 2048 success
+Starting isolated simultaneous-batch-8 context probe: 4096
+Context 4096 success
+Starting isolated simultaneous-batch-8 context probe: 8192
+Context 8192 success
+Starting isolated simultaneous-batch-8 context probe: 16384
+Context 16384 success
+Starting isolated simultaneous-batch-8 context probe: 32767
+Context 32767 batch8_admission_limit
+Starting isolated simultaneous-batch-8 context probe: 24560
+Context 24560 success
+Starting isolated simultaneous-batch-8 context probe: 28656
+Context 28656 success
+Starting isolated simultaneous-batch-8 context probe: 30704
+Context 30704 batch8_admission_limit
+Starting isolated simultaneous-batch-8 context probe: 29680
+Context 29680 batch8_admission_limit
+Starting isolated simultaneous-batch-8 context probe: 29168
+Context 29168 success
+Starting isolated simultaneous-batch-8 context probe: 29424
+Context 29424 batch8_admission_limit
+Starting isolated simultaneous-batch-8 context probe: 29296
+Context 29296 success
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "original_position_limit": 32768,
+  "gpu_memory_utilization": 0.8,
+  "longest_verified_batch8_prompt": 29296,
+  "first_failing_bracket": 29424,
+  "boundary_resolution_tokens": 128,
+  "limit_kind": "batch8_admission_limit",
+  "records": [
+    {
+      "context_length": 1,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 11393433600,
+      "cache_pool_blocks": 57950,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 8,
+      "measured_active_kv_bytes": 1572864,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 2,
+      "prefill_token_budget": 8,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 128,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 11391467520,
+      "cache_pool_blocks": 57940,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 64,
+      "measured_active_kv_bytes": 12582912,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 129,
+      "prefill_token_budget": 1024,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 256,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 11378688000,
+      "cache_pool_blocks": 57875,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 128,
+      "measured_active_kv_bytes": 25165824,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 257,
+      "prefill_token_budget": 2048,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 512,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 11305549824,
+      "cache_pool_blocks": 57503,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 256,
+      "measured_active_kv_bytes": 50331648,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 513,
+      "prefill_token_budget": 4096,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 1024,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 11156520960,
+      "cache_pool_blocks": 56745,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 512,
+      "measured_active_kv_bytes": 100663296,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 1025,
+      "prefill_token_budget": 8192,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 2048,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 10858659840,
+      "cache_pool_blocks": 55230,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 1024,
+      "measured_active_kv_bytes": 201326592,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 2049,
+      "prefill_token_budget": 16384,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 4096,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 10262544384,
+      "cache_pool_blocks": 52198,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 2048,
+      "measured_active_kv_bytes": 402653184,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 4097,
+      "prefill_token_budget": 32768,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 8192,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 9070706688,
+      "cache_pool_blocks": 46136,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 4096,
+      "measured_active_kv_bytes": 805306368,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 8193,
+      "prefill_token_budget": 65536,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 16384,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 6686638080,
+      "cache_pool_blocks": 34010,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 8192,
+      "measured_active_kv_bytes": 1610612736,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 16385,
+      "prefill_token_budget": 131072,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 24560,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 4305715200,
+      "cache_pool_blocks": 21900,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 12280,
+      "measured_active_kv_bytes": 2414346240,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 24561,
+      "prefill_token_budget": 196480,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 28656,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 3114074112,
+      "cache_pool_blocks": 15839,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 14328,
+      "measured_active_kv_bytes": 2816999424,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 28657,
+      "prefill_token_budget": 229248,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 29168,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 2966028288,
+      "cache_pool_blocks": 15086,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 14584,
+      "measured_active_kv_bytes": 2867331072,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 29169,
+      "prefill_token_budget": 233344,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 29296,
+      "batch_size": 8,
+      "status": "success",
+      "cache_pool_bytes": 2929262592,
+      "cache_pool_blocks": 14899,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 14648,
+      "measured_active_kv_bytes": 2879913984,
+      "peak_running_requests": 8,
+      "all_eight_resident_together": true,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 29297,
+      "prefill_token_budget": 234368,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 29424,
+      "batch_size": 8,
+      "status": "batch8_admission_limit",
+      "cache_pool_bytes": 2891317248,
+      "cache_pool_blocks": 14706,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 12873,
+      "measured_active_kv_bytes": 2530934784,
+      "peak_running_requests": 7,
+      "all_eight_resident_together": false,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 29425,
+      "prefill_token_budget": 235392,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 29680,
+      "batch_size": 8,
+      "status": "batch8_admission_limit",
+      "cache_pool_bytes": 2816212992,
+      "cache_pool_blocks": 14324,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 12985,
+      "measured_active_kv_bytes": 2552954880,
+      "peak_running_requests": 7,
+      "all_eight_resident_together": false,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 29681,
+      "prefill_token_budget": 237440,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 30704,
+      "batch_size": 8,
+      "status": "batch8_admission_limit",
+      "cache_pool_bytes": 2518155264,
+      "cache_pool_blocks": 12808,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 11514,
+      "measured_active_kv_bytes": 2263744512,
+      "peak_running_requests": 6,
+      "all_eight_resident_together": false,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 30705,
+      "prefill_token_budget": 245632,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    },
+    {
+      "context_length": 32767,
+      "batch_size": 8,
+      "status": "batch8_admission_limit",
+      "cache_pool_bytes": 1918894080,
+      "cache_pool_blocks": 9760,
+      "bytes_per_cache_block": 196608,
+      "tokens_per_block": 16,
+      "peak_used_cache_blocks": 8192,
+      "measured_active_kv_bytes": 1610612736,
+      "peak_running_requests": 4,
+      "all_eight_resident_together": false,
+      "gpu_memory_utilization": 0.8,
+      "configured_max_model_len": 32768,
+      "prefill_token_budget": 262136,
+      "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+    }
+  ],
+  "configuration_note": "Each probe provisions a simultaneous eight-request prefill and max_model_len=prompt_length+1, in a fresh V0 engine. The resulting reserved cache pool is measured separately for each configuration. This is an engine-configuration capacity bracket, not a universal hardware-only OOM boundary."
+}
+EXIT CODE: 0
+
+[2026-10-28T22:20:05.778487+00:00] Generate findings and verify real measured artifacts
+COMMAND: /content/GPU_II_T4_RUN_6ec28b7ced2a/.venv/bin/python make_reports.py
+PASS: same dataset hash
+PASS: same preparation settings
+PASS: exact source rows
+PASS: fixed split
+PASS: all independent and combined memory sweeps reached OOM
+PASS: successful probes materialized their requested batch
+PASS: quality runs never repeat rows to inflate a physical batch
+PASS: six matched training conditions
+PASS: same controlled effective batch and training updates
+PASS: saved BERT reloaded
+PASS: five original worst-class mistakes
+PASS: baseline and repeated serving configurations match
+PASS: serving batches recorded in both stages
+PASS: each serving row has at least 100 real request samples
+PASS: at least 20 measured vLLM batches per shape
+PASS: request timestamps, not batch copies
+PASS: eight concurrent KV allocations observed
+PASS: capacity boundary or unmodified model limit identified
+PASS: checkpoint weights and tokenizer exist
+PASS: both GPU UUID captures exist
+PASS: all required figures exist
+PASS: optional Part C skip
+REPORTS AND MEASURED-ARTIFACT CHECKS COMPLETE
 EXIT CODE: 0

@@ -34,6 +34,7 @@ not guaranteed. Resume reuses completed stages only if the same run folder
 and GPU remain available. Runtime storage is temporary: download results
 promptly. No fabricated GPU timings or scores are included.
 
-This notebook and its supporting source are local files only. No GitHub
-upload or tag is created by running it. Publish the executed notebook and
-checkpoint archive only after the final real-result audit.
+This notebook does not upload files or create a GitHub tag automatically.
+The audited executed submission is published one level above, at
+gpu-ii/GPU_II_Colab_Run_All.ipynb. This t4 notebook remains the run template.
+See the parent README for the current results archive and submission link.

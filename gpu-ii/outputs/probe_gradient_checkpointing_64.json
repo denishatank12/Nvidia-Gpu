@@ -7,27 +7,32 @@
     "optimizer8bit": false
   },
   "physical_batch": 64,
+  "observed_first_batch": 64,
+  "measurement_kind": "full_training_epoch",
   "accumulation_steps": 1,
   "effective_batch": 64,
   "epochs": 1,
   "optimizer_steps": 55,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "disabled",
   "samples_seen": 3500,
-  "throughput_samples_per_second": 35.60064419176064,
-  "mean_time_per_epoch_seconds": 98.31282774400006,
-  "training_wall_seconds_including_validation": 103.96016605,
-  "peak_memory_allocated_gb": 2.0781235694885254,
-  "peak_memory_reserved_gb": 2.291015625,
-  "test_loss": 0.9291833580334982,
+  "throughput_samples_per_second": 32.99461037724727,
+  "mean_time_per_epoch_seconds": 106.07793090999985,
+  "training_wall_seconds_including_validation": 112.56247296799984,
+  "peak_memory_allocated_gb": 2.0784459114074707,
+  "peak_memory_reserved_gb": 2.267578125,
+  "test_loss": 0.92918332751592,
   "test_accuracy": 0.5626666666666666,
   "best_validation_epoch": 1,
   "epoch_metrics": [
     {
       "epoch": 1,
       "training_loss": 0.9927192096710205,
-      "validation_loss": 0.9213717754681905,
+      "validation_loss": 0.9213717942237853,
       "validation_accuracy": 0.5773333333333334,
-      "training_seconds": 98.31282774400006,
-      "throughput_samples_per_second": 35.60064419176064
+      "training_seconds": 106.07793090999985,
+      "throughput_samples_per_second": 32.99461037724727
     }
   ],
   "per_class": [

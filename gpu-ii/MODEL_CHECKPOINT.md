@@ -1,36 +1,36 @@
 # HW4.a saved BERT checkpoint
 
-Download: [original Colab results archive](https://github.com/denishatank12/Nvidia-Gpu/releases/download/hw4-5/GPU_II_RESULTS.zip).
+[Download the October 28 T4 results archive](https://github.com/denishatank12/Nvidia-Gpu/releases/download/hw4-5/GPU_II_T4_RESULTS_6ec28b7ced2a.zip).
 
-The checkpoint is stored as a GitHub release asset rather than a large ordinary Git blob. The archive includes all six saved model/tokenizer files under `gpu-ii/checkpoints/hw4a_bert_classifier/`.
+The archive contains all six classifier/tokenizer files under `gpu-ii/checkpoints/hw4a_bert_classifier/`. It is stored as a release asset rather than a large ordinary Git blob.
 
-Archive size: 439,949,104 bytes. SHA-256:
+Archive size: 418,144,191 bytes. SHA-256:
 
 ```text
-68434bf0b59c1a49bf22a88b0ac34dd692387e493a2ef84d3fb899a66d940159
+a3c4d4c7ed20163b82564410e418cd053381046911811daf34f816e203471b8a
 ```
 
-The original archive is immutable run evidence and contains the original reports. Use the corrected `HW4A_METRICS.md`, `METRICS.md`, and `AI_USE.md` in the tagged repository for the reviewed findings.
+This is the exact archive supplied after the successful run; it was not repacked to make the reports appear rerun. The tagged repository contains the reviewed AI-use text and clarified FP32 plateau wording.
 
 ## Restore and reproduce
 
-From a new empty directory, extract the checkpoint with:
+Extract the checkpoint from the downloaded archive:
 
 ```bash
-unzip GPU_II_RESULTS.zip 'gpu-ii/checkpoints/hw4a_bert_classifier/*'
+unzip GPU_II_T4_RESULTS_6ec28b7ced2a.zip 'gpu-ii/checkpoints/hw4a_bert_classifier/*'
 ```
 
-To reproduce training, use the repository's GPU setup and dataset preparation, then run this command from `gpu-ii/`:
+The exact training command, from the original notebook's run directory, is:
 
 ```bash
-.venv/bin/python hw4a_training.py --settings settings.json
+./.venv/bin/python hw4a_training.py --settings settings.json
 ```
 
-This writes the classifier and tokenizer to `checkpoints/hw4a_bert_classifier/`, reloads them, and writes the two custom predictions to `outputs/hw4a_custom_inference.csv`. The completed run used a Tesla T4, three epochs, physical batch 16, and SEED 8834.
+Use the self-contained T4 notebook for complete environment and dataset setup. The recorded run uses one Tesla T4, three epochs, physical batch 16 and SEED 8834.
 
-## Independent checkpoint check
+## Independent checkpoint verification
 
-After download, the six checkpoint files were extracted and loaded again on CPU using `BertForSequenceClassification.from_pretrained(..., local_files_only=True)` and the saved tokenizer. The two saved example sentences produced class IDs `[2, 0]`, corresponding to positive (`1.0`) and negative (`-1.0`), matching the recorded GPU run. This verifies reload and inference, not a second training run.
+During the audit the archived classifier and tokenizer were loaded offline on CPU. Both custom predictions and their reported confidence reproduced within tolerance. All five documented misclassifications also reproduced. This verifies saved-model inference, not a second training run.
 
 | File | Bytes | SHA-256 |
 |---|---:|---|
@@ -40,3 +40,5 @@ After download, the six checkpoint files were extracted and loaded again on CPU 
 | tokenizer_config.json | 1221 | `1f92c93d2e31974acffab86d48e80a9357acb18c68346c5472ef1d12c72d5d77` |
 | special_tokens_map.json | 125 | `b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3` |
 | vocab.txt | 231508 | `07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3` |
+
+The original executed notebook is also preserved as [a release asset](https://github.com/denishatank12/Nvidia-Gpu/releases/download/hw4-5/GPU_II_T4_Run_All_original_executed.ipynb). The older `GPU_II_RESULTS.zip` asset belongs to the previous run.

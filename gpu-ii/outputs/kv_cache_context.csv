@@ -1,8 +1,18 @@
-batch_size,context_length_tokens,theoretical_kv_cache_gb,measured_gpu_used_before_gb,measured_gpu_used_after_gb,measured_gpu_used_change_gb,status,wall_seconds,error
-8,512,0.046875,11.322265625,11.90234375,0.580078125,success,0.1678198340000563,
-8,1024,0.09375,11.90234375,12.20703125,0.3046875,success,0.3507933860000776,
-8,2048,0.1875,12.20703125,12.65234375,0.4453125,success,0.8013449410000248,
-8,4096,0.375,12.65234375,13.90234375,1.25,success,1.8762612000000445,
-8,8192,0.75,13.90234375,14.12109375,0.21875,success,4.799494773999868,
-8,16384,1.5,14.12109375,14.12109375,0.0,success,13.574479783999777,
-8,32767,2.999908447265625,14.12109375,14.12109375,0.0,success,47.22602488599978,
+context_length,batch_size,status,cache_pool_bytes,cache_pool_blocks,bytes_per_cache_block,tokens_per_block,peak_used_cache_blocks,measured_active_kv_bytes,peak_running_requests,all_eight_resident_together,gpu_memory_utilization,configured_max_model_len,prefill_token_budget,method
+1,8,success,11393433600,57950,196608,16,8,1572864,8,True,0.8,2,8,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+128,8,success,11391467520,57940,196608,16,64,12582912,8,True,0.8,129,1024,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+256,8,success,11378688000,57875,196608,16,128,25165824,8,True,0.8,257,2048,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+512,8,success,11305549824,57503,196608,16,256,50331648,8,True,0.8,513,4096,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+1024,8,success,11156520960,56745,196608,16,512,100663296,8,True,0.8,1025,8192,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+2048,8,success,10858659840,55230,196608,16,1024,201326592,8,True,0.8,2049,16384,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+4096,8,success,10262544384,52198,196608,16,2048,402653184,8,True,0.8,4097,32768,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+8192,8,success,9070706688,46136,196608,16,4096,805306368,8,True,0.8,8193,65536,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+16384,8,success,6686638080,34010,196608,16,8192,1610612736,8,True,0.8,16385,131072,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+24560,8,success,4305715200,21900,196608,16,12280,2414346240,8,True,0.8,24561,196480,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+28656,8,success,3114074112,15839,196608,16,14328,2816999424,8,True,0.8,28657,229248,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+29168,8,success,2966028288,15086,196608,16,14584,2867331072,8,True,0.8,29169,233344,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+29296,8,success,2929262592,14899,196608,16,14648,2879913984,8,True,0.8,29297,234368,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+29424,8,batch8_admission_limit,2891317248,14706,196608,16,12873,2530934784,7,False,0.8,29425,235392,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+29680,8,batch8_admission_limit,2816212992,14324,196608,16,12985,2552954880,7,False,0.8,29681,237440,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+30704,8,batch8_admission_limit,2518155264,12808,196608,16,11514,2263744512,6,False,0.8,30705,245632,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.
+32767,8,batch8_admission_limit,1918894080,9760,196608,16,8192,1610612736,4,False,0.8,32768,262136,Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled.

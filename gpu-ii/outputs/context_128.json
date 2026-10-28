@@ -1,0 +1,17 @@
+{
+  "context_length": 128,
+  "batch_size": 8,
+  "status": "success",
+  "cache_pool_bytes": 11391467520,
+  "cache_pool_blocks": 57940,
+  "bytes_per_cache_block": 196608,
+  "tokens_per_block": 16,
+  "peak_used_cache_blocks": 64,
+  "measured_active_kv_bytes": 12582912,
+  "peak_running_requests": 8,
+  "all_eight_resident_together": true,
+  "gpu_memory_utilization": 0.8,
+  "configured_max_model_len": 129,
+  "prefill_token_budget": 1024,
+  "method": "Actual tensor-storage bytes per cache block multiplied by peak observed allocated GPU blocks during scheduler admission; prefix caching and chunked prefill disabled."
+}

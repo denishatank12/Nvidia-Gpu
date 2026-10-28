@@ -1,42 +1,38 @@
 # HW4.a and HW4.5 audit
 
-Audit date: October 27, 2026. Student: Denisha Ketan Tank.
+Audit date: October 28, 2026. Student: Denisha Ketan Tank.
 
 ## Verdict
 
-The original combined Colab notebook completed all nine code cells without an uncaught notebook error. The required experiments produced measurements and the saved BERT model reloads successfully. The reviewed reports correct the hardware, comparison controls, ranking, and error analysis without changing measurements.
+The supplied T4 notebook completed all ten code cells in order with no saved error tracebacks. The original ZIP passed its CRC check. Independent checks reproduced the source slice and split, recalculated reported statistics and reloaded the actual checkpoint. No full GPU rerun was needed for the publication edits.
 
-This is not an unconditional claim that every administrative requirement is satisfied. At audit time, GitHub reported this repository as public. The standing instructions require a private repository shared with the instructor and grading team. Visibility and grader access need confirmation before submission.
+The notebook's executed code cells and outputs are preserved exactly. Post-run Markdown notes and reviewed repository reports clarify the FP32 throughput maximum and the AI-use appendix. The original ZIP and original executed notebook are retained as release assets, so the original evidence can be compared with those editorial revisions.
 
 ## Requirement checks
 
 | Requirement | Evidence and result |
 |---|---|
-| Parameters and initialization | SID4/SEED 8834, SLICE 834, HP_ID 2, CLS_A 4, CLS_B 6 are recorded; initialization and split use the saved seed. |
-| Same Twitter data for both assignments | Source rows 834–5833; identical source hash and preparation settings; 3,500/750/750 split. |
-| BERT preprocessing and training | BERT tokenizer, TensorDatasets, and BertForSequenceClassification; three completed epochs, saved model and tokenizer. |
-| Losses, validation, time, and memory | Per-epoch CSV and loss plots; HW4.a test accuracy 83.60%, wall time 244.93 s, peak allocated memory 2.467 GiB. Best validation epoch was the last, so no later-epoch waste is claimed. |
-| Class analysis | Confusion matrix, per-class precision/recall, and five individually discussed errors from the lowest-recall class for HW4.a and the HW4.5 baseline. Possible label noise is identified cautiously. |
-| Save/reload custom inference | Two recorded predictions; an independent CPU reload reproduced class IDs [2, 0]. Checkpoint files and hashes are documented. |
-| HF versus vLLM serving | Both stages recorded HF batch 1 and vLLM batches 1, 8, 32 for Qwen/Qwen2.5-0.5B-Instruct, with token throughput, p50, and p95. |
-| Batch scaling and first OOM | FP32 batches 16, 32, 64, 128 succeeded; 256 failed with CUDA OOM. Throughput plateau identified near batch 64. The expected OOM is evidence, not a failed notebook run. |
-| Independent techniques and combination | Separate AMP, checkpointing, accumulation, and 8-bit results, followed by the combined candidate. Max-batch accuracy comparisons are labelled as confounded by different optimizer-update counts. |
-| Ranking | All four independent techniques included. Three techniques use common-batch one-epoch controls; accumulation uses the matched effective-batch three-epoch control. The reference difference and timing noise are disclosed. |
-| Accumulation budget | Physical batch 16 × 8, effective batch 128; 84 optimizer updates and 10,500 samples match the direct-batch baseline. |
-| Part C | Part C skipped (optional). |
-| One-GPU clarification | Actual Tesla T4 and UUID captured before and after; no fabricated second-card ratio or distributed benchmark. |
-| Context sweep | Batch 8 tested prompts from 512 to 32,767 tokens, all successful. This reaches the configured 32,768-token limit with one generated token, not a demonstrated GPU-memory exhaustion boundary. |
-| GPU-hours and recommendation | Original accuracy-oriented run: 0.0680 GPU-hours; faster, lower-accuracy combined candidate: 0.0186 GPU-hours. Neither is presented as the cost of the entire lab. |
-| Standing artifacts | One executed notebook with corrected post-run analysis, figures, measured CSV/JSON, timestamped logs, AI-use appendix, hosted-runtime record, GPU-hour record, UUID captures, and checkpoint download instructions are included. |
+| Dataset and split | CSV hash verified. All 5,000 source texts/labels match rows 834–5833. Retokenization reproduces the saved tensors. SEED 8834 independently reproduces the disjoint 3,500/750/750 split. |
+| BERT training | Three full epochs; 10,500 training examples; 657 baseline optimizer updates. Per-epoch losses and validation accuracy are saved. |
+| Quality, time and memory | Test accuracy 83.60%; 255.65 seconds including validation; 2.466 GiB peak allocated training memory. Best validation accuracy occurs at epoch 3, with no observed later training waste. |
+| Class analysis | Confusion matrix, precision/recall and five lowest-recall-class errors are present. Their source rows belong to the test split, and the saved checkpoint reproduces all five predictions. |
+| Save/reload | Full classifier and tokenizer are in the release archive. An independent offline CPU reload reproduced both custom predictions and their reported confidence within tolerance. |
+| Batch scaling | Real FP32 batches 16/32/64/128 succeed; 256 produces CUDA OOM. Throughput is highest at batch 16 and declines at every tested increase. |
+| Memory techniques | AMP, checkpointing, 8-bit optimizer and a combined candidate each have independent full-epoch sweeps to a genuine recorded CUDA OOM, followed by three-epoch quality runs. |
+| Fair comparisons | All six matched controls use effective batch 16, three epochs, 10,500 examples and 657 completed updates, with no skipped updates. Accumulation uses physical batch 4 times 4 microbatches. |
+| Ranking and recommendation | All four independent techniques are ranked. The combined candidate is kept separate. The selected baseline is the fastest candidate meeting the stated validation-accuracy rule; this selection was independently recomputed. |
+| Part C and one GPU | Part C skipped (optional). The actual T4 UUID is captured before and after. The clarification permits one GPU. |
+| Serving | HF batch 1 and vLLM batches 1/8/32 are measured in both stages. Request counts, 64-token lengths, throughput, p50/p95 and individual completion-timestamp arithmetic recompute correctly from the raw CSVs. |
+| KV cache | Actual tensor-storage and allocated-block arithmetic verify. Eight concurrent prompts succeed at 29,296 tokens; the configured pool cannot admit all eight at 29,424. The bracket is 128 tokens wide. |
+| GPU-hours | One full baseline fine-tune uses 255.648288 / 3600 = 0.071013 GPU-hours. This is not the cost of the entire experimental session. |
+| Artifacts | Executed notebook, plots, raw CSV/JSON, logs, AI-use appendix, hosted-runtime record, GPU-hour record, UUID captures and full-checkpoint download are included. |
 
-## Limits that should remain visible
+## Interpretation and access qualifications
 
-1. The serving code assigns the synchronous batch-completion time to each request. It does not record each request's first-token or independent finish time. The p50/p95 values have this stated definition and come from a small number of batch repetitions.
-2. The context experiment did not exhaust GPU memory within the supported model range. Calculated active KV storage and measured total process GPU usage are different quantities. A literal memory-wall number or isolated live-KV measurement would require a further GPU experiment; neither can be invented from this run.
-3. The max-batch runs have different numbers of optimizer updates. The common-batch probes provide controlled one-epoch evidence, but they do not establish matched-budget three-epoch quality equivalence for every technique.
-4. No GPU experiment was rerun during the post-run audit. CPU reload, artifact checks, arithmetic checks, and report regeneration do not establish fresh GPU timings.
-5. Original executed code cells and outputs are preserved as historical run evidence. Corrections are included in clearly labelled post-run Markdown cells in the same notebook and in the separate reports, not disguised as a new execution. The duplicate unexecuted notebooks were removed.
+1. Maximum-batch runs have different optimizer-update budgets and lower accuracies. The separate matched-budget controls address that comparison; large-batch differences are not attributed solely to a memory technique.
+2. Serving requests within a synchronous batch can be correlated. Raw individual request timestamps are available, but measured p95 is not a production service-level guarantee.
+3. The context threshold is an observed eight-request cache-admission limit under the recorded engine settings. It is not a claim of universal physical-VRAM exhaustion or an exact one-token threshold.
+4. The student ran the GPU experiments. The assistant performed the independent artifact/code audit, CPU checkpoint checks and editorial revisions. These activities are distinguished in AI_USE.md; personal understanding is not certified by an automated check.
+5. At publication time the repository remains public because the user explicitly asked to leave visibility unchanged. The standing private-repository requirement is therefore unresolved, not silently waived.
 
-## Submission and access
-
-The intended artifact tag is `hw4-5`. The large original results archive is attached to the corresponding GitHub release, with the checkpoint location and hashes in `MODEL_CHECKPOINT.md`. A release or tag identifies the submitted snapshot; it does not resolve the public/private repository requirement or confirm that the instructor has access. Verify those access requirements before submitting the link.
+The final submission reference is `hw4-5`. The original archive and notebook are release assets. Checkpoint files and hashes are documented in MODEL_CHECKPOINT.md.

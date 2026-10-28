@@ -7,67 +7,72 @@
     "optimizer8bit": false
   },
   "physical_batch": 16,
+  "observed_first_batch": 16,
+  "measurement_kind": "full_training_epoch",
   "accumulation_steps": 1,
   "effective_batch": 16,
   "epochs": 1,
   "optimizer_steps": 219,
+  "skipped_updates": 0,
+  "overflow_retries": 0,
+  "amp_dtype": "torch.float16",
   "samples_seen": 3500,
-  "throughput_samples_per_second": 132.69024219400254,
-  "mean_time_per_epoch_seconds": 26.377222184000175,
-  "training_wall_seconds_including_validation": 32.29592343199988,
-  "peak_memory_allocated_gb": 2.2437539100646973,
+  "throughput_samples_per_second": 130.7121276482282,
+  "mean_time_per_epoch_seconds": 26.776398357000062,
+  "training_wall_seconds_including_validation": 32.94437817400012,
+  "peak_memory_allocated_gb": 2.2424111366271973,
   "peak_memory_reserved_gb": 2.373046875,
-  "test_loss": 0.685514369169871,
-  "test_accuracy": 0.7186666666666667,
+  "test_loss": 0.7048806653022767,
+  "test_accuracy": 0.6973333333333334,
   "best_validation_epoch": 1,
   "epoch_metrics": [
     {
       "epoch": 1,
-      "training_loss": 0.9110712716920035,
-      "validation_loss": 0.7017315653165181,
-      "validation_accuracy": 0.716,
-      "training_seconds": 26.377222184000175,
-      "throughput_samples_per_second": 132.69024219400254
+      "training_loss": 0.9127267194475447,
+      "validation_loss": 0.7175294337272644,
+      "validation_accuracy": 0.7133333333333334,
+      "training_seconds": 26.776398357000062,
+      "throughput_samples_per_second": 130.7121276482282
     }
   ],
   "per_class": [
     {
       "class_id": 0,
       "class_label": "-1.0",
-      "precision": 0.615819209039548,
-      "recall": 0.6526946107784432,
+      "precision": 0.5721925133689839,
+      "recall": 0.6407185628742516,
       "support": 167
     },
     {
       "class_id": 1,
       "class_label": "0.0",
-      "precision": 0.7106109324758842,
-      "recall": 0.8185185185185185,
+      "precision": 0.6978193146417445,
+      "recall": 0.8296296296296296,
       "support": 270
     },
     {
       "class_id": 2,
       "class_label": "1.0",
-      "precision": 0.7977099236641222,
-      "recall": 0.6677316293929713,
+      "precision": 0.7933884297520661,
+      "recall": 0.6134185303514377,
       "support": 313
     }
   ],
   "confusion_matrix": [
     [
-      109,
-      34,
-      24
+      107,
+      33,
+      27
     ],
     [
-      20,
-      221,
-      29
+      23,
+      224,
+      23
     ],
     [
-      48,
-      56,
-      209
+      57,
+      64,
+      192
     ]
   ]
 }

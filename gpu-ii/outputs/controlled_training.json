@@ -1,0 +1,627 @@
+{
+  "gpu": {
+    "name": "Tesla T4",
+    "uuid": "GPU-07e9693f-0780-d80f-57ed-406c0604fd80",
+    "memory_total_mib": 15360,
+    "memory_total_gb": 15.0,
+    "driver_version": "580.82.07",
+    "torch_cuda": "12.8",
+    "compute_capability": "7.5"
+  },
+  "settings": {
+    "data_path": "Twitter_Data.csv",
+    "text_column": "clean_text",
+    "label_column": "category",
+    "model_name": "bert-base-uncased",
+    "max_length": 128,
+    "start_row": 834,
+    "row_limit": 5000,
+    "seed": 8834,
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "original_batch": 16,
+    "max_probe_batch": 65536,
+    "num_workers": 0
+  },
+  "runs": {
+    "baseline": {
+      "status": "success",
+      "technique": "baseline",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "observed_first_batch": 16,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "disabled",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 44.26981207961529,
+      "mean_time_per_epoch_seconds": 79.06064732566661,
+      "training_wall_seconds_including_validation": 255.64828790100012,
+      "peak_memory_allocated_gb": 2.4656777381896973,
+      "peak_memory_reserved_gb": 2.70703125,
+      "test_loss": 0.4708309897581736,
+      "test_accuracy": 0.836,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9082491632870265,
+          "validation_loss": 0.6851405286788941,
+          "validation_accuracy": 0.716,
+          "training_seconds": 75.33056312999997,
+          "throughput_samples_per_second": 46.46188551597518
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.5243684139251709,
+          "validation_loss": 0.5201753527323405,
+          "validation_accuracy": 0.808,
+          "training_seconds": 79.39262257999997,
+          "throughput_samples_per_second": 44.08470064675374
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.2898897445627621,
+          "validation_loss": 0.5093885046641032,
+          "validation_accuracy": 0.824,
+          "training_seconds": 82.4587562669999,
+          "throughput_samples_per_second": 42.445461930896286
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.7150837988826816,
+          "recall": 0.7664670658682635,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8293515358361775,
+          "recall": 0.9,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.920863309352518,
+          "recall": 0.8178913738019169,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          128,
+          24,
+          15
+        ],
+        [
+          20,
+          243,
+          7
+        ],
+        [
+          31,
+          26,
+          256
+        ]
+      ],
+      "worst_class_id": 0,
+      "worst_class_label": "-1.0",
+      "five_worst_class_mistakes": [
+        {
+          "source_row": 1667,
+          "text": "ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 3127,
+          "text": "from rahul gandhis fake promise today\nfrom where will bring money this much money india than according him modi government failure and chowkidar chor\nthan more than this money was india before five years\nthan why not thought this ",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        },
+        {
+          "source_row": 4326,
+          "text": "talk about looting hypocrite modi took white money converted black gave trolls everone knows who else",
+          "true_class": "-1.0",
+          "predicted_class": "0.0"
+        },
+        {
+          "source_row": 5127,
+          "text": "took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time",
+          "true_class": "-1.0",
+          "predicted_class": "0.0"
+        },
+        {
+          "source_row": 4162,
+          "text": "bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi",
+          "true_class": "-1.0",
+          "predicted_class": "1.0"
+        }
+      ]
+    },
+    "mixed_precision": {
+      "status": "success",
+      "technique": "mixed_precision",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "observed_first_batch": 16,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "torch.float16",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 126.79566600729359,
+      "mean_time_per_epoch_seconds": 27.60346713900041,
+      "training_wall_seconds_including_validation": 102.87737120400016,
+      "peak_memory_allocated_gb": 2.2424111366271973,
+      "peak_memory_reserved_gb": 2.373046875,
+      "test_loss": 0.5014278016885122,
+      "test_accuracy": 0.8306666666666667,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9127267194475447,
+          "validation_loss": 0.7175294337272644,
+          "validation_accuracy": 0.7133333333333334,
+          "training_seconds": 27.62648591300058,
+          "throughput_samples_per_second": 126.69001808706174
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.5395572117737362,
+          "validation_loss": 0.5883979020118714,
+          "validation_accuracy": 0.776,
+          "training_seconds": 27.96789092400013,
+          "throughput_samples_per_second": 125.14350865822848
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.2855576422555106,
+          "validation_loss": 0.5421475919485093,
+          "validation_accuracy": 0.804,
+          "training_seconds": 27.21602458000052,
+          "throughput_samples_per_second": 128.60070690015274
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6529680365296804,
+          "recall": 0.8562874251497006,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8884615384615384,
+          "recall": 0.8555555555555555,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.9188191881918819,
+          "recall": 0.7955271565495208,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          143,
+          12,
+          12
+        ],
+        [
+          29,
+          231,
+          10
+        ],
+        [
+          47,
+          17,
+          249
+        ]
+      ]
+    },
+    "gradient_checkpointing": {
+      "status": "success",
+      "technique": "gradient_checkpointing",
+      "flags": {
+        "amp": false,
+        "checkpointing": true,
+        "optimizer8bit": false
+      },
+      "physical_batch": 16,
+      "observed_first_batch": 16,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "disabled",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 30.750248178312265,
+      "mean_time_per_epoch_seconds": 113.82021958666671,
+      "training_wall_seconds_including_validation": 361.00832016299955,
+      "peak_memory_allocated_gb": 1.6811714172363281,
+      "peak_memory_reserved_gb": 1.90234375,
+      "test_loss": 0.4708309897581736,
+      "test_accuracy": 0.836,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9082491632870265,
+          "validation_loss": 0.6851405286788941,
+          "validation_accuracy": 0.716,
+          "training_seconds": 114.47703562599963,
+          "throughput_samples_per_second": 30.57381754218915
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.5243684139251709,
+          "validation_loss": 0.5201753527323405,
+          "validation_accuracy": 0.808,
+          "training_seconds": 113.11866850099977,
+          "throughput_samples_per_second": 30.940958255436556
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.2898897445627621,
+          "validation_loss": 0.5093885046641032,
+          "validation_accuracy": 0.824,
+          "training_seconds": 113.8649546330007,
+          "throughput_samples_per_second": 30.73816707942216
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.7150837988826816,
+          "recall": 0.7664670658682635,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8293515358361775,
+          "recall": 0.9,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.920863309352518,
+          "recall": 0.8178913738019169,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          128,
+          24,
+          15
+        ],
+        [
+          20,
+          243,
+          7
+        ],
+        [
+          31,
+          26,
+          256
+        ]
+      ]
+    },
+    "optimizer_8bit": {
+      "status": "success",
+      "technique": "optimizer_8bit",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 16,
+      "observed_first_batch": 16,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "disabled",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 41.17161958155377,
+      "mean_time_per_epoch_seconds": 85.0100150436665,
+      "training_wall_seconds_including_validation": 274.57739827300065,
+      "peak_memory_allocated_gb": 1.8641529083251953,
+      "peak_memory_reserved_gb": 2.044921875,
+      "test_loss": 0.4607746519247691,
+      "test_accuracy": 0.8266666666666667,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9084105613572256,
+          "validation_loss": 0.6841499562263489,
+          "validation_accuracy": 0.716,
+          "training_seconds": 85.39434712499951,
+          "throughput_samples_per_second": 40.98631956137249
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.52365028994424,
+          "validation_loss": 0.5230883061091105,
+          "validation_accuracy": 0.8106666666666666,
+          "training_seconds": 84.82756338400031,
+          "throughput_samples_per_second": 41.26017370269237
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.29218160102197105,
+          "validation_loss": 0.5011617351373037,
+          "validation_accuracy": 0.812,
+          "training_seconds": 84.80813462199967,
+          "throughput_samples_per_second": 41.26962602820982
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6839378238341969,
+          "recall": 0.7904191616766467,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8310344827586207,
+          "recall": 0.8925925925925926,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.9250936329588015,
+          "recall": 0.7891373801916933,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          132,
+          21,
+          14
+        ],
+        [
+          23,
+          241,
+          6
+        ],
+        [
+          38,
+          28,
+          247
+        ]
+      ]
+    },
+    "best_combination": {
+      "status": "success",
+      "technique": "best_combination",
+      "flags": {
+        "amp": true,
+        "checkpointing": false,
+        "optimizer8bit": true
+      },
+      "physical_batch": 16,
+      "observed_first_batch": 16,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 1,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "torch.float16",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 122.41890463473777,
+      "mean_time_per_epoch_seconds": 28.59035547199983,
+      "training_wall_seconds_including_validation": 105.70386885700009,
+      "peak_memory_allocated_gb": 1.6196460723876953,
+      "peak_memory_reserved_gb": 1.744140625,
+      "test_loss": 0.5439657352765401,
+      "test_accuracy": 0.8266666666666667,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9123536201885768,
+          "validation_loss": 0.717880850315094,
+          "validation_accuracy": 0.716,
+          "training_seconds": 28.738551290999567,
+          "throughput_samples_per_second": 121.7876282127047
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.5450848867893219,
+          "validation_loss": 0.5874458300272624,
+          "validation_accuracy": 0.7746666666666666,
+          "training_seconds": 28.670965453999997,
+          "throughput_samples_per_second": 122.07471721227655
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.2889660110133035,
+          "validation_loss": 0.5937218165795008,
+          "validation_accuracy": 0.7973333333333333,
+          "training_seconds": 28.36154967099992,
+          "throughput_samples_per_second": 123.40651482731914
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.6852791878172588,
+          "recall": 0.8083832335329342,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.922077922077922,
+          "recall": 0.7888888888888889,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.84472049689441,
+          "recall": 0.8690095846645367,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          135,
+          8,
+          24
+        ],
+        [
+          31,
+          213,
+          26
+        ],
+        [
+          31,
+          10,
+          272
+        ]
+      ]
+    },
+    "gradient_accumulation": {
+      "status": "success",
+      "technique": "gradient_accumulation",
+      "flags": {
+        "amp": false,
+        "checkpointing": false,
+        "optimizer8bit": false
+      },
+      "physical_batch": 4,
+      "observed_first_batch": 4,
+      "measurement_kind": "full_training_epoch",
+      "accumulation_steps": 4,
+      "effective_batch": 16,
+      "epochs": 3,
+      "optimizer_steps": 657,
+      "skipped_updates": 0,
+      "overflow_retries": 0,
+      "amp_dtype": "disabled",
+      "samples_seen": 10500,
+      "throughput_samples_per_second": 38.53087496878019,
+      "mean_time_per_epoch_seconds": 90.83624503299991,
+      "training_wall_seconds_including_validation": 292.99752412,
+      "peak_memory_allocated_gb": 1.9986991882324219,
+      "peak_memory_reserved_gb": 2.103515625,
+      "test_loss": 0.5626531305611133,
+      "test_accuracy": 0.828,
+      "best_validation_epoch": 3,
+      "epoch_metrics": [
+        {
+          "epoch": 1,
+          "training_loss": 0.9211922878878457,
+          "validation_loss": 0.7398605682849884,
+          "validation_accuracy": 0.6826666666666666,
+          "training_seconds": 91.03989530299987,
+          "throughput_samples_per_second": 38.44468393061378
+        },
+        {
+          "epoch": 2,
+          "training_loss": 0.5339880841629846,
+          "validation_loss": 0.5479015309810639,
+          "validation_accuracy": 0.7946666666666666,
+          "training_seconds": 90.75132721499995,
+          "throughput_samples_per_second": 38.56692907320366
+        },
+        {
+          "epoch": 3,
+          "training_loss": 0.27082455342901607,
+          "validation_loss": 0.6164105427016815,
+          "validation_accuracy": 0.816,
+          "training_seconds": 90.71751258099994,
+          "throughput_samples_per_second": 38.58130476047739
+        }
+      ],
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_label": "-1.0",
+          "precision": 0.7564102564102564,
+          "recall": 0.7065868263473054,
+          "support": 167
+        },
+        {
+          "class_id": 1,
+          "class_label": "0.0",
+          "precision": 0.8135593220338984,
+          "recall": 0.8888888888888888,
+          "support": 270
+        },
+        {
+          "class_id": 2,
+          "class_label": "1.0",
+          "precision": 0.8795986622073578,
+          "recall": 0.8402555910543131,
+          "support": 313
+        }
+      ],
+      "confusion_matrix": [
+        [
+          118,
+          29,
+          20
+        ],
+        [
+          14,
+          240,
+          16
+        ],
+        [
+          24,
+          26,
+          263
+        ]
+      ]
+    }
+  }
+}

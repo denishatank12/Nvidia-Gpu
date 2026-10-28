@@ -90,6 +90,13 @@ def main():
             loader = training.make_loader(cache, "train", 16, settings, shuffle=True)
             assert next(iter(loader))[0].shape == (16, 16)
             print("PASS: TensorDataset and DataLoader")
+            capacity_loader = training.make_loader(cache, 'train', 8192, settings,
+                                                   shuffle=True, capacity_batch=True)
+            batches = list(capacity_loader)
+            assert len(batches) == 1 and batches[0][0].shape == (8192, 16)
+            assert len(loader.dataset) == 3500  # The normal split was not enlarged.
+            assert batches[0][2].shape == (8192,)
+            print('PASS regression: batch 8192 really contains 8192 examples, not a clamped 3500; normal training split unchanged')
             (temp / "outputs").mkdir(exist_ok=True)
             with patch.object(training, "probe_subprocess", return_value={"status": "error", "error": "test failure"}):
                 try:
@@ -104,6 +111,33 @@ def main():
             assert serving.kv_bytes_per_token(config) == 256
             assert serving.percentile([1, 2, 3], 50) == 2
             print("PASS: KV-cache arithmetic and latency percentile")
+            if not args.gpu:
+                # Execute the production oversized-batch branch on CPU. Only
+                # device plumbing and CUDA counters are mocked; real BERT,
+                # checkpointed autograd, AdamW and batch construction run.
+                short = replace(settings, start_row=0, row_limit=60, epochs=1, original_batch=2)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    training.prepare_data(short, force=True)
+                with contextlib.ExitStack() as stack:
+                    stack.enter_context(patch.object(training, 'require_cuda'))
+                    stack.enter_context(patch.object(torch.nn.Module, 'cuda', lambda self, *a, **k: self))
+                    stack.enter_context(patch.object(torch.Tensor, 'cuda', lambda self, *a, **k: self))
+                    for name in ('synchronize', 'empty_cache', 'reset_peak_memory_stats'):
+                        stack.enter_context(patch.object(torch.cuda, name))
+                    for name in ('max_memory_allocated', 'max_memory_reserved'):
+                        stack.enter_context(patch.object(torch.cuda, name, return_value=0))
+                    stack.enter_context(patch.object(training, 'build_optimizer',
+                        lambda m, s, q: torch.optim.AdamW(m.parameters(), lr=s.learning_rate)))
+                    result = training.run_training(short, 'gradient_checkpointing', 128, 1, memory_probe=True)
+                    accumulated = training.run_training(short, 'baseline', 4, 2, accumulation_steps=2)
+                    direct = training.run_training(short, 'baseline', 8, 2)
+                assert result['observed_first_batch'] == result['samples_seen'] == 128
+                assert result['optimizer_steps'] == 1 and 'test_accuracy' not in result
+                assert accumulated['samples_seen'] == direct['samples_seen'] == 84
+                assert accumulated['optimizer_steps'] == direct['optimizer_steps'] == 12
+                assert accumulated['effective_batch'] == direct['effective_batch'] == 8
+                print('PASS: production oversized-batch branch with real checkpointed BERT backward and AdamW on CPU (CUDA counters mocked, not GPU evidence)')
+                print('PASS: production full-epoch training and accumulation match sample/update budgets, including the short final group (CPU, CUDA counters mocked)')
             if args.gpu:
                 training.require_cuda()
                 print("CUDA:", torch.cuda.get_device_name(0))
@@ -113,10 +147,32 @@ def main():
                 for technique in ("baseline", "mixed_precision", "gradient_checkpointing", "optimizer_8bit", "best_combination"):
                     result = training.run_training(short, technique, batch_size=2, epochs=1)
                     assert result["status"] == "success" and result["optimizer_steps"] > 0
+                    if training.TECHNIQUES[technique]['amp']:
+                        assert result['amp_dtype'] == 'torch.float16' and result['skipped_updates'] == 0
+                        print('PASS CUDA: T4 FP16 autocast and GradScaler, with actual completed updates')
                     print("PASS CUDA training:", technique)
                 result = training.run_training(short, "baseline", batch_size=2, epochs=1, accumulation_steps=2)
                 assert result["optimizer_steps"] == 11
                 print("PASS CUDA gradient accumulation")
+                result = training.run_training(short, 'gradient_checkpointing', batch_size=128,
+                                                epochs=1, memory_probe=True)
+                assert result['measurement_kind'] == 'capacity_only_repeated_training_rows'
+                assert result['observed_first_batch'] == result['samples_seen'] == 128
+                assert result['optimizer_steps'] == 1 and 'test_accuracy' not in result
+                print('PASS CUDA regression: oversized physical batch runs one actual update and never reports quality accuracy')
+                # Tiny BERT tensors can be below bitsandbytes' 4096-element
+                # threshold. Exercise a genuinely quantized optimizer state too.
+                import bitsandbytes as bnb
+                large_layer = torch.nn.Linear(256, 256).cuda()
+                quantized_optimizer = bnb.optim.AdamW8bit(large_layer.parameters(), lr=1e-3)
+                for _ in range(2):
+                    quantized_optimizer.zero_grad(set_to_none=True)
+                    large_layer(torch.randn(8, 256, device='cuda')).float().square().mean().backward()
+                    quantized_optimizer.step()
+                assert quantized_optimizer.state[large_layer.weight]['state1'].dtype == torch.uint8
+                del large_layer, quantized_optimizer
+                torch.cuda.empty_cache()
+                print('PASS CUDA: actual 8-bit optimizer-state kernel on a large parameter tensor')
             if args.vllm:
                 training.require_cuda()
                 from vllm import LLM, SamplingParams

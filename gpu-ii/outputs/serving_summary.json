@@ -1,191 +1,88 @@
 {
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "precision": "float16",
-  "execution_mode": "eager",
-  "output_tokens_per_request": 64,
-  "latency_definition": "Closed-batch wall time from synchronous submission until every response in the batch is returned.",
-  "hf_pipeline": {
-    "metrics": {
+  "max_model_len": 4096,
+  "gpu_memory_utilization": 0.8,
+  "prefix_caching": false,
+  "observed_cache_pool_bytes": 11236737024,
+  "latency_definition": "HF pipeline wall time for each batch-1 request; vLLM individual finished_time minus client submission time, including tokenization, admission, and queue time. Each request has its own completion timestamp; engine arrival_time is also saved.",
+  "output_tokens": 64,
+  "rows": [
+    {
       "configuration": "HF pipeline, batch 1",
       "batch_size": 1,
-      "tokens_per_second": 29.946473171781474,
-      "p50_latency_ms": 2127.6711570001225,
-      "p95_latency_ms": 2267.565926399925,
-      "requests_measured": 10,
-      "generated_tokens": 640
+      "tokens_per_second": 29.883489096546555,
+      "p50_latency_ms": 2119.8544745002437,
+      "p95_latency_ms": 2222.850349949931,
+      "requests_measured": 100,
+      "generated_tokens": 6400,
+      "measured_wall_seconds": 214.16508558699752,
+      "measured_batches": 100
     },
-    "examples": [
-      {
-        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
-        "answer": " Batching allows GPUs to process multiple data points simultaneously, reducing the time required for inference and improving overall performance. Additionally, it enables more efficient use of memory resources by grouping similar data points together, further optimizing the processing pipeline. By leveraging this technique, developers can achieve faster inference times and better resource utilization on their GPUs."
-      },
-      {
-        "prompt": "Give one practical reason to use mixed precision during neural network training.",
-        "answer": " One practical reason to use mixed precision during neural network training is that it can help improve the convergence speed of the optimization algorithm used in the training process, especially when dealing with large-scale and complex models. Mixed precision allows for faster computation by using a single precision format for operations such as addition, multiplication, and division, which"
-      },
-      {
-        "prompt": "Summarize the difference between latency and throughput for an interactive service.",
-        "answer": " Latency refers to the time it takes for a request to be processed by the server, while throughput refers to the amount of data that can be processed or transmitted in a given period of time.\n\nLatency is typically measured in milliseconds or seconds, while throughput is measured in units such as megabits per second (Mbps"
-      },
-      {
-        "prompt": "Write a short positive movie review without naming a specific movie.",
-        "answer": " The film is a powerful exploration of the human condition, with its characters and plot moving seamlessly from one scene to another like a well-crafted narrative. The cinematography captures the beauty of the natural world around them, creating an immersive experience that transports viewers into a world of wonder and awe. The performances are equally impressive,"
-      },
-      {
-        "prompt": "What causes a CUDA out-of-memory error during model training?",
-        "answer": " The error message \"CUDA out of memory\" typically indicates that the GPU is running out of available memory, which can occur due to several reasons. Here are some common causes and solutions:\n\n1. **Memory Overcommitment**:\n   - **Cause**: The system has been configured with too much memory for the current workload"
-      },
-      {
-        "prompt": "Explain gradient accumulation to a student in one sentence.",
-        "answer": " Gradient accumulation is the process of adding together the gradients of all the weights in a neural network, which helps to optimize the model's parameters and improve its performance on a given task. It involves updating each weight based on the difference between the predicted output and the actual output, taking into account both the error and the previous gradients"
-      },
-      {
-        "prompt": "Why does causal language modeling prevent attention to future tokens?",
-        "answer": " I'm working on a project where I need to generate text based on the context provided. The problem is that my model only generates text from past tokens, and it doesn't understand how to handle future tokens.\nI've tried using different types of causal language models like BERT or GPT-2, but they still"
-      },
-      {
-        "prompt": "Name two ways to reduce neural network GPU memory use.",
-        "answer": " 1. Use a larger batch size: The larger the batch size, the more data is processed at once and thus reduces the amount of memory required for each iteration.\n\n2. Reduce the number of layers in the model: If you have too many layers in your neural network, it can consume a lot of GPU memory"
-      },
-      {
-        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
-        "answer": " Batching allows GPUs to process multiple data points simultaneously, reducing the time required for inference and improving overall performance. Additionally, it enables more efficient use of memory resources by grouping similar data points together, further optimizing the processing pipeline. By leveraging this technique, developers can achieve faster inference times and better resource utilization on their GPUs."
-      },
-      {
-        "prompt": "Give one practical reason to use mixed precision during neural network training.",
-        "answer": " One practical reason to use mixed precision during neural network training is that it can help improve the convergence speed of the optimization algorithm used in the training process, especially when dealing with large-scale and complex models. Mixed precision allows for faster computation by using a single precision format for operations such as addition, multiplication, and division, which"
-      }
-    ]
-  },
-  "vllm": {
-    "metrics": [
-      {
-        "configuration": "vLLM, batch 1",
-        "batch_size": 1,
-        "tokens_per_second": 66.09617345675554,
-        "p50_latency_ms": 951.8770259999201,
-        "p95_latency_ms": 1063.9938928499532,
-        "requests_measured": 10,
-        "generated_tokens": 640
-      },
-      {
-        "configuration": "vLLM, batch 8",
-        "batch_size": 8,
-        "tokens_per_second": 503.6821355916143,
-        "p50_latency_ms": 1022.9272389997277,
-        "p95_latency_ms": 1030.1040120002654,
-        "requests_measured": 40,
-        "generated_tokens": 2560
-      },
-      {
-        "configuration": "vLLM, batch 32",
-        "batch_size": 32,
-        "tokens_per_second": 1606.6408230717527,
-        "p50_latency_ms": 1240.2417249995779,
-        "p95_latency_ms": 1391.2702299999182,
-        "requests_measured": 96,
-        "generated_tokens": 6144
-      }
-    ],
-    "examples": [
-      {
-        "batch_size": 1,
-        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
-        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
-      },
-      {
-        "batch_size": 8,
-        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
-        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
-      },
-      {
-        "batch_size": 32,
-        "prompt": "Explain why batching can improve GPU inference throughput in two sentences.",
-        "answer": " Batching can improve GPU inference throughput by allowing the GPU to process multiple data points or samples simultaneously, reducing the time required to process each data point, and increasing the overall efficiency of the inference process. Additionally, batching can help to reduce the overhead associated with data transfer between the CPU and GPU, as well as the overhead"
-      }
-    ],
-    "engine_gpu_memory_delta_mib": 11296,
-    "kv_bytes_per_token_per_request": 12288,
-    "context_results": [
-      {
-        "batch_size": 8,
-        "context_length_tokens": 512,
-        "theoretical_kv_cache_gb": 0.046875,
-        "measured_gpu_used_before_gb": 11.322265625,
-        "measured_gpu_used_after_gb": 11.90234375,
-        "measured_gpu_used_change_gb": 0.580078125,
-        "status": "success",
-        "wall_seconds": 0.1678198340000563,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 1024,
-        "theoretical_kv_cache_gb": 0.09375,
-        "measured_gpu_used_before_gb": 11.90234375,
-        "measured_gpu_used_after_gb": 12.20703125,
-        "measured_gpu_used_change_gb": 0.3046875,
-        "status": "success",
-        "wall_seconds": 0.3507933860000776,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 2048,
-        "theoretical_kv_cache_gb": 0.1875,
-        "measured_gpu_used_before_gb": 12.20703125,
-        "measured_gpu_used_after_gb": 12.65234375,
-        "measured_gpu_used_change_gb": 0.4453125,
-        "status": "success",
-        "wall_seconds": 0.8013449410000248,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 4096,
-        "theoretical_kv_cache_gb": 0.375,
-        "measured_gpu_used_before_gb": 12.65234375,
-        "measured_gpu_used_after_gb": 13.90234375,
-        "measured_gpu_used_change_gb": 1.25,
-        "status": "success",
-        "wall_seconds": 1.8762612000000445,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 8192,
-        "theoretical_kv_cache_gb": 0.75,
-        "measured_gpu_used_before_gb": 13.90234375,
-        "measured_gpu_used_after_gb": 14.12109375,
-        "measured_gpu_used_change_gb": 0.21875,
-        "status": "success",
-        "wall_seconds": 4.799494773999868,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 16384,
-        "theoretical_kv_cache_gb": 1.5,
-        "measured_gpu_used_before_gb": 14.12109375,
-        "measured_gpu_used_after_gb": 14.12109375,
-        "measured_gpu_used_change_gb": 0.0,
-        "status": "success",
-        "wall_seconds": 13.574479783999777,
-        "error": ""
-      },
-      {
-        "batch_size": 8,
-        "context_length_tokens": 32767,
-        "theoretical_kv_cache_gb": 2.999908447265625,
-        "measured_gpu_used_before_gb": 14.12109375,
-        "measured_gpu_used_after_gb": 14.12109375,
-        "measured_gpu_used_change_gb": 0.0,
-        "status": "success",
-        "wall_seconds": 47.22602488599978,
-        "error": ""
-      }
-    ],
-    "longest_context_batch_8": 32767,
-    "model_max_length": 32768
-  }
+    {
+      "configuration": "vLLM, batch 1",
+      "batch_size": 1,
+      "tokens_per_second": 67.47444183547853,
+      "p50_latency_ms": 945.5201625823975,
+      "p95_latency_ms": 996.6970443725586,
+      "requests_measured": 100,
+      "generated_tokens": 6400,
+      "measured_wall_seconds": 94.85072904500612,
+      "measured_batches": 100
+    },
+    {
+      "configuration": "vLLM, batch 8",
+      "batch_size": 8,
+      "tokens_per_second": 501.2639016094002,
+      "p50_latency_ms": 1012.9034519195557,
+      "p95_latency_ms": 1068.5880184173584,
+      "requests_measured": 160,
+      "generated_tokens": 10240,
+      "measured_wall_seconds": 20.428361122998467,
+      "measured_batches": 20
+    },
+    {
+      "configuration": "vLLM, batch 32",
+      "batch_size": 32,
+      "tokens_per_second": 1690.8807561768729,
+      "p50_latency_ms": 1203.5181522369385,
+      "p95_latency_ms": 1253.8559436798096,
+      "requests_measured": 640,
+      "generated_tokens": 40960,
+      "measured_wall_seconds": 24.22406183899784,
+      "measured_batches": 20
+    }
+  ],
+  "examples": [
+    {
+      "configuration": "HF pipeline, batch 1",
+      "batch_size": 1,
+      "prompt": "Explain why batching can improve GPU throughput in two sentences.",
+      "answer": " Batching allows multiple data points to be processed together, reducing the time and energy required for each individual operation, thereby increasing overall processing speed and efficiency. Additionally, it enables parallelization of tasks across multiple GPUs, allowing for faster computation by utilizing the collective computational power of all available GPUs rather than relying on a single core or"
+    },
+    {
+      "configuration": "HF pipeline, batch 1",
+      "batch_size": 1,
+      "prompt": "Describe one benefit and one cost of mixed precision training.",
+      "answer": " One benefit of mixed precision training is that it allows for more accurate predictions, as the model can handle larger numbers of parameters and operations efficiently. This can lead to faster training times and improved performance on certain tasks.\n\nOne cost associated with mixed precision training is that it requires additional computational resources and memory to store and manipulate the data"
+    },
+    {
+      "configuration": "vLLM, batch 1",
+      "batch_size": 1,
+      "prompt": "Explain why batching can improve GPU throughput in two sentences.",
+      "answer": " Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU"
+    },
+    {
+      "configuration": "vLLM, batch 8",
+      "batch_size": 8,
+      "prompt": "Explain why batching can improve GPU throughput in two sentences.",
+      "answer": " Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU"
+    },
+    {
+      "configuration": "vLLM, batch 32",
+      "batch_size": 32,
+      "prompt": "Explain why batching can improve GPU throughput in two sentences.",
+      "answer": " Batching can improve GPU throughput by allowing multiple data sets to be processed simultaneously, reducing the time required to complete a task, and increasing the overall efficiency of the computation. Additionally, batching can help to minimize memory usage and improve the performance of the GPU by reducing the amount of data that needs to be transferred between the CPU"
+    }
+  ]
 }
