@@ -2,7 +2,15 @@
 
 Student: Denisha Ketan Tank
 
-Actual completed run: one Tesla T4 in Google Colab.
+Historical completed run: one Tesla T4 in Google Colab.
+
+## Fresh RTX 4050 overnight run
+
+Use [GPU_II_RTX4050_Run_All.ipynb](rtx4050/GPU_II_RTX4050_Run_All.ipynb) for the corrected fresh HW4.a and HW4.5 experiments. It embeds its supporting code and installs an isolated environment. Download this notebook and run it in Linux or WSL2 Jupyter on the GPU machine. Read [START_HERE.txt](rtx4050/START_HERE.txt) and [VALIDATION.txt](rtx4050/VALIDATION.txt) first.
+
+The uploaded run exposed an oversized-batch bug: a requested batch larger than the training split was silently capped by the dataset. The new capacity probes allocate the actual requested batch and distinguish repeated-row capacity testing from unchanged-split quality training. CPU regression and reporting tests passed. Actual RTX 4050 execution still needs the real GPU smoke tests at the start of the notebook; it is not claimed verified from this Mac.
+
+The `rtx4050` notebook is intentionally unexecuted. Save its executed copy and results ZIP after completion. The existing T4 notebook, results and `hw4-5` tag are preserved, not relabelled as new 4050 measurements. No new submission tag is created for unexecuted code.
 
 Personal parameters: SID4 = 8834, SEED = 8834, SLICE = 834, HP_ID = 2, CLS_A = 4, CLS_B = 6.
 
@@ -30,7 +38,7 @@ One GPU was permitted by the clarification. No second-card comparison or distrib
 
 ## Run again
 
-For a fresh Colab run, open [GPU_II_Colab_Run_All.ipynb](GPU_II_Colab_Run_All.ipynb), choose a GPU runtime, and select Run all. It installs an isolated Python 3.11 environment and downloads the public dataset and model files. The runtime must provide a supported NVIDIA GPU; a local Mac CPU is not sufficient for vLLM CUDA benchmarks. Its embedded code is retained as originally executed. The post-run notes describe the October 27 run; they are not regenerated measurements for a future GPU session. The repository's finalizer scripts contain the reporting corrections.
+For a new run, use the corrected [RTX 4050 notebook](rtx4050/GPU_II_RTX4050_Run_All.ipynb), not the historical T4 notebook. Hosted Colab uses its assigned GPU rather than your laptop's card. Native Windows is unsupported by vLLM; use Linux or WSL2. The old notebook's embedded code is retained as originally executed, and its post-run notes are historical rather than new GPU measurements.
 
 The duplicate reviewed notebook and the two unexecuted local wrapper notebooks have been removed. The legacy filename `setup_rtx4090.sh` is retained for compatibility; it no longer requires a particular GPU model.
 

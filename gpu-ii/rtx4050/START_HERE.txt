@@ -1,0 +1,20 @@
+GPU II: RTX 4050 overnight run
+
+Open GPU_II_RTX4050_Run_All.ipynb in a Linux or WSL2 Jupyter kernel on the GPU machine.
+Then select Run All. The notebook installs its own isolated environment and downloads the data/models.
+
+Before leaving it overnight:
+1. Verify nvidia-smi works on that machine and the notebook prints RTX 4050.
+2. If you are on Windows, use Jupyter inside WSL2 with NVIDIA GPU support, not a native Windows Python kernel. Installing WSL2 and the host NVIDIA driver is a machine setup step, not something the notebook can perform safely.
+3. Have internet access, a C compiler (cc/gcc/clang), and at least 20 GiB free disk space. On a minimal Ubuntu/WSL system, install build-essential once if absent. Close games and other GPU jobs.
+4. Plug the laptop in, disable sleep, keep ventilation clear, and keep the notebook session running.
+5. Wait for BOTH GPU smoke stages to pass before leaving. A stale NVIDIA driver or incompatible GPU environment should be found here, before long training begins.
+
+The run does full 3-epoch BERT training, memory probes, full quality fine-tunes, matched-update controls, both serving benchmarks, observed cache/capacity experiments, reports, and a results ZIP. Probes larger than the 3,500-row training split materialize the entire requested batch by repeating training rows for one capacity-only update. They are not used as accuracy evidence or called complete epochs. Quality runs keep the original training split unchanged.
+Expected OOMs in the memory sweep are required evidence, not a broken notebook. Other errors stop and leave an explicit log.
+
+If interrupted, open the same notebook on the same machine and Run All again. Matching completed stages are reused. Do not edit the source payload or settings during a run.
+
+When finished, save/download the EXECUTED notebook and the RESULTS ZIP. The ZIP contains the checkpoint, full logs, raw measurements, plots, and reports. Return both for the final audit and repository upload. This file is unexecuted until you run it; no RTX 4050 results are fabricated.
+
+Hosted Google Colab uses its assigned cloud GPU, not the RTX 4050 in your laptop. A local WSL2/Linux runtime is needed to measure your own card.

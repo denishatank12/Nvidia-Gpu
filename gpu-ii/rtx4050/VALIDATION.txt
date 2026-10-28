@@ -1,0 +1,34 @@
+RTX 4050 notebook validation, October 27, 2026
+
+This is a corrected, UNEXECUTED experiment notebook, not a completed GPU submission.
+The uploaded notebook's original outputs have not been overwritten or fabricated.
+
+Fixed the actual failure in the uploaded run:
+DataLoader capped oversized requested batches at the training-set size, so a
+nominal batch of 1,048,576 was not a real memory-capacity test. Capacity-only
+probes now materialize the entire requested batch, repeating existing training
+rows only when necessary. These measurements are kept separate from full-epoch
+training throughput and quality results. Final quality runs never enlarge the
+original training split.
+
+Passed locally on macOS CPU:
+1. Notebook schema, all code-cell syntax, embedded-source consistency.
+2. Real tiny BERT forward/backward, checkpoint save/reload and tokenizer.
+3. Exact 834:5834 source slice and disjoint 3500/750/750 split; cache invalidation.
+4. Regression: requested batch 8192 actually contains 8192 examples.
+5. Production capacity-only branch with real checkpointed BERT backward and
+   AdamW on CPU. Only CUDA device plumbing and memory counters were mocked.
+6. Ordinary probe errors stop instead of being relabelled as OOM.
+7. Per-request latency, percentiles and cache-storage accounting tests.
+8. Report integration, plots and artifact checks using explicitly synthetic
+   temporary fixtures. Fixtures were deleted; they are not assignment results.
+
+Not verified here: actual RTX 4050/CUDA training, bitsandbytes GPU kernels,
+vLLM execution, measured runtime, memory wall, or final accuracy. The notebook
+runs real GPU smoke tests before assignment training and stops on failure.
+Do not leave it unattended until both GPU smoke stages have passed.
+
+Use Linux or WSL2 Jupyter, a supported NVIDIA driver, internet, a C compiler,
+20 GiB free disk, AC power and disabled sleep. Colab uses its assigned GPU,
+not your laptop GPU. Save the executed notebook and results ZIP after success.
+No environment-dependent notebook can be guaranteed never to fail.
