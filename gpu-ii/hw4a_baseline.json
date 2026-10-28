@@ -10,29 +10,30 @@
   "model_name": "bert-base-uncased",
   "batch_size": 16,
   "epochs": 3,
-  "training_wall_seconds": 244.92726297699994,
-  "peak_gpu_memory_gb": 2.4668984413146973,
+  "training_wall_seconds": 255.64828790100012,
+  "peak_gpu_memory_gb": 2.4656777381896973,
   "test_accuracy": 0.836,
   "serving": {
     "hf_batch_1": {
-      "tokens_per_second": 28.531938141257466,
-      "p50_latency_ms": 2114.1480044999525,
-      "p95_latency_ms": 2823.255806699961
+      "tokens_per_second": 29.917760272649165,
+      "p50_latency_ms": 2132.922452999992,
+      "p95_latency_ms": 2201.356685599933
     },
     "vllm_batch_1": {
-      "tokens_per_second": 66.0790430072379,
-      "p50_latency_ms": 949.9240850000206,
-      "p95_latency_ms": 1037.747558599989
+      "tokens_per_second": 66.39842707097941,
+      "p50_latency_ms": 962.0703458786011,
+      "p95_latency_ms": 1006.2642216682434
     },
     "vllm_batch_8": {
-      "tokens_per_second": 478.1097560260488,
-      "p50_latency_ms": 1066.1401870000873,
-      "p95_latency_ms": 1107.2221040000159
+      "tokens_per_second": 494.9773462710132,
+      "p50_latency_ms": 1029.867172241211,
+      "p95_latency_ms": 1086.2344980239868
     },
     "vllm_batch_32": {
-      "tokens_per_second": 1631.8051040570626,
-      "p50_latency_ms": 1249.704553000015,
-      "p95_latency_ms": 1270.2056719999746
+      "tokens_per_second": 1660.861441706904,
+      "p50_latency_ms": 1228.057622909546,
+      "p95_latency_ms": 1274.3906617164569
     }
-  }
+  },
+  "run_identity": "6ec28b7ced2aa9669ad4a4906eda6dcf3a1519935d100f7b327c3ed6c90c1cc4"
 }
