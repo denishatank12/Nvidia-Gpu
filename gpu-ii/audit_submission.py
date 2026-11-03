@@ -62,6 +62,10 @@ def run_audit():
     check('clarified throughput maximum', 'highest measured FP32 throughput was at batch 16' in (ROOT/'METRICS.md').read_text())
     check('checkpoint download documented', 'GPU_II_T4_RESULTS_6ec28b7ced2a.zip' in (ROOT/'MODEL_CHECKPOINT.md').read_text())
     check('Part C explicitly skipped', 'Part C skipped (optional)' in (ROOT/'METRICS.md').read_text())
+    check('only the executed submission notebook remains', sorted(p.name for p in ROOT.rglob('*.ipynb') if '.ipynb_checkpoints' not in p.parts) == ['GPU_II_Colab_Run_All.ipynb'])
+    check('duplicate run templates removed', not (ROOT/'rtx4050').exists() and not (ROOT/'t4').exists())
+    markdown = [c.source for c in notebook.cells if c.cell_type == 'markdown']
+    check('reviewed reports are included in notebook Markdown', all((ROOT/name).read_text() in markdown for name in ['HW4A_METRICS.md','METRICS.md']))
     for name, passed in checks.items():
         print(('PASS: ' if passed else 'FAIL: ')+name)
     if not all(checks.values()):

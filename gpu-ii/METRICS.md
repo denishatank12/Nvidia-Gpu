@@ -8,15 +8,15 @@ Actual GPU: Tesla T4; UUID: `GPU-07e9693f-0780-d80f-57ed-406c0604fd80`; VRAM: 15
 
 Dataset: Kaggle saurabhshahane/twitter-sentiment-dataset, Twitter_Data.csv. Zero-based rows 834 through 5833 inclusive, Python slice [834:5834). SHA-256: `5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4`. The fixed SEED 8834 stratified split is 3,500/750/750. Every comparison reuses these exact saved split indices.
 
-Memory is reported in binary GiB. Peak allocated training memory, total GPU-process usage, reserved cache storage, and actively occupied cache blocks are different measurements.
+I reused the HW4.a data, saved split and BERT settings throughout. Memory is reported in GiB. Peak PyTorch training allocation, the total GPU process footprint and vLLM's cache allocation are different quantities, so I kept them separate in the report.
 
-Training parameters remain FP32. AMP uses T4-compatible FP16 with conservative loss scaling; the actual autocast dtype is saved in each result. T4 does not support native BF16 or TF32. A recoverable overflow repeats the same logical update at lower scale, restores dropout RNG, and changes no weights until successful. The repeat cost stays in measured time and memory, and overflow retry counts are saved in the raw results. Persistent numerical failure stops instead of being called a successful update.
+The baseline uses FP32 weights. For AMP, this T4 run uses FP16 with loss scaling. If an update overflows, the code restores the dropout RNG and retries that same update at a lower scale. The retry time stays in the measurement, and unsuccessful attempts are not counted as completed optimizer updates. The raw results record the actual dtype and retry counts.
 
 Accuracy columns in the tables are fractions from 0 to 1. Dataset labels -1, 0, and 1 mean negative, neutral, and positive sentiment.
 
 ## Part A: batch scaling
 
-The clarification permits one GPU, so no second-card result or VRAM ratio is invented. Probes up to the training-set size are complete seeded one-epoch runs. Larger probes repeat training rows for one full physical-batch optimizer update solely to find the memory wall. They are explicitly labelled capacity-only, not used for accuracy or the epoch-throughput plateau. A fresh process is used after every attempt, including the expected OOM.
+The course clarification permits one GPU, so this report covers the T4 rather than claiming a two-card comparison. I doubled the batch size until the run produced CUDA OOM. Each successful T4 probe shown below completed a full training epoch, and every attempt used a fresh process. The code also supports separately labelled capacity-only probes above the training-set size, but none of the successful memory limits in this T4 table require repeated rows.
 
 | physical_batch | status | measurement_kind | throughput_samples_per_second | peak_memory_allocated_gb | mean_time_per_epoch_seconds |
 |---|---|---|---|---|---|
@@ -26,7 +26,7 @@ The clarification permits one GPU, so no second-card result or VRAM ratio is inv
 | 128 | success | full_training_epoch | 46.8989 | 10.8660 | 74.6285 |
 | 256 | oom | not measured | not measured | not measured | not measured |
 
-The highest measured FP32 throughput was at batch 16: 50.05 samples/s. Throughput fell to 49.32, 48.07 and 46.90 samples/s at batches 32, 64 and 128, so increasing the batch beyond 16 did not improve throughput in this sweep. Batch 128 was the largest successful FP32 batch, and batch 256 produced CUDA OOM. The earlier reference to batch 32 meant the first tested doubling below the 5% improvement rule, not the location of the throughput maximum.
+The highest measured FP32 throughput was at batch 16: 50.05 samples/s. It fell slightly at each larger batch, reaching 46.90 samples/s at batch 128. In this sweep, a larger batch used more memory without making the epoch faster. Batch 128 was the largest successful FP32 batch, and batch 256 produced CUDA OOM. The original generated text's reference to batch 32 described its first doubling below a 5% improvement rule, not the measured throughput maximum.
 
 ![Batch scaling](outputs/batch_size_throughput.png)
 
@@ -41,7 +41,7 @@ The highest measured FP32 throughput was at batch 16: 50.05 samples/s. Throughpu
 | best_combination | 256 | 256 | 42 | 190.5405 | 13.2993 | 0.6053 |
 | gradient_accumulation | 16 | 128 | 84 | 44.4754 | 2.8807 | 0.6640 |
 
-Each quality configuration was trained for three full epochs at the largest successful power-of-two batch that does not exceed the original training split. Larger capacity-only memory limits are listed below, not claimed as quality-training batch sizes. Changing batch size changes optimizer-update counts, so these accuracy differences cannot be assigned solely to a technique.
+I trained each maximum-batch configuration for three full epochs. These rows answer how much data each setup can fit and how it performs at that batch size. They are not a fair test of accuracy alone: larger batches complete fewer optimizer updates in three epochs. For example, the batch-512 checkpointing run has only 21 updates, compared with 657 in the original batch-16 baseline. I therefore used the separate matched-budget comparison below to judge the techniques more fairly.
 
 | technique | memory_capacity_batch | quality_training_batch |
 |---|---|---|
@@ -62,7 +62,7 @@ Each quality configuration was trained for three full epochs at the largest succ
 | best_combination | 16 | 16 | 657 | 122.4189 | 1.6196 | 0.8267 |
 | gradient_accumulation | 4 | 16 | 657 | 38.5309 | 1.9987 | 0.8280 |
 
-All six controls use effective batch 16, 657 optimizer updates, 10500 examples, and three epochs. Accumulation intentionally uses a smaller physical batch with the same effective batch. Data order, initialization seed, learning rate, and examples are fixed. Dropout and floating-point arithmetic can still produce differences, so a single run does not establish statistical significance.
+For this comparison, all six conditions use effective batch 16, three epochs, 10,500 examples and 657 completed optimizer updates. Only accumulation changes the physical batch to four and combines four microbatches. The data order, initialization seed and learning rate are fixed. Small differences in accuracy remain possible because of dropout and numerical precision, and one run per condition is not enough to establish statistical significance.
 
 ![Controlled losses](outputs/controlled_losses.png)
 
@@ -75,13 +75,13 @@ All six controls use effective batch 16, 657 optimizer updates, 10500 examples, 
 | 3 | gradient_accumulation | 0.4670 | -5.7389 | 0.0814 |
 | 4 | gradient_checkpointing | 0.7845 | -13.5196 | 0.0580 |
 
-The combined candidate is excluded from the independent ranking. A speedup with a memory saving has no positive throughput-loss denominator; a technique that saves no memory is labelled accordingly.
+I ranked the four techniques separately and left the combined candidate out of this table. AMP saved memory while increasing throughput, so it has no throughput-loss denominator. For the other techniques, the final column divides memory saved by the drop in samples per second.
 
-Checkpointing changed matched-batch throughput by -30.5%. The extra backward recomputation explains why memory savings may have a speed cost; the measured sign is reported even if a short run is noisy.
+Checkpointing saved the most memory among the independent matched-batch controls, but throughput fell by 30.5%. That is the tradeoff I expected from recomputing activations during the backward pass.
 
-Matched accumulation used physical batch 4 times 4 accumulation steps. Its time to the same 657 updates was 293.00 seconds, versus 255.65 seconds for the direct batch.
+Accumulation used physical batch 4 with four accumulation steps to keep effective batch 16. It took 293.00 seconds to complete the same 657 updates, compared with 255.65 seconds for the direct batch. It helped fit the batch in less memory, but it did not make this run faster.
 
-I would first consider mixed_precision from this ranking, while checking its measured validation accuracy. On a 32 GiB card I would not add checkpointing if the required batch already fits and the measured recomputation cost is not worthwhile. That 32 GiB statement is a recommendation, not a second-GPU experiment.
+AMP would be my first technique to try when throughput matters, followed by checking validation accuracy. On a 32 GiB card, I would skip checkpointing if the intended batch already fits, because its recomputation cost would not solve a memory problem in that case. I did not run a separate 32 GiB-card experiment.
 
 ## Part C
 
@@ -89,7 +89,7 @@ Part C skipped (optional)
 
 ## Part D: serving repeated on the same GPU
 
-HF pipeline wall time for each batch-1 request; vLLM individual finished_time minus client submission time, including tokenization, admission, and queue time. Each request has its own completion timestamp; engine arrival_time is also saved.
+I repeated the HW4.a serving benchmark on the same T4. Hugging Face latency is the wall time of each batch-1 request. For vLLM, each request's finish timestamp is compared with client submission time, including tokenization and waiting. Throughput uses total generated tokens divided by measured batch wall time.
 
 | configuration | tokens_per_second | p50_latency_ms | p95_latency_ms | requests_measured | measured_batches |
 |---|---|---|---|---|---|
@@ -98,9 +98,9 @@ HF pipeline wall time for each batch-1 request; vLLM individual finished_time mi
 | vLLM, batch 8 | 501.2639 | 1012.9035 | 1068.5880 | 160 | 20 |
 | vLLM, batch 32 | 1690.8808 | 1203.5182 | 1253.8559 | 640 | 20 |
 
-No tested batch showed worse median request latency than HF while throughput was still increasing. Batching can finish more tokens per second even when individual requests wait longer. For an interactive chatbot I would prioritize request latency, especially p95. For offline generation, total throughput is usually more important.
+No tested vLLM batch had worse median latency than the Hugging Face baseline. Increasing the vLLM batch from 1 to 32 improved total throughput, but individual requests took longer. For an interactive application I would prioritize request latency, especially p95. For offline work, the higher total throughput would matter more.
 
-The request samples within a batch can be correlated. More measured requests improve quantile resolution, but these results are still a benchmark under this workload, not a production p95 guarantee.
+Requests in the same batch share some waiting time, so their measurements are not fully independent. These p95 values describe this benchmark, not a guarantee for a live service with changing traffic.
 
 | configuration | HW4a_tokens_s | HW45_tokens_s | HW4a_p50_ms | HW45_p50_ms | HW4a_p95_ms | HW45_p95_ms |
 |---|---|---|---|---|---|---|
@@ -109,11 +109,11 @@ The request samples within a batch can be correlated. More measured requests imp
 | vLLM, batch 8 | 494.9773 | 501.2639 | 1029.8672 | 1012.9035 | 1086.2345 | 1068.5880 |
 | vLLM, batch 32 | 1660.8614 | 1690.8808 | 1228.0576 | 1203.5182 | 1274.3907 | 1253.8559 |
 
-Both stages used the same GPU and weights, FP16, 64 output tokens, individual-request timing, and frozen GPU-memory budget (0.8000 of total VRAM). Background load and GPU clock/temperature may contribute to timing changes; no hardware upgrade is claimed. The actual cache-pool allocation is saved separately in each serving summary.
+Both stages used the same GPU, weights, FP16 precision, 64 output tokens and request-timing method. The memory-budget setting stayed at 0.8000 of total VRAM. The tables show small timing changes between stages, but I did not measure a cause for them. GPU clocks, temperature or background activity are possible contributors rather than confirmed explanations. The cache-pool allocation is saved separately for each stage.
 
 ### Observed KV-cache usage and simultaneous batch-8 capacity
 
-Cache-pool bytes come from the actual GPU tensor storages. Peak occupied blocks are observed after scheduler allocation and before model execution. Multiplying the observed occupied blocks by measured bytes per block gives the active reserved KV storage, including block rounding. This is not an isolated before/after nvidia-smi estimate. Prefix caching and chunked prefill are disabled for the capacity probes, and success requires all eight full prompts to reside together.
+For the context test, I measured the actual cache tensor storage and watched the scheduler's occupied blocks. Multiplying occupied blocks by bytes per block gives the reserved KV storage in use, including block rounding. Prefix caching and chunked prefill were disabled. I counted a context length as successful only when all eight full prompts were resident together, rather than accepting a run that quietly processed them in smaller groups.
 
 | context_length | status | cache_pool_bytes | peak_used_cache_blocks | measured_active_kv_bytes | peak_running_requests |
 |---|---|---|---|---|---|
@@ -135,19 +135,19 @@ Cache-pool bytes come from the actual GPU tensor storages. Peak occupied blocks 
 | 30704 | batch8_admission_limit | 2518155264 | 11514 | 2263744512 | 6 |
 | 32767 | batch8_admission_limit | 1918894080 | 8192 | 1610612736 | 4 |
 
-The longest verified simultaneous batch-8 prompt was 29296 tokens per request. The limiting category was batch8_admission_limit. The successful/failing bracket ends at 29424 and is at most 128 tokens wide; an exact one-token boundary is not claimed.
+All eight requests fit together at 29,296 prompt tokens each. At 29,424 tokens, only seven were resident together, so that point was recorded as batch8_admission_limit. The tested boundary is therefore 128 tokens wide. It is not an exact one-token maximum.
 
-Each probe provisions a simultaneous eight-request prefill and max_model_len=prompt_length+1, in a fresh V0 engine. The resulting reserved cache pool is measured separately for each configuration. This is an engine-configuration capacity bracket, not a universal hardware-only OOM boundary.
+Each probe starts a fresh V0 engine, sets max_model_len to the prompt length plus one output token, and provisions an eight-request prefill. The resulting cache pool is measured each time. The boundary describes this engine configuration, not every possible use of the T4's physical memory.
 
-CUDA OOM, an engine cache-allocation limit, and inability to admit eight full contexts are recorded separately. A non-memory exception stops the run rather than being relabelled as an OOM.
+The logs distinguish CUDA OOM, cache-allocation failure and inability to admit eight full contexts. Other errors stop the test rather than being reported as memory failures.
 
 ## Part E: configuration and GPU-hours
 
-My validation-based choice among the matched controls is baseline. I selected the highest-throughput option whose final validation accuracy was within one percentage point of the matched FP32 baseline, rather than tuning on test accuracy. Its measured training allocation was 2.466 GiB, throughput 44.27 samples/s, wall time 255.65 seconds, and test accuracy 83.60%.
+For the final fine-tune, I would keep the FP32 baseline at batch 16. My selection rule was to choose the fastest matched control within one percentage point of the baseline's final validation accuracy. The baseline reached 82.40% validation accuracy, while AMP reached 80.40%, so AMP did not meet that rule despite being faster. Accumulation remained within the rule but was slower. The selected baseline used 2.466 GiB peak allocation, processed 44.27 samples/s, took 255.65 seconds including validation and reached 83.60% test accuracy.
 
-One full fine-tune under that measured configuration used 1 GPU × 255.65 seconds / 3600 = 0.0710 GPU-hours. This excludes setup and the other experimental conditions.
+The GPU-hour calculation for that full fine-tune is 1 GPU × 255.65 seconds / 3600 = 0.0710 GPU-hours. That is the cost of one three-epoch training-and-validation run, not the cost of setup or all the experiments combined.
 
 ### HW4.5 summary
 
-Selected matched-budget configuration: baseline; 2.466 GiB peak, 44.27 samples/s, 255.65 seconds. It is an HW4.5 result, not an HW5 baseline.
+My selected configuration is the batch-16 FP32 baseline: 2.466 GiB peak allocation, 44.27 samples/s and 255.65 seconds. These figures belong to HW4.5 and are not an HW5 baseline.
 

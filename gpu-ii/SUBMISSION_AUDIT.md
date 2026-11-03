@@ -1,12 +1,12 @@
 # HW4.a and HW4.5 audit
 
-Audit date: October 28, 2026. Student: Denisha Ketan Tank.
+Original run and audit: October 28, 2026. Final cleanup review: November 3, 2026. Student: Denisha Ketan Tank.
 
 ## Verdict
 
 The supplied T4 notebook completed all ten code cells in order with no saved error tracebacks. The original ZIP passed its CRC check. Independent checks reproduced the source slice and split, recalculated reported statistics and reloaded the actual checkpoint. No full GPU rerun was needed for the publication edits.
 
-The notebook's executed code cells and outputs are preserved exactly. Post-run Markdown notes and reviewed repository reports clarify the FP32 throughput maximum and the AI-use appendix. The original ZIP and original executed notebook are retained as release assets, so the original evidence can be compared with those editorial revisions.
+The notebook's executed code cells and outputs are preserved exactly. Labelled post-run Markdown sections contain the reviewed HW4.a and HW4.5 reports and AI-use appendix. They clarify the findings without replacing generated outputs. The original ZIP and original executed notebook remain release assets for comparison.
 
 ## Requirement checks
 
@@ -36,3 +36,9 @@ The notebook's executed code cells and outputs are preserved exactly. Post-run M
 5. At publication time the repository remains public because the user explicitly asked to leave visibility unchanged. The standing private-repository requirement is therefore unresolved, not silently waived.
 
 The final submission reference is `hw4-5`. The original archive and notebook are release assets. Checkpoint files and hashes are documented in MODEL_CHECKPOINT.md.
+
+## Final folder cleanup
+
+The RTX run folder and duplicate unexecuted T4 template were removed from the submission. Old setup and report-finalization wrappers, the unpinned dependency list and the duplicate HW4.a console log were also removed. The complete run log, actual source modules, tests, locked environment, measured outputs and checkpoint download remain. The removed tracked files can be recovered from Git history, and the original T4 archive was not changed.
+
+The student's request to update the hw4-5 tag applies to the cleaned folder and report wording, not to new GPU measurements. Repository visibility remains unchanged.

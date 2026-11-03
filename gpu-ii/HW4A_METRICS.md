@@ -8,17 +8,13 @@ Actual GPU: Tesla T4; UUID: `GPU-07e9693f-0780-d80f-57ed-406c0604fd80`; VRAM: 15
 
 Dataset: Kaggle saurabhshahane/twitter-sentiment-dataset, Twitter_Data.csv. Zero-based rows 834 through 5833 inclusive, Python slice [834:5834). SHA-256: `5a7af1ec5fc749ec8e5ea13c574aeb5c06254aa1c081e3421868079d5356b3f4`. The fixed SEED 8834 stratified split is 3,500/750/750. Every comparison reuses these exact saved split indices.
 
-Memory is reported in binary GiB. Peak allocated training memory, total GPU-process usage, reserved cache storage, and actively occupied cache blocks are different measurements.
-
-Training parameters remain FP32. AMP uses T4-compatible FP16 with conservative loss scaling; the actual autocast dtype is saved in each result. T4 does not support native BF16 or TF32. A recoverable overflow repeats the same logical update at lower scale, restores dropout RNG, and changes no weights until successful. The repeat cost stays in measured time and memory, and overflow retry counts are saved in the raw results. Persistent numerical failure stops instead of being called a successful update.
-
-Accuracy columns in the tables are fractions from 0 to 1. Dataset labels -1, 0, and 1 mean negative, neutral, and positive sentiment.
+I kept the data slice and split fixed so that the later memory experiments would use the same examples as this baseline. The BERT baseline uses FP32 weights. Memory values are in GiB, and the training-memory figure means peak PyTorch allocation, not the entire GPU's memory use. Accuracy values in the tables are fractions. Labels -1, 0 and 1 represent negative, neutral and positive sentiment.
 
 ## BERT results
 
-The original model used batch 16, sequence length 128, learning rate 0.00002, and three full epochs. Test accuracy was 83.60%. Training plus validation took 255.65 seconds, with 2.466 GiB peak training allocation.
+I fine-tuned BERT for three epochs using batch size 16, sequence length 128 and learning rate 0.00002. It reached 83.60% test accuracy. Training and validation together took 255.65 seconds, and peak training allocation was 2.466 GiB.
 
-The best validation accuracy occurred at epoch 3. The best point was the final epoch, so no later training cost is claimed.
+Validation loss fell in every epoch, while validation accuracy rose from 71.60% to 82.40%. Epoch 3 was the best observed validation point and also the last epoch. I therefore did not observe a later epoch that added training time without improving validation accuracy.
 
 | epoch | training_loss | validation_loss | validation_accuracy | training_seconds |
 |---|---|---|---|---|
@@ -36,19 +32,19 @@ The best validation accuracy occurred at epoch 3. The best point was the final e
 
 ![Confusion matrix](outputs/hw4a_confusion_matrix.png)
 
-The lowest-recall class was -1.0. The following are actual errors from that class. The diagnoses discuss wording, not proven internal model mechanisms.
+Negative sentiment had the lowest recall, at 76.65%. Several tweets mix criticism of one person with support for another, which makes a single sentiment label difficult to interpret. These five errors come from the test set. My comments describe possible issues in the wording, not a verified explanation of the model's internal decisions.
 
 | source_row | true_class | predicted_class | text | diagnosis |
 |---|---|---|---|---|
-| 1667 | -1.0 | 1.0 | ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india | The wording includes leadership, praise; that may explain the prediction 1.0, while the recorded label is -1.0. Missing context or label noise should be considered before assuming the annotation is unambiguous. |
-| 3127 | -1.0 | 1.0 | from rahul gandhis fake promise today from where will bring money this much money india than according him modi government failure and chowkidar chor than more than this money was india before five years than why not thought this  | The wording includes chor, failure, fake, but the prediction is 1.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
-| 4326 | -1.0 | 0.0 | talk about looting hypocrite modi took white money converted black gave trolls everone knows who else | The wording includes hypocrite, looting, trolls, but the prediction is 0.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
-| 5127 | -1.0 | 0.0 | took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time | The wording includes wasted, but the prediction is 0.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
-| 4162 | -1.0 | 1.0 | bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi | The wording includes bullshit, but the prediction is 1.0; those critical cues are not reflected in the output. This is a text-based diagnosis, not proof of the model's internal cause. |
+| 1667 | -1.0 | 1.0 | ratan naval tata family patriarch the billion tata empire has lavished praise prime minister narendra modi underscoring that his leadership what the country needsat this point time and urging citizens rally round his vision create new india | The tweet openly praises Modi, so the positive prediction fits the visible wording. The negative label may depend on missing context or annotation noise. |
+| 3127 | -1.0 | 1.0 | from rahul gandhis fake promise today from where will bring money this much money india than according him modi government failure and chowkidar chor than more than this money was india before five years than why not thought this  | The tweet uses criticism and rhetorical questions about different leaders. The positive output misses that critical tone. |
+| 4326 | -1.0 | 0.0 | talk about looting hypocrite modi took white money converted black gave trolls everone knows who else | Words such as looting and hypocrite express criticism. The neutral prediction misses those negative cues in the informal text. |
+| 5127 | -1.0 | 0.0 | took you hrs raju finally break silence this did you spend them thinking how you will bring modi into this without appearing monkey balancing that case you wasted that time | The writer mocks the other person through a rhetorical question. Treating it as neutral loses the criticism in the wording. |
+| 4162 | -1.0 | 1.0 | bullshit congressmen india controlled remote whose controller italian converted parsi claiming herself citizen the countrywhich only documents not her heart her name sonia ghandyif the hindusmuslimsetcwant goodthen vote only modi | The tweet attacks Congress but ends by supporting Modi. Its mixed targets offer a possible reason for the positive output despite the negative label. |
 
 ## Saved model and custom inference
 
-The classifier and tokenizer were saved and reloaded before these two predictions.
+I saved the classifier and tokenizer, loaded them again, and used the restored model for these two examples.
 
 | text | predicted_class | confidence |
 |---|---|---|
@@ -57,9 +53,9 @@ The classifier and tokenizer were saved and reloaded before these two prediction
 
 ## HF and vLLM serving
 
-HF pipeline wall time for each batch-1 request; vLLM individual finished_time minus client submission time, including tokenization, admission, and queue time. Each request has its own completion timestamp; engine arrival_time is also saved.
+For serving, I used Qwen2.5-0.5B-Instruct, a different model from the BERT classifier. Hugging Face latency is the wall time of each batch-1 request. vLLM latency runs from submitting the batch to each request's own finish timestamp, so tokenization and waiting time are included. Total token throughput is calculated separately from the measured batch wall time.
 
-Each mode generates exactly 64 new tokens, is warmed up, and uses the same raw prompt family and FP16 model. Each row has at least 100 real requests. vLLM batches have at least 20 measured repetitions. Individual request timestamps and raw observations are saved, so requests are not all assigned the enclosing batch time.
+Both systems used FP16, the same prompt family and exactly 64 new tokens per request. I warmed them up before measuring. Each configuration has at least 100 requests, with at least 20 measured vLLM batches at each batch size. The individual timestamps are saved with the results.
 
 | configuration | tokens_per_second | p50_latency_ms | p95_latency_ms | requests_measured | measured_batches |
 |---|---|---|---|---|---|
@@ -68,9 +64,11 @@ Each mode generates exactly 64 new tokens, is warmed up, and uses the same raw p
 | vLLM, batch 8 | 494.9773 | 1029.8672 | 1086.2345 | 160 | 20 |
 | vLLM, batch 32 | 1660.8614 | 1228.0576 | 1274.3907 | 640 | 20 |
 
-No tested batch showed worse median request latency than HF while throughput was still increasing. Batching can finish more tokens per second even when individual requests wait longer. For an interactive chatbot I would prioritize request latency, especially p95. For offline generation, total throughput is usually more important.
+None of the tested vLLM batch sizes had worse median latency than the Hugging Face baseline. Within vLLM, batch 32 produced more tokens per second than batch 1, but its median request latency was also higher. For an interactive chatbot I would prioritize latency, especially p95, because users notice slow replies. For offline generation I would care more about the total throughput.
 
 ### My prompts and actual generated answers
+
+These are the saved model responses, kept as generated. They are not explanations I have verified as correct. In particular, the mixed-precision answer below should not be taken as a conclusion from my experiment: the measured AMP control used less allocated training memory than the FP32 control.
 
 | configuration | prompt | answer |
 |---|---|---|

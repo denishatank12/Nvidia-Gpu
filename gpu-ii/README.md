@@ -4,11 +4,13 @@ Student: Denisha Ketan Tank.
 
 ## Submission
 
-Use the [executed notebook](GPU_II_Colab_Run_All.ipynb). All ten code cells completed in order on October 28, 2026, on one Tesla T4. The notebook contains the measured results, figures and generated reports. Clearly labelled post-run notes clarify the FP32 throughput finding and replace the original AI-use draft without changing any executed code or output.
+Use the [executed T4 notebook](GPU_II_Colab_Run_All.ipynb). All ten code cells completed in order on October 28, 2026, with no saved error tracebacks. It contains both HW4.a and HW4.5, including the measured results and figures. The reviewed findings are also available as the two Markdown reports below.
+
+The November 3 cleanup keeps one submission notebook. It removes the RTX folder, duplicate unexecuted T4 template and old setup wrappers. The executed code, counts, outputs and raw measurements are unchanged. The final Markdown section in the notebook contains the same clearer report wording as the standalone findings files.
 
 [Download the original results archive and full checkpoint](https://github.com/denishatank12/Nvidia-Gpu/releases/download/hw4-5/GPU_II_T4_RESULTS_6ec28b7ced2a.zip).
 
-The final submission snapshot is the `hw4-5` tag. The release also preserves the original executed notebook and the earlier results archive as immutable evidence. The new archive is the file with run ID `6ec28b7ced2a`; the older `GPU_II_RESULTS.zip` is historical, not the current run.
+The submission snapshot is the `hw4-5` tag. The release also keeps the original executed notebook and results archive, before the readability edits. Choose the archive with run ID `6ec28b7ced2a`. The older `GPU_II_RESULTS.zip` asset is historical and is not needed for this submission.
 
 ## Findings and evidence
 
@@ -30,11 +32,11 @@ Part C skipped (optional). One GPU is permitted by the clarification; no second-
 
 The [course clarification supplied with this task](COURSE_CLARIFICATIONS.md) records the permitted skips, fixed-data requirements and interpretation of the observed serving-capacity boundary. It does not claim a separate physical-VRAM stress test or waive the repository-access requirement.
 
-## Reproducing the run
+## What is kept for reproduction
 
-For a future T4 run, use [the self-contained T4 run notebook](t4/GPU_II_T4_Run_All.ipynb) and its [instructions](t4/START_HERE.txt). For a local RTX 4050, use the separate [RTX 4050 notebook](rtx4050/GPU_II_RTX4050_Run_All.ipynb). These templates are distinct from the executed submission notebook above.
+The executed notebook is self-contained and embeds the source and setup used for the run. To repeat it, open a copy in a Linux CUDA notebook environment, select a T4 in Colab and choose Run all. Repeating the run is not needed to inspect the saved submission.
 
-The Python source, locked requirements, installed package versions, manifest and raw results from the actual T4 run are included in the archive. The executed notebook embeds that source and performs its own setup; no legacy wrapper is needed. The revised AI-use and plateau wording are post-run editorial changes, not new GPU measurements.
+The readable Python modules, tests, locked requirements, installed versions, settings and data manifest remain in this folder. outputs/ contains the raw measurements, figures and capacity-probe logs. RUN_LOG.txt is the complete run log; the removed HW4.a log was an identical copy. The full classifier and tokenizer are in the linked results archive rather than a large Git blob. No measured result was changed during cleanup.
 
 ## Access qualification
 
