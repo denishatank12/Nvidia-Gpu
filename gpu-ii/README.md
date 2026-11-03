@@ -28,6 +28,8 @@ The context experiment verified eight concurrent prompts of 29,296 tokens each. 
 
 Part C skipped (optional). One GPU is permitted by the clarification; no second-card comparison or distributed result is invented.
 
+The [course clarification supplied with this task](COURSE_CLARIFICATIONS.md) records the permitted skips, fixed-data requirements and interpretation of the observed serving-capacity boundary. It does not claim a separate physical-VRAM stress test or waive the repository-access requirement.
+
 ## Reproducing the run
 
 For a future T4 run, use [the self-contained T4 run notebook](t4/GPU_II_T4_Run_All.ipynb) and its [instructions](t4/START_HERE.txt). For a local RTX 4050, use the separate [RTX 4050 notebook](rtx4050/GPU_II_RTX4050_Run_All.ipynb). These templates are distinct from the executed submission notebook above.
